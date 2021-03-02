@@ -19,6 +19,7 @@ class HomeAdapter(private val events: List<Event>): RecyclerView.Adapter<HomeAda
         fun databind(event: Event) {
             binding.tvEventTitle.text = event.title
             binding.tvEventContent.text = event.content
+            binding.ivEventImage.setImageResource(event.image)
         }
     }
 

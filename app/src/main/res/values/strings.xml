@@ -20,4 +20,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="register">Geen account? Maak nu een accout</string>
+    <string name="name">Naam</string>
+    <string name="action_register">Registreren</string>
+    <string name="tv_login">Al een account? Log in!</string>
 </resources>

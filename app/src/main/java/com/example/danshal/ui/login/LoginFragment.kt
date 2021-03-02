@@ -39,23 +39,22 @@ class LoginFragment: Fragment() {
             )
         }
 
-        createRegisterLink()
+        createRegisterSpan()
     }
 
-    private fun createRegisterLink() {
-        Log.i("createRegisterLink", "first")
-        textView = binding.tvLogin
-        val text = binding.tvLogin.text.toString()
-        Log.i("createRegisterLink", text)
+    //Creating clickable span
+    private fun createRegisterSpan() {
+        textView = binding.tvRegister
+        val text = binding.tvRegister.text.toString()
         val spannableString = SpannableString(text)
-        val clickableSpan1: ClickableSpan = object : ClickableSpan() {
+        val clickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(view: View) {
                 findNavController().navigate(
                     R.id.action_loginFragment_to_registerFragment
                 )
             }
         }
-        spannableString.setSpan(clickableSpan1, 14, 33, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(clickableSpan, 14, 33, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         textView.setText(spannableString, TextView.BufferType.SPANNABLE)
         textView.movementMethod = LinkMovementMethod.getInstance()
     }
@@ -65,31 +64,3 @@ class LoginFragment: Fragment() {
         _binding = null
     }
 }
-
-//
-//override fun onCreate(savedInstanceState: Bundle?) {
-//    super.onCreate(savedInstanceState)
-//    setContentView(R.layout.activity_main)
-//    textView = findViewById(R.id.textView)
-//    val text = "I want THIS and THIS to be CLICKED"
-//    val spannableString = SpannableString(text)
-//    val clickableSpan1: ClickableSpan = object : ClickableSpan() {
-//        override fun onClick(widget: View?) {
-//            Toast.makeText(this@MainActivity, "THIS", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-//    val clickableSpan2: ClickableSpan = object : ClickableSpan() {
-//        override fun onClick(widget: View?) {
-//            Toast.makeText(this@MainActivity, "THIS", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-//    val clickableSpan3: ClickableSpan = object : ClickableSpan() {
-//        override fun onClick(widget: View?) {
-//            Toast.makeText(this@MainActivity, "Clicked", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-//    spannableString.setSpan(clickableSpan1, 7, 11, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-//    spannableString.setSpan(clickableSpan2, 16, 20, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-//    spannableString.setSpan(clickableSpan3, 27, 34, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-//    textView.setText(spannableString, TextView.BufferType.SPANNABLE)
-//    textView.movementMethod = LinkMovementMethod.getInstance()

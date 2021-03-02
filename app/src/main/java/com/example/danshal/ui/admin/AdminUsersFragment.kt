@@ -8,24 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.danshal.R
 
-class AdminFragment : Fragment() {
+class AdminUsersFragment : Fragment() {
 
     companion object {
-        fun newInstance() = AdminFragment()
+        fun newInstance() = AdminUsersFragment()
     }
 
-    private lateinit var viewModel: AdminViewModel
+    private lateinit var viewModel: AdminUsersViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.fragment_admin, container, false)
+    ): View? {
+        return inflater.inflate(R.layout.admin_users_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(AdminViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(AdminUsersViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

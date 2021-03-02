@@ -11,8 +11,8 @@ data class Event (
 ) {
     companion object {
         val EVENT_EXAMPLES = arrayOf(
-            Event(1, "test", "test", R.drawable.ic_baseline_admin_panel_settings),
-            Event(2, "test2", "test2", R.drawable.ic_baseline_admin_panel_settings)
+            Event(1, "Title event 1", "Content voor event 1", R.drawable.ic_baseline_admin_panel_settings),
+            Event(2, "Title event 1", "Content voor event 1", R.drawable.ic_baseline_admin_panel_settings)
         )
     }
 }

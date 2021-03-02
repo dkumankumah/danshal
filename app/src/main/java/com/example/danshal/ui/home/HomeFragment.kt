@@ -47,9 +47,6 @@ class HomeFragment : Fragment() {
     private fun initViews() {
         binding.rvEvents.layoutManager = GridLayoutManager(context, 1)
         binding.rvEvents.adapter = homeAdapter
-        binding.rvEvents.addItemDecoration(
-            DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        )
 
         for (i in Event.EVENT_EXAMPLES.indices) {
             events.add(Event.EVENT_EXAMPLES[i])

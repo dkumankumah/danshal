@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.fragment.app.Fragment
+import com.example.danshal.R
 import com.example.danshal.databinding.FragmentRegisterBinding
 
 class RegisterFragment : Fragment() {
@@ -21,10 +23,11 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        binding.btnStart.setOnClickListener {
-//            findNavController().navigate(
-//            )
-//        }
+        binding.btnRegister.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_registerFragment_to_blankFragment
+            )
+        }
     }
 
     override fun onDestroyView() {

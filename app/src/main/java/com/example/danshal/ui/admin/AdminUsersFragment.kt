@@ -6,27 +6,27 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.lifecycle.Observer
 import com.example.danshal.R
 
 class AdminUsersFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = AdminUsersFragment()
-    }
-
-    private lateinit var viewModel: AdminUsersViewModel
+    private lateinit var adminUsersViewModel: AdminUsersViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.admin_users_fragment, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(AdminUsersViewModel::class.java)
-        // TODO: Use the ViewModel
+        adminUsersViewModel =
+                ViewModelProvider(this).get(AdminUsersViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_admin_users, container, false)
+        val textView: TextView = root.findViewById(R.id.text_admin_users)
+        adminUsersViewModel.text.observe(viewLifecycleOwner, Observer {
+            textView.text = it
+        })
+        return root
     }
 
 }

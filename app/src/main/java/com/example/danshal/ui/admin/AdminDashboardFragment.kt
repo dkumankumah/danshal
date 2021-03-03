@@ -10,20 +10,20 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.example.danshal.R
 
-class AdminAddFragment : Fragment() {
+class AdminDashboardFragment : Fragment() {
 
-    private lateinit var adminAddViewModel: AdminAddViewModel
+    private lateinit var adminDashboardViewModel: AdminDashboardViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        adminAddViewModel =
-                ViewModelProvider(this).get(AdminAddViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_admin_add, container, false)
-        val textView: TextView = root.findViewById(R.id.text_admin_add)
-        adminAddViewModel.text.observe(viewLifecycleOwner, Observer {
+        adminDashboardViewModel =
+                ViewModelProvider(this).get(AdminDashboardViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_admin_dashboard, container, false)
+        val textView: TextView = root.findViewById(R.id.text_admin_dashboard)
+        adminDashboardViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

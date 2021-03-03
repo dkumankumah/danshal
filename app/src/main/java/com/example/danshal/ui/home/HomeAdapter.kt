@@ -20,6 +20,7 @@ class HomeAdapter(private val events: List<Event>): RecyclerView.Adapter<HomeAda
             binding.tvEventTitle.text = event.title
             binding.tvEventContent.text = event.content
             binding.ivEventImage.setImageResource(event.image)
+            binding.tvEventDate.text = "${event.date.day}-${event.date.month}-${event.date.year}"
         }
     }
 

@@ -20,6 +20,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val events = arrayListOf<Event>()
     private val homeAdapter = HomeAdapter(events)
+    private val upEventAdapter = UpEventAdapter(events)
 
     private lateinit var homeViewModel: HomeViewModel
 
@@ -48,10 +49,15 @@ class HomeFragment : Fragment() {
         binding.rvEvents.layoutManager = GridLayoutManager(context, 1)
         binding.rvEvents.adapter = homeAdapter
 
+        binding.rvUpEvents.layoutManager = GridLayoutManager(context, 1)
+        binding.rvUpEvents.adapter = upEventAdapter
+
         for (i in Event.EVENT_EXAMPLES.indices) {
             events.add(Event.EVENT_EXAMPLES[i])
         }
+
         homeAdapter.notifyDataSetChanged()
+        upEventAdapter.notifyDataSetChanged()
     }
 
     override fun onDestroyView() {

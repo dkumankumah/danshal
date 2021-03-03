@@ -12,5 +12,5 @@
     <string name="menu_admin">Admin</string>
     
 <!--    These are String values for the events overview page-->
-    <string name="title_event">Events overview</string>
+    <string name="title_event">Upcoming events!</string>
 </resources>

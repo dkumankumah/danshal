@@ -18,6 +18,7 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="empty_field">"Graag je email en wachtwoord invullen"</string>
     <string name="register">Geen account? Maak nu een account</string>
     <string name="name">Naam</string>
     <string name="action_register">Registreren</string>

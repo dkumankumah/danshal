@@ -16,12 +16,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.fragment.app.Fragment
 import com.example.danshal.R
 import com.example.danshal.databinding.FragmentRegisterBinding
-import com.example.danshal.ui.models.User
+import com.example.danshal.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.lang.StringBuilder
 
 class RegisterFragment : Fragment() {
     lateinit var textView: TextView
@@ -122,7 +121,7 @@ class RegisterFragment : Fragment() {
                             }
                 }
                 findNavController().navigate(
-                    R.id.action_registerFragment_to_blankFragment
+                    R.id.action_registerFragment_to_homeFragment2
                 )
                 Log.e("Task", "Succes")
             }else{
@@ -139,7 +138,7 @@ class RegisterFragment : Fragment() {
         if(currentUser != null){
 //            reload();
             findNavController().navigate(
-                R.id.action_registerFragment_to_blankFragment
+                R.id.action_registerFragment_to_homeFragment2
             )
         }
     }

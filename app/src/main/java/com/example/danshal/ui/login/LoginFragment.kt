@@ -55,7 +55,7 @@ class LoginFragment: Fragment() {
         val currentUser = auth.currentUser
         if(currentUser != null){
             findNavController().navigate(
-                R.id.action_loginFragment_to_blankFragment
+                R.id.action_loginFragment_to_homeFragment2
             )
         }
     }
@@ -91,7 +91,7 @@ class LoginFragment: Fragment() {
             if(task.isSuccessful){
                 Log.e("Task", "Succes")
                 findNavController().navigate(
-                    R.id.action_loginFragment_to_blankFragment
+                    R.id.action_loginFragment_to_homeFragment2
                 )
             }
             else{

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_login"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/homeFragment2">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -11,30 +11,59 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_loginFragment_to_blankFragment"
-            app:destination="@id/blankFragment" />
-        <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment2"
+            app:destination="@id/homeFragment2" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.danshal.ui.login.RegisterFragment"
         android:label="RegisterFragment" >
         <action
-            android:id="@+id/action_registerFragment_to_blankFragment"
-            app:destination="@id/blankFragment" />
-        <action
             android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_homeFragment2"
+            app:destination="@id/homeFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment2"
+        android:name="com.example.danshal.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment2_to_adminAddFragment"
+            app:destination="@id/adminAddFragment" />
+        <action
+            android:id="@+id/action_homeFragment2_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+        <action
+            android:id="@+id/action_homeFragment2_to_adminUsersFragment"
+            app:destination="@id/adminUsersFragment" />
+        <action
+            android:id="@+id/action_homeFragment2_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
-        android:id="@+id/blankFragment"
-        android:name="com.example.danshal.BlankFragment"
-        android:label="fragment_blank"
-        tools:layout="@layout/fragment_blank" >
-        <action
-            android:id="@+id/action_blankFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-    </fragment>
+        android:id="@+id/adminUsersFragment"
+        android:name="com.example.danshal.ui.admin.AdminUsersFragment"
+        android:label="admin_add_give_away_fragment"
+        tools:layout="@layout/admin_add_give_away_fragment" />
+    <fragment
+        android:id="@+id/adminAddFragment"
+        android:name="com.example.danshal.ui.admin.AdminAddFragment"
+        android:label="fragment_admin_add"
+        tools:layout="@layout/fragment_admin_add" />
+    <fragment
+        android:id="@+id/adminDashboardFragment"
+        android:name="com.example.danshal.ui.admin.AdminDashboardFragment"
+        android:label="fragment_admin_dashboard"
+        tools:layout="@layout/fragment_admin_dashboard" />
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.example.danshal.ui.gallery.GalleryFragment"
+        android:label="fragment_gallery"
+        tools:layout="@layout/fragment_gallery" />
 </navigation>

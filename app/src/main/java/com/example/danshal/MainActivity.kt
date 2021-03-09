@@ -13,10 +13,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.Group
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var auth: FirebaseAuth
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +50,23 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+        if(currentUser != null){
+//            reload();
+            val navView: NavigationView = findViewById(R.id.nav_view)
+            navView.menu.getItem(3).subMenu.getItem(0).setTitle("Uitloggen")
+
+
+        }
+        else {
+            val navView: NavigationView = findViewById(R.id.nav_view)
+            navView.menu.getItem(3).subMenu.getItem(0).setTitle("Inloggen")
+        }
     }
 
 }

@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
 
-        navView.menu.getItem(3).subMenu.getItem(0).setTitle("test")
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(setOf(
@@ -50,23 +49,6 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = auth.currentUser
-        if(currentUser != null){
-//            reload();
-            val navView: NavigationView = findViewById(R.id.nav_view)
-            navView.menu.getItem(3).subMenu.getItem(0).setTitle("Uitloggen")
-
-
-        }
-        else {
-            val navView: NavigationView = findViewById(R.id.nav_view)
-            navView.menu.getItem(3).subMenu.getItem(0).setTitle("Inloggen")
-        }
     }
 
 }

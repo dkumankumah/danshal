@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.danshal.databinding.FragmentBlankBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 
@@ -22,12 +23,14 @@ class BlankFragment : Fragment() {
     private var _binding: FragmentBlankBinding? = null
     private val binding get() = _binding!!
 
+    private val db = Firebase.firestore
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentBlankBinding.inflate(inflater, container, false)
-        //auth = FirebaseAuth.getInstance()
         auth = Firebase.auth
         return binding.root
     }
@@ -48,7 +51,6 @@ class BlankFragment : Fragment() {
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if(currentUser == null){
-//            reload();
             findNavController().navigate(
                 R.id.action_blankFragment_to_loginFragment
             )
@@ -56,5 +58,18 @@ class BlankFragment : Fragment() {
 
 
     }
+
+//    private fun fetchData() {
+//        db.collection("users")
+//                .get()
+//                .addOnSuccessListener { result ->
+//                    for (document in result) {
+//                        Log.d(TAG, "${document.id} => ${document.data}")
+//                    }
+//                }
+//                .addOnFailureListener { exception ->
+//                    Log.w(TAG, "Error getting documents.", exception)
+//                }
+//    }
 }
 

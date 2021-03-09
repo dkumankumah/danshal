@@ -32,7 +32,6 @@ class LoginFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
-//        auth = FirebaseAuth.getInstance()
         auth = Firebase.auth
 
         return binding.root
@@ -42,9 +41,6 @@ class LoginFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.btnLogin.setOnClickListener {
             if (validate()){
-//                findNavController().navigate(
-//                    R.id.action_loginFragment_to_blankFragment
-//                )
                 logIn(binding.etUsername.text.toString(), binding.etPassword.text.toString())
             }
 
@@ -58,7 +54,6 @@ class LoginFragment: Fragment() {
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if(currentUser != null){
-//            reload();
             findNavController().navigate(
                 R.id.action_loginFragment_to_blankFragment
             )

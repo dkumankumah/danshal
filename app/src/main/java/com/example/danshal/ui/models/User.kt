@@ -6,4 +6,4 @@ data class User(val naam: String,
                 val plaats: String,
                 val email: String,
                 val userId: String,
-                val isAdmin: Int = 0 )
+                val isAdmin: Boolean = false)

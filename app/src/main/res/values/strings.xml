@@ -10,6 +10,30 @@
     <!--drawer-->
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Wachtwoord</string>
+    <string name="action_sign_in_short">Inloggen</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="empty_field">"Graag je email en wachtwoord invullen"</string>
+    <string name="register">Geen account? Maak nu een account</string>
+    <string name="name">Naam</string>
+    <string name="action_register">Registreren</string>
+    <string name="tv_login">Al een account? Log in!</string>
+    <string name="logout">Uitloggen</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dashboard">User logged in! Welcome to dashboard</string>
+    <string name="adres">Adres</string>
+    <string name="postcode">Postcode</string>
+    <string name="Plaats">Plaats</string>
+    <string name="validatie_wachtwoord">Wachtwoord nogmaals invoeren</string>
+    <string name="wachtwoord_ongelijk">Wachtwoord komt niet overeen!</string>
     <string name="menu_admin">Admin</string>
     
 <!--    These are String values for the events overview page-->

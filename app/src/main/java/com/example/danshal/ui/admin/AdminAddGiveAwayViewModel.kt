@@ -1,14 +1,12 @@
-package com.example.danshal.ui.home
+package com.example.danshal.ui.admin
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class HomeViewModel : ViewModel() {
-
+class AdminAddGiveAwayViewModel : ViewModel() {
     private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+        value = "This is admin add give away Fragment"
     }
     val text: LiveData<String> = _text
-
 }

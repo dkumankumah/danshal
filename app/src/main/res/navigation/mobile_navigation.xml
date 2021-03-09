@@ -3,14 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
-
+    app:startDestination="@id/homeFragment">
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/homeFragment"
         android:name="com.example.danshal.ui.home.HomeFragment"
-        android:label="@string/menu_home"
+        android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
-
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.danshal.ui.gallery.GalleryFragment"
@@ -18,8 +16,20 @@
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.danshal.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_admin_add"
+        android:name="com.example.danshal.ui.admin.AdminAddFragment"
+        android:label="@string/menu_admin_add"
+        tools:layout="@layout/fragment_admin_add" />
+
+    <fragment
+        android:id="@+id/nav_admin_users"
+        android:name="com.example.danshal.ui.admin.AdminUsersFragment"
+        android:label="@string/menu_admin_users"
+        tools:layout="@layout/fragment_admin_users" />
+
+    <fragment
+        android:id="@+id/nav_admin_dashboard"
+        android:name="com.example.danshal.ui.admin.AdminDashboardFragment"
+        android:label="@string/menu_admin_dashboard"
+        tools:layout="@layout/fragment_admin_dashboard" />
 </navigation>

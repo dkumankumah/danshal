@@ -10,6 +10,10 @@
     <!--drawer-->
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
+    <string name="menu_admin">Admin</string>
+    
+<!--    These are String values for the events overview page-->
+    <string name="title_event">Upcoming events!</string>
     <string name="menu_admin_dashboard">Admin Dashboard</string>
     <string name="menu_admin_add">Admin Toevoegen</string>
     <string name="menu_admin_users">Admin Gebruikers</string>

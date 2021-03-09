@@ -16,8 +16,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.fragment.app.Fragment
 import com.example.danshal.R
 import com.example.danshal.databinding.FragmentRegisterBinding
+import com.example.danshal.ui.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class RegisterFragment : Fragment() {
@@ -25,6 +27,8 @@ class RegisterFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
+
+    private val db = Firebase.firestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,7 +85,24 @@ class RegisterFragment : Fragment() {
     private fun createUser(email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val user = auth.currentUser
+//                val user = hashMapOf(
+//                        "first" to "Ada",
+//                        "last" to "Lovelace",
+//                        "born" to 1815
+//                )
+                val id = auth.currentUser?.uid
+                val user = id?.let { User("test", "1111ZN", "DIemen", "test", "dani", it, 0 ) }
+                // Add a new document with a generated ID
+                user?.let {
+                    db.collection("users")
+                            .add(it)
+                            .addOnSuccessListener { documentReference ->
+                                Log.d("Cloud", "DocumentSnapshot added with ID: ${documentReference.id}")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("Cloud", "Error adding document", e)
+                            }
+                }
                 findNavController().navigate(
                     R.id.action_registerFragment_to_blankFragment
                 )

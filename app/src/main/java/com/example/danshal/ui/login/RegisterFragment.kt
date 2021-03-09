@@ -16,12 +16,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.fragment.app.Fragment
 import com.example.danshal.R
 import com.example.danshal.databinding.FragmentRegisterBinding
-import com.example.danshal.ui.models.User
+import com.example.danshal.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.lang.StringBuilder
 
 class RegisterFragment : Fragment() {
     lateinit var textView: TextView

@@ -1,4 +1,4 @@
-package com.example.danshal.ui.models
+package com.example.danshal.models
 
 data class User(val naam: String,
                 val adres: String,

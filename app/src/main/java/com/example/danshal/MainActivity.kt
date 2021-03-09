@@ -11,6 +11,8 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.Group
+import androidx.core.view.isVisible
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,13 +25,14 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        drawerLayout.findViewById<Group>(R.id.login).isVisible = false
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_admin_dashboard, R.id.nav_admin_add, R.id.nav_admin_users), drawerLayout)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_admin_dashboard, R.id.nav_admin_add, R.id.nav_admin_users, R.id.homeFragment2, R.id.loginFragment, R.id.registerFragment), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
@@ -44,4 +47,5 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
 }

@@ -39,6 +39,8 @@
             <menu>
                 <item android:id="@+id/nav_login"
                     android:title="Log in" />
+                <item android:id="@+id/nav_reigster"
+                    android:title="Register" />
             </menu>
         </item>
     </group>

@@ -7,7 +7,24 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <!--drawer-->
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
-    <string name="menu_admin">Admin</string>
+    <string name="menu_admin_dashboard">Admin Dashboard</string>
+    <string name="menu_admin_add">Admin Toevoegen</string>
+    <string name="menu_admin_users">Admin Gebruikers</string>
+
+    <!--admin-->
+    <string name="admin_add_what">Wat wil je toevoegen?</string>
+    <string name="admin_event">Event</string>
+    <string name="admin_post">Post</string>
+    <string name="admin_give_away">Give away</string>
+
+    <string name="admin_add_title">Titel</string>
+    <string name="admin_add_description">Beschrijving</string>
+    <string name="admin_add_post">Post</string>
+    <string name="admin_add_exclusive">Exclusief</string>
+    <string name="admin_add_upload">Upload</string>
+
+
 </resources>

@@ -12,9 +12,24 @@
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_baseline_admin_panel_settings"
-            android:title="@string/menu_admin" />
+    </group>
+
+    <group
+        android:id="@+id/admin_menu"
+        android:checkableBehavior="single">
+
+        <item android:title="Admin">
+            <menu>
+                <item android:id="@+id/nav_admin_dashboard"
+                    android:icon="@drawable/ic_admin_dashboard_24"
+                    android:title="Dashboard" />
+                <item android:id="@+id/nav_admin_add"
+                    android:icon="@drawable/ic_admin_add_24"
+                    android:title="Toevoegen" />
+                <item android:id="@+id/nav_admin_users"
+                    android:icon="@drawable/ic_admin_users_24"
+                    android:title="Gebruikers" />
+            </menu>
+        </item>
     </group>
 </menu>

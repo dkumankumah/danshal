@@ -7,17 +7,135 @@
     tools:context=".ui.admin.AdminAddFragment">
 
     <TextView
-        android:id="@+id/text_admin_add"
-        android:layout_width="match_parent"
+        android:id="@+id/tv_add_what"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/admin_add_what"
+        app:layout_constraintBottom_toTopOf="@+id/tv_add_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinner_admin_add"
+        style="@style/Widget.AppCompat.Spinner.Underlined"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_add_what" />
+
+    <TextView
+        android:id="@+id/tv_add_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_add_title"
+        app:layout_constraintBottom_toTopOf="@+id/et_add_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_admin_add" />
+
+    <EditText
+        android:id="@+id/et_add_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textShortMessage"
+        app:layout_constraintBottom_toTopOf="@+id/tv_add_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_title" />
+
+    <TextView
+        android:id="@+id/tv_add_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_add_description"
+        app:layout_constraintBottom_toTopOf="@+id/et_add_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_add_title" />
+
+    <EditText
+        android:id="@+id/et_add_description"
+        style="@style/Widget.AppCompat.AutoCompleteTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textImeMultiLine"
+        app:layout_constraintBottom_toTopOf="@+id/tv_add_exclusive"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_description" />
+
+    <TextView
+        android:id="@+id/tv_add_exclusive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_add_exclusive"
+        app:layout_constraintBottom_toTopOf="@+id/switch_add_exclusive"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_add_description" />
+
+    <Switch
+        android:id="@+id/switch_add_exclusive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/tv_add_upload"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_exclusive" />
+
+    <TextView
+        android:id="@+id/tv_add_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_add_upload"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_upload"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch_add_exclusive" />
+
+    <Button
+        android:id="@+id/btn_add_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_add_upload"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_post"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_upload" />
+
+    <Button
+        android:id="@+id/btn_add_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_add_post"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_add_upload" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="tv_add_upload,btn_add_upload"
+        app:layout_constraintEnd_toStartOf="@+id/switch_add_exclusive" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_exclusive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="tv_add_exclusive,switch_add_exclusive" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="tv_add_description,et_add_description" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="et_add_title,tv_add_title" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="spinner_admin_add,tv_add_what" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

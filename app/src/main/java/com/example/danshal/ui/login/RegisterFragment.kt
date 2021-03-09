@@ -122,7 +122,7 @@ class RegisterFragment : Fragment() {
                             }
                 }
                 findNavController().navigate(
-                    R.id.action_registerFragment_to_blankFragment
+                    R.id.action_registerFragment_to_homeFragment2
                 )
                 Log.e("Task", "Succes")
             }else{
@@ -139,7 +139,7 @@ class RegisterFragment : Fragment() {
         if(currentUser != null){
 //            reload();
             findNavController().navigate(
-                R.id.action_registerFragment_to_blankFragment
+                R.id.action_registerFragment_to_homeFragment2
             )
         }
     }

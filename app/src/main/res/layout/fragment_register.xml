@@ -128,7 +128,7 @@
         app:layout_constraintBottom_toTopOf="@+id/tv_Login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/et_passwordVal" />
 
     <ProgressBar
         android:id="@+id/loading"
@@ -150,8 +150,8 @@
         android:id="@+id/tv_Login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="180dp"
         android:text="@string/tv_login"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

@@ -109,7 +109,7 @@ class RegisterFragment : Fragment() {
                 val plaats = binding.etPlaats.text.toString()
                 val email = email
 
-                val user = id?.let { User(naam, adres, postcode, plaats, email, it, 0 ) }
+                val user = id?.let { User(naam, adres, postcode, plaats, email, it, false ) }
                 // Add a new document with a generated ID
                 user?.let {
                     db.collection("users")

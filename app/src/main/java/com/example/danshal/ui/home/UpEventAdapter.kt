@@ -27,7 +27,7 @@ class UpEventAdapter(private val events: List<Event>): RecyclerView.Adapter<UpEv
 //        val convertEvent = dateEvent.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
 //        val daysBetween = ChronoUnit.DAYS.between(calendar, convertEvent)
 //
-//        return daysBetween <= 7
+//        return daysBetween <= 7 // maand vragen
 //    }
 
 

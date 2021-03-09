@@ -28,4 +28,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="dashboard">User logged in! Welcome to dashboard</string>
+    <string name="adres">Adres</string>
+    <string name="postcode">Postcode</string>
+    <string name="Plaats">Plaats</string>
+    <string name="validatie_wachtwoord">Wachtwoord nogmaals invoeren</string>
 </resources>

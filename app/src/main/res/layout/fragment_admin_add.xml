@@ -8,134 +8,73 @@
 
     <TextView
         android:id="@+id/tv_add_what"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/admin_add_what"
-        app:layout_constraintBottom_toTopOf="@+id/tv_add_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Spinner
-        android:id="@+id/spinner_admin_add"
-        style="@style/Widget.AppCompat.Spinner.Underlined"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_add_what" />
-
-    <TextView
-        android:id="@+id/tv_add_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/admin_add_title"
-        app:layout_constraintBottom_toTopOf="@+id/et_add_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_admin_add" />
-
-    <EditText
-        android:id="@+id/et_add_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textShortMessage"
-        app:layout_constraintBottom_toTopOf="@+id/tv_add_description"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_add_title" />
-
-    <TextView
-        android:id="@+id/tv_add_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/admin_add_description"
-        app:layout_constraintBottom_toTopOf="@+id/et_add_description"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_title" />
-
-    <EditText
-        android:id="@+id/et_add_description"
-        style="@style/Widget.AppCompat.AutoCompleteTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textImeMultiLine"
-        app:layout_constraintBottom_toTopOf="@+id/tv_add_exclusive"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_add_description" />
-
-    <TextView
-        android:id="@+id/tv_add_exclusive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/admin_add_exclusive"
-        app:layout_constraintBottom_toTopOf="@+id/switch_add_exclusive"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_description" />
-
-    <Switch
-        android:id="@+id/switch_add_exclusive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/tv_add_upload"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_add_exclusive" />
-
-    <TextView
-        android:id="@+id/tv_add_upload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/admin_add_upload"
-        app:layout_constraintBottom_toTopOf="@+id/btn_add_upload"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_add_exclusive" />
+        app:layout_constraintBottom_toTopOf="@id/btn_add_event"
+        app:layout_constraintEnd_toEndOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
+        app:layout_constraintTop_toTopOf="@+id/guideline_top"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
-        android:id="@+id/btn_add_upload"
-        android:layout_width="wrap_content"
+        android:id="@+id/btn_add_event"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/admin_add_upload"
-        app:layout_constraintBottom_toTopOf="@+id/btn_add_post"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_add_upload" />
+        android:text="@string/admin_event"
+        app:layout_constraintBottom_toTopOf="@id/btn_add_post"
+        app:layout_constraintEnd_toEndOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@id/tv_add_what" />
 
     <Button
         android:id="@+id/btn_add_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/admin_add_post"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_add_upload" />
+        android:text="@string/admin_post"
+        app:layout_constraintBottom_toTopOf="@id/btn_add_give_away"
+        app:layout_constraintEnd_toEndOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@id/btn_add_event" />
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/group_upload"
+    <Button
+        android:id="@+id/btn_add_give_away"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_give_away"
+        app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
+        app:layout_constraintEnd_toEndOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@id/btn_add_post" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:constraint_referenced_ids="tv_add_upload,btn_add_upload"
-        app:layout_constraintEnd_toStartOf="@+id/switch_add_exclusive" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp" />
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/group_exclusive"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="tv_add_exclusive,switch_add_exclusive" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp" />
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/group_description"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:constraint_referenced_ids="tv_add_description,et_add_description" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="16dp" />
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/group_title"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="et_add_title,tv_add_title" />
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/group_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="spinner_admin_add,tv_add_what" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="16dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

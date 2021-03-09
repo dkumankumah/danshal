@@ -16,6 +16,10 @@
 
     <!--admin-->
     <string name="admin_add_what">Wat wil je toevoegen?</string>
+    <string name="admin_event">Event</string>
+    <string name="admin_post">Post</string>
+    <string name="admin_give_away">Give away</string>
+
     <string name="admin_add_title">Titel</string>
     <string name="admin_add_description">Beschrijving</string>
     <string name="admin_add_post">Post</string>
@@ -23,9 +27,4 @@
     <string name="admin_add_upload">Upload</string>
 
 
-    <string-array name="admin_add_array">
-        <item>Event</item>
-        <item>Post</item>
-        <item>Give away</item>
-    </string-array>
 </resources>

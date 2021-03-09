@@ -6,40 +6,39 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.TextView
-import androidx.lifecycle.Observer
-import com.example.danshal.R
+import com.example.danshal.databinding.FragmentAdminAddBinding
 
 class AdminAddFragment : Fragment() {
 
     private lateinit var adminAddViewModel: AdminAddViewModel
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        adminAddViewModel =
-                ViewModelProvider(this).get(AdminAddViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_admin_add, container, false)
+    private var _binding: FragmentAdminAddBinding? = null
+    private val binding get() = _binding!!
 
-        val spinner: Spinner = root.findViewById(R.id.spinner_admin_add)
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        context?.let {
-            ArrayAdapter.createFromResource(
-                    it,
-                R.array.admin_add_array,
-                android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
-            spinner.adapter = adapter
-        }
-        }
-        return root
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        adminAddViewModel =
+            ViewModelProvider(this).get(AdminAddViewModel::class.java)
+
+        _binding = FragmentAdminAddBinding.inflate(inflater, container, false)
+
+//        binding.btnAddEvent.setOnClickListener { startAdminAddFragment(AdminAddEventFragment) }
+        return binding.root
+
+        // val eventButton: Button = root.findViewById(R.id.btn_add_event)
+        // val giveAwayButton: Button = root.findViewById(R.id.btn_add_give_away)
+        // val postButton: Button = root.findViewById(R.id.btn_add_post)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun startAdminAddFragment(fragment: Fragment) {
+
     }
 
 }

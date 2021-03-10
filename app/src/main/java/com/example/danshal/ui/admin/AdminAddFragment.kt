@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
+import com.example.danshal.R
 import com.example.danshal.databinding.FragmentAdminAddBinding
 
 class AdminAddFragment : Fragment() {
@@ -24,12 +27,24 @@ class AdminAddFragment : Fragment() {
 
         _binding = FragmentAdminAddBinding.inflate(inflater, container, false)
 
-//        binding.btnAddEvent.setOnClickListener { startAdminAddFragment(AdminAddEventFragment) }
         return binding.root
+    }
 
-        // val eventButton: Button = root.findViewById(R.id.btn_add_event)
-        // val giveAwayButton: Button = root.findViewById(R.id.btn_add_give_away)
-        // val postButton: Button = root.findViewById(R.id.btn_add_post)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.btnAddEvent.setOnClickListener {
+                startAdminAddFragment(R.id.action_nav_admin_add_to_adminAddEventFragment)
+        }
+
+        binding.btnAddGiveAway.setOnClickListener {
+                startAdminAddFragment(R.id.action_nav_admin_add_to_adminAddGiveAwayFragment)
+        }
+
+        binding.btnAddPost.setOnClickListener {
+                startAdminAddFragment(R.id.action_nav_admin_add_to_adminAddPostFragment)
+        }
+
     }
 
     override fun onDestroyView() {
@@ -37,8 +52,10 @@ class AdminAddFragment : Fragment() {
         _binding = null
     }
 
-    private fun startAdminAddFragment(fragment: Fragment) {
-
+    private fun startAdminAddFragment(id: Int) {
+        findNavController().navigate(
+            id
+        )
     }
 
 }

@@ -1,31 +1,37 @@
 package com.example.danshal.ui.login
 
+import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.example.danshal.databinding.RegisterFragmentBinding
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.Log
 import android.util.Patterns
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import androidx.fragment.app.Fragment
 import com.example.danshal.R
-import com.example.danshal.databinding.FragmentRegisterBinding
 import com.example.danshal.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
+
 class RegisterFragment : Fragment() {
+
     lateinit var textView: TextView
     private lateinit var auth: FirebaseAuth
-    private var _binding: FragmentRegisterBinding? = null
+
+    private lateinit var registerViewModel: RegisterViewModel
+
+    private var _binding: RegisterFragmentBinding? = null
     private val binding get() = _binding!!
 
     private val db = Firebase.firestore
@@ -34,15 +40,20 @@ class RegisterFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
-        //auth = FirebaseAuth.getInstance()
+        registerViewModel =
+            ViewModelProvider(this).get(RegisterViewModel::class.java)
+
+        _binding = RegisterFragmentBinding.inflate(inflater, container, false)
+
         auth = Firebase.auth
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnRegister.setOnClickListener {
+            // TODO: Action needs to be created
 //            findNavController().navigate(
 //                R.id.action_registerFragment_to_blankFragment
 //            )
@@ -62,7 +73,7 @@ class RegisterFragment : Fragment() {
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(view: View) {
                 findNavController().navigate(
-                    R.id.action_registerFragment_to_loginFragment
+                    R.id.action_nav_register_to_nav_login
                 )
             }
         }
@@ -75,9 +86,9 @@ class RegisterFragment : Fragment() {
         return if (Patterns.EMAIL_ADDRESS.matcher(binding.etUsername.text.toString()).matches()
             && binding.etPassword.text.toString().isNotBlank()
             && binding.etPassword.text.length > 4
-                && binding.etPasswordVal.text.isNotBlank()
-                && binding.etName.text.isNotBlank()){
-                passwordChecker()
+            && binding.etPasswordVal.text.isNotBlank()
+            && binding.etName.text.isNotBlank()){
+            passwordChecker()
         }else{
             Toast.makeText(this.context, getString(R.string.empty_field), Toast.LENGTH_LONG).show()
             false
@@ -112,16 +123,16 @@ class RegisterFragment : Fragment() {
                 // Add a new document with a generated ID
                 user?.let {
                     db.collection("users")
-                            .add(it)
-                            .addOnSuccessListener { documentReference ->
-                                Log.d("Cloud", "DocumentSnapshot added with ID: ${documentReference.id}")
-                            }
-                            .addOnFailureListener { e ->
-                                Log.w("Cloud", "Error adding document", e)
-                            }
+                        .add(it)
+                        .addOnSuccessListener { documentReference ->
+                            Log.d("Cloud", "DocumentSnapshot added with ID: ${documentReference.id}")
+                        }
+                        .addOnFailureListener { e ->
+                            Log.w("Cloud", "Error adding document", e)
+                        }
                 }
                 findNavController().navigate(
-                    R.id.action_registerFragment_to_homeFragment2
+                    R.id.action_nav_register_to_nav_home
                 )
                 Log.e("Task", "Succes")
             }else{
@@ -138,7 +149,7 @@ class RegisterFragment : Fragment() {
         if(currentUser != null){
 //            reload();
             findNavController().navigate(
-                R.id.action_registerFragment_to_homeFragment2
+                R.id.action_nav_register_to_nav_home
             )
         }
     }

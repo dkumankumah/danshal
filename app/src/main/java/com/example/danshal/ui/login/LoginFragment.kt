@@ -1,38 +1,47 @@
 package com.example.danshal.ui.login
 
+import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.example.danshal.databinding.LoginFragmentBinding
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.Log
 import android.util.Patterns
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.danshal.R
-import com.example.danshal.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class LoginFragment: Fragment() {
+
+class LoginFragment : Fragment() {
+
     lateinit var textView: TextView
     private lateinit var auth: FirebaseAuth
 
-    private var _binding: FragmentLoginBinding? = null
+    private lateinit var loginViewModel: LoginViewModel
+
+    private var _binding: LoginFragmentBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        loginViewModel =
+            ViewModelProvider(this).get(LoginViewModel::class.java)
+
         auth = Firebase.auth
+
+        _binding = LoginFragmentBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -43,7 +52,6 @@ class LoginFragment: Fragment() {
             if (validate()){
                 logIn(binding.etUsername.text.toString(), binding.etPassword.text.toString())
             }
-
         }
 
         createRegisterSpan()
@@ -55,7 +63,7 @@ class LoginFragment: Fragment() {
         val currentUser = auth.currentUser
         if(currentUser != null){
             findNavController().navigate(
-                R.id.action_loginFragment_to_homeFragment2
+                R.id.action_nav_login_to_nav_home
             )
         }
     }
@@ -68,7 +76,7 @@ class LoginFragment: Fragment() {
         val clickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(view: View) {
                 findNavController().navigate(
-                    R.id.action_loginFragment_to_registerFragment
+                    R.id.action_nav_login_to_nav_register
                 )
             }
         }
@@ -80,7 +88,7 @@ class LoginFragment: Fragment() {
     private fun validate(): Boolean{
         return if (Patterns.EMAIL_ADDRESS.matcher(binding.etUsername.text.toString()).matches() && binding.etPassword.text.toString().isNotBlank()){
             true
-        }else{
+        } else{
             Toast.makeText(this.context, getString(R.string.empty_field), Toast.LENGTH_LONG).show()
             false
         }
@@ -91,7 +99,7 @@ class LoginFragment: Fragment() {
             if(task.isSuccessful){
                 Log.e("Task", "Succes")
                 findNavController().navigate(
-                    R.id.action_loginFragment_to_homeFragment2
+                    R.id.action_nav_login_to_nav_home
                 )
             }
             else{
@@ -105,4 +113,5 @@ class LoginFragment: Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

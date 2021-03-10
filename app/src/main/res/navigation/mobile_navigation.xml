@@ -21,7 +21,7 @@
         android:id="@+id/nav_admin_add"
         android:name="com.example.danshal.ui.admin.AdminAddFragment"
         android:label="@string/menu_admin_add"
-        tools:layout="@layout/fragment_admin_add" >
+        tools:layout="@layout/admin_add_fragment" >
         <action
             android:id="@+id/action_nav_admin_add_to_adminAddEventFragment"
             app:destination="@id/adminAddEventFragment" />
@@ -37,13 +37,13 @@
         android:id="@+id/nav_admin_users"
         android:name="com.example.danshal.ui.admin.AdminUsersFragment"
         android:label="@string/menu_admin_users"
-        tools:layout="@layout/fragment_admin_users" />
+        tools:layout="@layout/admin_users_fragment" />
 
     <fragment
         android:id="@+id/nav_admin_dashboard"
         android:name="com.example.danshal.ui.admin.AdminDashboardFragment"
         android:label="@string/menu_admin_dashboard"
-        tools:layout="@layout/fragment_admin_dashboard" />
+        tools:layout="@layout/admin_dashboard_fragment" />
 
     <fragment
         android:id="@+id/nav_login"
@@ -76,14 +76,17 @@
         android:name="com.example.danshal.ui.login.ProfileFragment"
         android:label="Registreren"
         tools:layout="@layout/profile_fragment" />
+
     <fragment
         android:id="@+id/adminAddEventFragment"
         android:name="com.example.danshal.ui.admin.AdminAddEventFragment"
         android:label="AdminAddEventFragment" />
+
     <fragment
         android:id="@+id/adminAddGiveAwayFragment"
         android:name="com.example.danshal.ui.admin.AdminAddGiveAwayFragment"
         android:label="AdminAddGiveAwayFragment" />
+
     <fragment
         android:id="@+id/adminAddPostFragment"
         android:name="com.example.danshal.ui.admin.AdminAddPostFragment"

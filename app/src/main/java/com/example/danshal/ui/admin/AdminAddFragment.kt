@@ -6,16 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.danshal.R
-import com.example.danshal.databinding.FragmentAdminAddBinding
+import com.example.danshal.databinding.AdminAddFragmentBinding
 
 class AdminAddFragment : Fragment() {
 
     private lateinit var adminAddViewModel: AdminAddViewModel
 
-    private var _binding: FragmentAdminAddBinding? = null
+    private var _binding: AdminAddFragmentBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -25,7 +24,7 @@ class AdminAddFragment : Fragment() {
         adminAddViewModel =
             ViewModelProvider(this).get(AdminAddViewModel::class.java)
 
-        _binding = FragmentAdminAddBinding.inflate(inflater, container, false)
+        _binding = AdminAddFragmentBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -34,15 +33,15 @@ class AdminAddFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnAddEvent.setOnClickListener {
-                startAdminAddFragment(R.id.action_nav_admin_add_to_adminAddEventFragment)
+            startAdminAddFragment(R.id.action_nav_admin_add_to_adminAddEventFragment)
         }
 
         binding.btnAddGiveAway.setOnClickListener {
-                startAdminAddFragment(R.id.action_nav_admin_add_to_adminAddGiveAwayFragment)
+            startAdminAddFragment(R.id.action_nav_admin_add_to_adminAddGiveAwayFragment)
         }
 
         binding.btnAddPost.setOnClickListener {
-                startAdminAddFragment(R.id.action_nav_admin_add_to_adminAddPostFragment)
+            startAdminAddFragment(R.id.action_nav_admin_add_to_adminAddPostFragment)
         }
 
     }

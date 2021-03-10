@@ -21,7 +21,7 @@ class AdminDashboardFragment : Fragment() {
     ): View? {
         adminDashboardViewModel =
                 ViewModelProvider(this).get(AdminDashboardViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_admin_dashboard, container, false)
+        val root = inflater.inflate(R.layout.admin_dashboard_fragment, container, false)
         val textView: TextView = root.findViewById(R.id.text_admin_dashboard)
         adminDashboardViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it

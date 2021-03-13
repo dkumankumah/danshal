@@ -38,10 +38,11 @@
     
 <!--    These are String values for the events overview page-->
     <string name="title_event">Events</string>
+    <string name="title_up_event">Upcoming Events</string>
 
 <!--    Dialog filter event-->
     <string name="title_filter">Filter events</string>
-    <string name="action_filter">Filter events</string>
+    <string name="action_filter">Toepassen</string>
     <string name="action_cancel_filter">Annuleren</string>
 
     <!--admin-->

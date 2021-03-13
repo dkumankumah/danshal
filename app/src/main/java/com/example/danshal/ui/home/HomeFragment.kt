@@ -3,6 +3,7 @@ package com.example.danshal.ui.home
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -73,9 +74,13 @@ class HomeFragment : Fragment() {
     private fun initViews() {
         binding.rvEvents.layoutManager = GridLayoutManager(context, 1)
 
+        val controller = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_down_to_up)
+        binding.rvEvents.layoutAnimation = controller
+
         binding.rvEvents.adapter = if (currentEventType == getString(R.string.title_event)) homeAdapter else upEventAdapter
 
-        println(currentEventType)
+        // To prevent duplicates events TODO: Might need to be removed later...
+        events.clear()
 
         for (i in Event.EVENT_EXAMPLES.indices) {
             events.add(Event.EVENT_EXAMPLES[i])
@@ -83,7 +88,10 @@ class HomeFragment : Fragment() {
 
         homeAdapter.notifyDataSetChanged()
         upEventAdapter.notifyDataSetChanged()
+
+        binding.rvEvents.scheduleLayoutAnimation()
     }
+
 
     private fun openFilterWindow() {
         val dialogItems =

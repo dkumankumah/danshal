@@ -16,6 +16,8 @@ import androidx.constraintlayout.widget.Group
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,12 +35,24 @@ class MainActivity : AppCompatActivity() {
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
 
+        auth = Firebase.auth
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(setOf(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_admin_dashboard, R.id.nav_admin_add, R.id.nav_admin_users, R.id.nav_login, R.id.nav_logout, R.id.nav_profile, R.id.nav_register), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+//        navView.setNavigationItemSelectedListener(NavigationView.OnNavigationItemSelectedListener {
+//            item ->
+//                when(item.itemId) {
+//                    R.id.nav_logout -> {
+//                        auth.signOut()
+//                    }
+//                }
+//            true
+//        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

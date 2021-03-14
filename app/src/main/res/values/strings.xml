@@ -53,6 +53,9 @@
     <string name="admin_add_post">Post</string>
     <string name="admin_add_exclusive">Exclusief</string>
     <string name="admin_add_upload">Upload</string>
+    <string name="waarschuwing_uitloggen">Weet u zeker dat u wilt uitloggen?</string>
+    <string name="ja">Ja</string>
+    <string name="nee">nee</string>
 
 
 </resources>

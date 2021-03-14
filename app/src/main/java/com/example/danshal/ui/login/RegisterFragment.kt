@@ -114,18 +114,19 @@ class RegisterFragment : Fragment() {
 
                 //Data inputfields
                 val naam = binding.etName.text.toString()
-                val adres = binding.etAdres.text.toString()
-                val postcode = binding.etPostcode.text.toString()
-                val plaats = binding.etPlaats.text.toString()
+                val adres = null
+                val postcode = null
+                val plaats = null
                 val email = email
 
                 val user = id?.let { User(naam, adres, postcode, plaats, email, it, false ) }
                 // Add a new document with a generated ID
                 user?.let {
                     db.collection("users")
-                        .add(it)
+                        .document(id)
+                        .set(it)
                         .addOnSuccessListener { documentReference ->
-                            Log.d("Cloud", "DocumentSnapshot added with ID: ${documentReference.id}")
+                            Log.d("Cloud", "DocumentSnapshot added with ID: $documentReference")
                         }
                         .addOnFailureListener { e ->
                             Log.w("Cloud", "Error adding document", e)

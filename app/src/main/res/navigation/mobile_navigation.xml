@@ -46,6 +46,11 @@
         <action
             android:id="@+id/action_nav_login_to_nav_home"
             app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_nav_login_to_nav_admin_dashboard"
+            app:destination="@id/nav_admin_dashboard"
+            app:popUpTo="@id/nav_admin_dashboard"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -66,5 +71,13 @@
         android:name="com.example.danshal.ui.login.ProfileFragment"
         android:label="Registreren"
         tools:layout="@layout/profile_fragment" />
+    <fragment
+        android:id="@+id/nav_logout"
+        android:name="com.example.danshal.ui.login.Logout_Fragment"
+        android:label="Uitloggen">
+        <action
+            android:id="@+id/action_nav_logout_page_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
 
 </navigation>

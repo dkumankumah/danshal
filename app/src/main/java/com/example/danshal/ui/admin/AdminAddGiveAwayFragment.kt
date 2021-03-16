@@ -8,15 +8,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import com.example.danshal.R
-import com.example.danshal.databinding.AdminAddEventFragmentBinding
 import com.example.danshal.databinding.AdminAddGiveAwayFragmentBinding
-import com.example.danshal.models.Address
-import com.example.danshal.models.Event
 import com.example.danshal.models.GiveAway
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import java.util.*
 
 class AdminAddGiveAwayFragment : Fragment() {
@@ -27,6 +24,8 @@ class AdminAddGiveAwayFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var date: Date
+
+    private val db = Firebase.firestore
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,24 +58,32 @@ class AdminAddGiveAwayFragment : Fragment() {
     }
 
     private fun postGiveAway() {
-        Log.i("GIVE_AWAY", "POSTING GIVE_AWAY")
-
-        // Event inputs
         val title = binding.etAddTitle.text?.toString()
         val description = binding.etAddDescription.text?.toString()
 
         if (validate(title) && validate(description)) {
-            // TODO: GiveAway id not sending
-            val giveAway = GiveAway(1, title!!, description!!, emptyList(), this.date, R.drawable.event1)
+            val giveAway = GiveAway(title!!, description!!, emptyList(), this.date, R.drawable.event1)
 
-            Log.i("GIVE_AWAY", giveAway.toString())
-            // TODO: Make api call
-            // TODO: Toast is not showing up
-            Toast.makeText(context, "Give away is toegevoegd", Toast.LENGTH_SHORT).show()
+            addToDatabase(giveAway)
         } else {
             // TODO: Toast is not showing up
             Toast.makeText(context, "Er zijn een aantal verplichte velden niet ingevuld", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun addToDatabase(giveAway: GiveAway) {
+        db.collection("giveaways")
+            .add(giveAway)
+            .addOnSuccessListener { documentReference ->
+                Log.d("Cloud", "DocumentSnapshot added with ID: ${documentReference.id}")
+                // TODO: Toast is not showing up
+                Toast.makeText(context, "Give away is toegevoegd", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Log.w("Cloud", "Error adding document", e)
+                // TODO: Toast is not showing up
+                Toast.makeText(context, "Het is niet gelukt de give away toe te voegen", Toast.LENGTH_SHORT).show()
+            }
     }
 
     /**

@@ -11,6 +11,8 @@ import android.widget.Toast
 import com.example.danshal.R
 import com.example.danshal.databinding.AdminAddPostFragmentBinding
 import com.example.danshal.models.Post
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class AdminAddPostFragment : Fragment() {
 
@@ -18,6 +20,8 @@ class AdminAddPostFragment : Fragment() {
 
     private var _binding: AdminAddPostFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private val db = Firebase.firestore
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -41,24 +45,32 @@ class AdminAddPostFragment : Fragment() {
     }
 
     private fun postContent() {
-        Log.i("POST", "POSTING POST")
-
-        // Event inputs
         val title = binding.etAddTitle.text?.toString()
         val description = binding.etAddDescription.text?.toString()
 
         if (validate(title) && validate(description)) {
-            // TODO: Post id not sending
-            val post = Post(1, title!!, description!!, binding.switchAddExclusive.isChecked, R.drawable.event1)
+            val post = Post(title!!, description!!, binding.switchAddExclusive.isChecked, R.drawable.event1)
 
-            Log.i("POST", post.toString())
-            // TODO: Make api call
-            // TODO: Toast is not showing up
-            Toast.makeText(context, "Post is toegevoegd", Toast.LENGTH_SHORT).show()
+            addToDatabase(post)
         } else {
             // TODO: Toast is not showing up
             Toast.makeText(context, "Er zijn een aantal verplichte velden niet ingevuld", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun addToDatabase(post: Post) {
+        db.collection("posts")
+            .add(post)
+            .addOnSuccessListener { documentReference ->
+                Log.d("Cloud", "DocumentSnapshot added with ID: ${documentReference.id}")
+                // TODO: Toast is not showing up
+                Toast.makeText(context, "De post is toegevoegd", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Log.w("Cloud", "Error adding document", e)
+                // TODO: Toast is not showing up
+                Toast.makeText(context, "Het is niet gelukt de post toe te voegen", Toast.LENGTH_SHORT).show()
+            }
     }
 
     /**

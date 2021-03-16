@@ -2,6 +2,7 @@ package com.example.danshal.ui.home
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.TextView
@@ -11,8 +12,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.danshal.R
 import com.example.danshal.databinding.FragmentHomeBinding
+import com.example.danshal.models.Address
 import com.example.danshal.models.Event
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -20,9 +24,11 @@ class HomeFragment : Fragment() {
     private val events = arrayListOf<Event>()
     private val homeAdapter = HomeAdapter(events)
     private val upEventAdapter = UpEventAdapter(events)
+
     private var currentEventType: String? = null
 
     private lateinit var homeViewModel: HomeViewModel
+    private val db = Firebase.firestore
 
     // Menu options:
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,17 +80,19 @@ class HomeFragment : Fragment() {
     private fun initViews() {
         binding.rvEvents.layoutManager = GridLayoutManager(context, 1)
 
-        val controller = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_down_to_up)
+        val controller =
+            AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_down_to_up)
         binding.rvEvents.layoutAnimation = controller
 
-        binding.rvEvents.adapter = if (currentEventType == getString(R.string.title_event)) homeAdapter else upEventAdapter
+        binding.rvEvents.adapter =
+            if (currentEventType == getString(R.string.title_event)) homeAdapter else upEventAdapter
 
-        // To prevent duplicates events TODO: Might need to be removed later...
+
         events.clear()
-
-        for (i in Event.EVENT_EXAMPLES.indices) {
-            events.add(Event.EVENT_EXAMPLES[i])
-        }
+        fetchEvents()
+//        for (i in Event.EVENT_EXAMPLES.indices) {
+//            events.add(Event.EVENT_EXAMPLES[i])
+//        }
 
         homeAdapter.notifyDataSetChanged()
         upEventAdapter.notifyDataSetChanged()
@@ -116,6 +124,36 @@ class HomeFragment : Fragment() {
                 }
                 .show()
         }
+    }
+
+    private fun fetchEvents() {
+        val docRef = db.collection("events")
+
+        docRef.get()
+            .addOnSuccessListener { event ->
+                if (event != null) {
+                    Log.d("Fetching events", "Document Snapshot data: ${event.size()}")
+                    for (result in event.toObjects(Event::class.java)) {
+                        println("EVENT FETCH: ${result.title}")
+                        events.add(
+                            Event(
+                                Address(
+                                    result.address.housenumber,
+                                    result.address.housenumberExtension,
+                                    result.address.postcode,
+                                    result.address.street,
+                                    result.address.place
+                                ),
+                                result.title, result.content,
+                                result.date, result.exclusive, result.image
+                            )
+                        )
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("fetching", "No such document")
+            }
     }
 
     override fun onDestroyView() {

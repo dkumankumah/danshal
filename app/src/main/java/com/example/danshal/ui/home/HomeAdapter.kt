@@ -32,7 +32,6 @@ class HomeAdapter(private val events: List<Event>) :
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.databind(events[position])
     }

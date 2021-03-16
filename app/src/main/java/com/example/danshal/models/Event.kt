@@ -2,24 +2,46 @@ package com.example.danshal.models
 
 import androidx.annotation.DrawableRes
 import com.example.danshal.R
+import com.google.firebase.firestore.PropertyName
 import java.time.LocalDate
 import java.util.*
 
 data class Event (
-    var id: Long,
-    var title: String,
-    var content: String,
+//    var id: Long,
+    @set:PropertyName("adress")
+    @get:PropertyName("adress")
     var address: Address,
+
+    @set:PropertyName("title")
+    @get:PropertyName("title")
+    var title: String,
+
+    @set:PropertyName("content")
+    @get:PropertyName("content")
+    var content: String,
+
+    @set:PropertyName("date")
+    @get:PropertyName("date")
     var date: Date,
+
+    @set:PropertyName("exclusive")
+    @get:PropertyName("exclusive")
     var exclusive: Boolean,
+
+    @get:PropertyName("image")
+    @set:PropertyName("image")
     @DrawableRes var image: Int,
 ) {
-    companion object {
-        val EVENT_EXAMPLES = arrayOf(
-            Event(1, "Title event 1", "Content voor event 1", Address(1, 1, null,"1091 GR","Wibautstraat", "Amsterdam"),  Date(2021, 3, 5), false, R.drawable.event1),
-            Event(2, "Title event 2", "Content voor event 2", Address(2, 21, null,"1091 GR","Wibautstraat", "Amsterdam"),  Date(2021, 3, 21), true, R.drawable.event2),
-            Event(3, "Title event 4", "Content voor event 3", Address(3, 33, null,"1091 GR","Wibautstraat", "Amsterdam"),  Date(2021, 3, 28), false, R.drawable.event3),
-            Event(4, "Title event 4", "Content voor event 4", Address(4, 17, null,"1091 GR","Wibautstraat", "Amsterdam"),  Date(2021, 4, 8), true, R.drawable.event4),
-        )
-    }
+
+    constructor(): this( Address(1, null,"1091 GR","Wibautstraat", "Amsterdam"),"Title event 1", "Content voor event 1",  Date(2021, 3, 5), false, R.drawable.event1)
+
+//    companion object {
+//        val EVENT_EXAMPLES = arrayOf(
+//            Event("Title event 1", "Content voor event 1", Address(1, 1, null,"1091 GR","Wibautstraat", "Amsterdam"),  Date(2021, 3, 5), false, R.drawable.event1),
+//            Event("Title event 2", "Content voor event 2", Address(2, 21, null,"1091 GR","Wibautstraat", "Amsterdam"),  Date(2021, 3, 21), true, R.drawable.event2),
+//            Event("Title event 4", "Content voor event 3", Address(3, 33, null,"1091 GR","Wibautstraat", "Amsterdam"),  Date(2021, 3, 28), false, R.drawable.event3),
+//            Event( "Title event 4", "Content voor event 4", Address(4, 17, null,"1091 GR","Wibautstraat", "Amsterdam"),  Date(2021, 4, 8), true, R.drawable.event4),
+//        )
+//    }
 }
+

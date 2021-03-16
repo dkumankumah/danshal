@@ -38,11 +38,15 @@
     
 <!--    These are String values for the events overview page-->
     <string name="title_event">Upcoming events!</string>
+
+    <!--admin-->
     <string name="menu_admin_dashboard">Admin Dashboard</string>
     <string name="menu_admin_add">Admin Toevoegen</string>
     <string name="menu_admin_users">Admin Gebruikers</string>
+    <string name="menu_admin_add_event">Admin nieuw event</string>
+    <string name="menu_admin_add_give_away">Admin nieuwe give away</string>
+    <string name="menu_admin_add_post">Admin nieuwe post</string>
 
-    <!--admin-->
     <string name="admin_add_what">Wat wil je toevoegen?</string>
     <string name="admin_event">Event</string>
     <string name="admin_post">Post</string>
@@ -50,9 +54,19 @@
 
     <string name="admin_add_title">Titel</string>
     <string name="admin_add_description">Beschrijving</string>
-    <string name="admin_add_post">Post</string>
+    <string name="admin_add_date">Datum</string>
+    <string name="admin_add_end_date">Einddatum giveaway</string>
+    <string name="admin_add_date_btn">Datum kiezen</string>
+    <string name="admin_add_post">Plaatsen</string>
     <string name="admin_add_exclusive">Exclusief</string>
-    <string name="admin_add_upload">Upload</string>
+    <string name="admin_add_upload">Upload foto/video</string>
+
+    <string name="admin_add_address">Adres</string>
+    <string name="admin_add_address_housenumber">Huisnr.</string>
+    <string name="admin_add_address_housenumber_ext">Huisnr. ext</string>
+    <string name="admin_add_address_street">Straat</string>
+    <string name="admin_add_address_postcode">Postcode</string>
+    <string name="admin_add_address_place">Plaats</string>
 
 
 </resources>

@@ -16,7 +16,7 @@ class UpEventAdapter(private val events: List<Event>): RecyclerView.Adapter<UpEv
 
         fun databind(event: Event) {
             binding.tvEventUpTitle.text = event.title
-            binding.tvEventUpAddress.text = event.address
+            binding.tvEventUpAddress.text = event.address.place
         }
     }
 

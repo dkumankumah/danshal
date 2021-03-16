@@ -1,4 +1,4 @@
-package com.example.danshal.ui.login
+package com.example.danshal.ui.profile
 
 import androidx.lifecycle.ViewModel
 

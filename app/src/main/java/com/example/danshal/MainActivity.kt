@@ -1,6 +1,7 @@
 package com.example.danshal
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.google.android.material.navigation.NavigationView
@@ -36,6 +37,8 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
 
         auth = Firebase.auth
+        var currentuser = auth.currentUser
+
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -53,6 +56,9 @@ class MainActivity : AppCompatActivity() {
 //                }
 //            true
 //        })
+
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -64,6 +70,40 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        auth = Firebase.auth
+
+        var currentuser = auth.currentUser
+
+        if (currentuser != null){
+            Log.d("Mainapplication", "currentuser is logged in")
+            toggleMenu(true)
+
+        }else {
+            Log.d("Mainapplication", "currentuser is logged out")
+            toggleMenu(false)
+        }
+
+    }
+
+    private fun toggleMenu(boolean: Boolean) {
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        val menu = navView.menu
+        if(boolean) {
+            menu.findItem(R.id.nav_logout).setVisible(true)
+            menu.findItem(R.id.nav_profile).setVisible(true)
+            menu.findItem(R.id.nav_login).setVisible(false)
+            menu.findItem(R.id.nav_register).setVisible(false)
+        } else {
+            menu.findItem(R.id.nav_logout).setVisible(false)
+            menu.findItem(R.id.nav_profile).setVisible(false)
+            menu.findItem(R.id.nav_login).setVisible(true)
+            menu.findItem(R.id.nav_register).setVisible(true)
+        }
+
     }
 
 

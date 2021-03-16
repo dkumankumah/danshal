@@ -9,7 +9,7 @@
         style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Adres"
+        android:text="@string/admin_add_address"
         app:layout_constraintBottom_toTopOf="@id/cl_housenumber"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/et_housenumber"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="Huisnr." />
+            android:text="@string/admin_add_address_housenumber" />
 
         <EditText
             android:id="@+id/et_housenumber"

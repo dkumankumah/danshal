@@ -4,20 +4,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="16dp"
     tools:context=".ui.admin.AdminUsersFragment">
 
     <TextView
-        android:id="@+id/text_admin_add_give_away"
-        android:layout_width="match_parent"
+        android:id="@+id/tv_add_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/admin_add_title"
+        app:layout_constraintBottom_toTopOf="@+id/et_add_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_add_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textShortMessage"
+        app:layout_constraintBottom_toTopOf="@+id/tv_add_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_title" />
+
+    <TextView
+        android:id="@+id/tv_add_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_add_description"
+        app:layout_constraintBottom_toTopOf="@+id/et_add_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_add_title" />
+
+    <EditText
+        android:id="@+id/et_add_description"
+        style="@style/Widget.AppCompat.AutoCompleteTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textImeMultiLine"
+        app:layout_constraintBottom_toTopOf="@+id/tv_add_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_description" />
+
+    <TextView
+        android:id="@+id/tv_add_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_add_end_date"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_add_description" />
+
+    <Button
+        android:id="@+id/btn_add_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_add_date_btn"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_give_away"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_date" />
+
+    <Button
+        android:id="@+id/btn_add_give_away"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_add_post"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_add_date" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

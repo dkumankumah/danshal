@@ -55,11 +55,13 @@
     <string name="admin_add_title">Titel</string>
     <string name="admin_add_description">Beschrijving</string>
     <string name="admin_add_date">Datum</string>
+    <string name="admin_add_end_date">Einddatum giveaway</string>
     <string name="admin_add_date_btn">Datum kiezen</string>
     <string name="admin_add_post">Plaatsen</string>
     <string name="admin_add_exclusive">Exclusief</string>
     <string name="admin_add_upload">Upload foto/video</string>
 
+    <string name="admin_add_address">Adres</string>
     <string name="admin_add_address_housenumber">Huisnr.</string>
     <string name="admin_add_address_housenumber_ext">Huisnr. ext</string>
     <string name="admin_add_address_street">Straat</string>

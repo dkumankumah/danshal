@@ -77,10 +77,11 @@ class AdminAddEventFragment : Fragment() {
 
             Log.i("EVENT", event.toString())
             // TODO: Make api call
-            Toast.makeText(this.context, "Event is toegevoegd", Toast.LENGTH_LONG).show()
+            // TODO: Toast is not showing up
+            Toast.makeText(context, "Event is toegevoegd", Toast.LENGTH_SHORT).show()
         } else {
             // TODO: Check if this validation works, toast is not showing up
-            Toast.makeText(this.context, "Er zijn een aantal verplichte velden niet ingevuld", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Er zijn een aantal verplichte velden niet ingevuld", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -101,7 +102,7 @@ class AdminAddEventFragment : Fragment() {
             context?.let {
                 val dpd = DatePickerDialog(it, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                     // Display Selected date in TextView
-                    this.date = Date(year, monthOfYear + 1, dayOfMonth)
+                    this.date = Date(year, monthOfYear, dayOfMonth)
                     binding.tvAddDate.text = "Datum: $dayOfMonth-${monthOfYear + 1}-$year"
                 }, year, month, day)
                 dpd.show()

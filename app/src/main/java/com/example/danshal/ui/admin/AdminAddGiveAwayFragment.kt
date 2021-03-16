@@ -45,7 +45,7 @@ class AdminAddGiveAwayFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnAddGiveAway.setOnClickListener {
-            postGiveAwa()
+            postGiveAway()
         }
 
         setDate()
@@ -58,7 +58,7 @@ class AdminAddGiveAwayFragment : Fragment() {
         binding.tvAddDate.text = "Datum: ${this.date.date}-${this.date.month + 1}-${this.date.year}"
     }
 
-    private fun postGiveAwa() {
+    private fun postGiveAway() {
         Log.i("GIVE_AWAY", "POSTING GIVE_AWAY")
 
         // Event inputs

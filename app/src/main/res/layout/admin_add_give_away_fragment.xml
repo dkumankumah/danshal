@@ -60,9 +60,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/admin_add_date_btn"
-        app:layout_constraintBottom_toTopOf="@+id/btn_add_give_away"
+        app:layout_constraintBottom_toTopOf="@+id/tv_add_upload"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_date" />
+
+    <TextView
+        android:id="@+id/tv_add_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_add_upload"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_upload"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_add_date" />
+
+    <Button
+        android:id="@+id/btn_add_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_add_upload"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_give_away"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_upload" />
 
     <Button
         android:id="@+id/btn_add_give_away"
@@ -71,6 +89,6 @@
         android:text="@string/admin_add_post"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_add_date" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_add_upload" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

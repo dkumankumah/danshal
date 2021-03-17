@@ -1,10 +1,12 @@
 package com.example.danshal.ui.home
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,8 +19,6 @@ import com.example.danshal.models.Event
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -31,8 +31,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private val db = Firebase.firestore
-
-    private val mainScope = CoroutineScope(Dispatchers.Main)
 
 
     // Menu options:
@@ -65,7 +63,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         homeViewModel =
             ViewModelProvider(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
@@ -96,7 +94,6 @@ class HomeFragment : Fragment() {
         fetchEvents()
 
         upEventAdapter.notifyDataSetChanged()
-
         binding.rvEvents.scheduleLayoutAnimation()
     }
 

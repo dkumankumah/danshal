@@ -3,18 +3,43 @@ package com.example.danshal.models
 import androidx.annotation.DrawableRes
 import com.example.danshal.R
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.PropertyName
 import java.time.LocalDate
 import java.util.*
 
 data class Event (
+    @set:PropertyName("title")
+    @get:PropertyName("title")
     var title: String,
+
+    @set:PropertyName("content")
+    @get:PropertyName("content")
     var content: String,
+
+    @set:PropertyName("adress")
+    @get:PropertyName("adress")
     var address: Address,
+
+    @set:PropertyName("date")
+    @get:PropertyName("date")
     var date: Date,
+
+    @set:PropertyName("exclusive")
+    @get:PropertyName("exclusive")
     var exclusive: Boolean,
+
+    @get:PropertyName("image")
+    @set:PropertyName("image")
     @DrawableRes var image: Int,
+
+//    @get:PropertyName("timestamp")
+//    @set:PropertyName("timestamp")
     val timestamp: Timestamp? = Timestamp.now()
 ) {
+
+    constructor() : this("", "",
+        Address(0, "", "", "", ""),Date(), false, 0)
+
     companion object {
         val EVENT_EXAMPLES = arrayOf(
             Event("Title event 1", "Content voor event 1", Address(1, null,"1091 GR","Wibautstraat", "Amsterdam"),  Date(2021, 3, 5), false, R.drawable.event1),

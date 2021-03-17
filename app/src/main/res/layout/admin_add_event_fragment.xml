@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="16dp"
     tools:context=".ui.admin.AdminUsersFragment">
 
     <TextView
@@ -12,8 +13,8 @@
         android:layout_height="wrap_content"
         android:text="@string/admin_add_title"
         app:layout_constraintBottom_toTopOf="@+id/et_add_title"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_top" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/et_add_title"
@@ -21,8 +22,8 @@
         android:layout_height="wrap_content"
         android:inputType="textShortMessage"
         app:layout_constraintBottom_toTopOf="@+id/tv_add_description"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_title" />
 
     <TextView
@@ -31,7 +32,7 @@
         android:layout_height="wrap_content"
         android:text="@string/admin_add_description"
         app:layout_constraintBottom_toTopOf="@+id/et_add_description"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_add_title" />
 
     <EditText
@@ -41,8 +42,8 @@
         android:layout_height="wrap_content"
         android:inputType="textImeMultiLine"
         app:layout_constraintBottom_toTopOf="@+id/tv_add_date"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_description" />
 
     <TextView
@@ -51,7 +52,7 @@
         android:layout_height="wrap_content"
         android:text="@string/admin_add_date"
         app:layout_constraintBottom_toTopOf="@+id/btn_add_date"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_add_description" />
 
     <Button
@@ -59,28 +60,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/admin_add_date_btn"
-        app:layout_constraintBottom_toTopOf="@+id/tv_add_exclusive"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/tv_add_date" />
-
-    <!--TODO: Address toevoegen-->
-
-    <TextView
-        android:id="@+id/tv_add_exclusive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/admin_add_exclusive"
-        app:layout_constraintBottom_toTopOf="@+id/switch_add_exclusive"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/btn_add_date" />
-
-    <Switch
-        android:id="@+id/switch_add_exclusive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/tv_add_upload"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/tv_add_exclusive" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_date" />
 
     <TextView
         android:id="@+id/tv_add_upload"
@@ -88,7 +70,7 @@
         android:layout_height="wrap_content"
         android:text="@string/admin_add_upload"
         app:layout_constraintBottom_toTopOf="@+id/btn_add_upload"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch_add_exclusive" />
 
     <Button
@@ -96,45 +78,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/admin_add_upload"
-        app:layout_constraintBottom_toTopOf="@+id/btn_add_post"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintBottom_toTopOf="@+id/tv_add_exclusive"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_upload" />
 
+    <TextView
+        android:id="@+id/tv_add_exclusive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_add_exclusive"
+        app:layout_constraintBottom_toTopOf="@+id/switch_add_exclusive"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_add_upload" />
+
+    <Switch
+        android:id="@+id/switch_add_exclusive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/address_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_exclusive" />
+    
+    <include
+        android:id="@+id/address_layout"
+        layout="@layout/address_form_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_event"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch_add_exclusive" />
+
     <Button
-        android:id="@+id/btn_add_post"
+        android:id="@+id/btn_add_event"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/admin_add_post"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/btn_add_upload" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="16dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="16dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

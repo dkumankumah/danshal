@@ -22,7 +22,7 @@ class HomeAdapter(private val events: List<Event>) :
 
         fun databind(event: Event) {
             binding.tvEventTitle.text = event.title
-            binding.ivEventImage.setImageResource(event.image)
+//            binding.ivEventImage.setImageResource(event.image)
         }
     }
 

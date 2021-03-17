@@ -1,15 +1,12 @@
 package com.example.danshal.repository
 
+import androidx.lifecycle.LiveData
+import com.example.danshal.models.Event
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 
-class EventRepository {
-    val TAG = "FIREBASE_REPOSITORY"
-    var firestoreDB = FirebaseFirestore.getInstance()
-    var user = FirebaseAuth.getInstance().currentUser
+interface EventRepository {
 
-    fun getEvents(): CollectionReference {
-        return firestoreDB.collection("events")
-    }
+    suspend fun getEvents(): LiveData<out List<Event>>
 }

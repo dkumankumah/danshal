@@ -17,6 +17,8 @@ import com.example.danshal.models.Event
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -29,6 +31,9 @@ class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private val db = Firebase.firestore
+
+    private val mainScope = CoroutineScope(Dispatchers.Main)
+
 
     // Menu options:
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,18 +93,41 @@ class HomeFragment : Fragment() {
             if (currentEventType == getString(R.string.title_event)) homeAdapter else upEventAdapter
 
 
-        events.clear()
         fetchEvents()
-//        for (i in Event.EVENT_EXAMPLES.indices) {
-//            events.add(Event.EVENT_EXAMPLES[i])
-//        }
 
-        homeAdapter.notifyDataSetChanged()
         upEventAdapter.notifyDataSetChanged()
 
         binding.rvEvents.scheduleLayoutAnimation()
     }
 
+    private fun fetchEvents() {
+        val docRef = db.collection("events")
+        docRef.get()
+            .addOnSuccessListener { event ->
+                if (event != null) {
+                    Log.d("Fetching events", "Document Snapshot data: ${event.size()}")
+                    for (result in event.toObjects(Event::class.java)) {
+                        events.add(
+                            Event(
+                                result.title, result.content,
+                                Address(
+                                    result.address.housenumber,
+                                    result.address.housenumberExtension.toString(),
+                                    result.address.postcode,
+                                    result.address.street,
+                                    result.address.place
+                                ),
+                                result.date, result.exclusive, result.image
+                            )
+                        )
+                    }
+                }
+                homeAdapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                Log.d("fetching", "No such document")
+            }
+    }
 
     private fun openFilterWindow() {
         val dialogItems =
@@ -126,35 +154,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun fetchEvents() {
-        val docRef = db.collection("events")
 
-        docRef.get()
-            .addOnSuccessListener { event ->
-                if (event != null) {
-                    Log.d("Fetching events", "Document Snapshot data: ${event.size()}")
-                    for (result in event.toObjects(Event::class.java)) {
-                        println("EVENT FETCH: ${result.title}")
-                        events.add(
-                            Event(
-                                Address(
-                                    result.address.housenumber,
-                                    result.address.housenumberExtension,
-                                    result.address.postcode,
-                                    result.address.street,
-                                    result.address.place
-                                ),
-                                result.title, result.content,
-                                result.date, result.exclusive, result.image
-                            )
-                        )
-                    }
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.d("fetching", "No such document")
-            }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

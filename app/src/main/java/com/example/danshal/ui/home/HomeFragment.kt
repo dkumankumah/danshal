@@ -114,16 +114,22 @@ class HomeFragment : Fragment() {
                                     result.address.street,
                                     result.address.place
                                 ),
-                                result.date, result.exclusive, result.image
+                                result.date, result.exclusive, result.image, result.liked
                             )
                         )
                     }
                 }
-                homeAdapter.notifyDataSetChanged()
+                initEvents()
             }
             .addOnFailureListener { exception ->
                 Log.d("fetching", "No such document")
             }
+    }
+
+    private fun initEvents() {
+
+
+        homeAdapter.notifyDataSetChanged()
     }
 
     private fun openFilterWindow() {

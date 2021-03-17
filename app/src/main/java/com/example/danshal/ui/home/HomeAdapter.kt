@@ -22,6 +22,7 @@ class HomeAdapter(private val events: List<Event>) :
 
         fun databind(event: Event) {
             binding.tvEventTitle.text = event.title
+            binding.ibEventLike.setImageResource(if(event.liked) R.drawable.ic_like_true else R.drawable.ic_like_false)
 //            binding.ivEventImage.setImageResource(event.image)
         }
     }

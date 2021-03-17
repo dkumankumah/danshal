@@ -72,7 +72,7 @@ class AdminAddEventFragment : Fragment() {
 
         if (validate(housenumber) && validate(postcode) && validate(street) && validate(place) && validate(title) && validate(description)) {
             val address = Address(housenumber!!.toInt(), housenumberExtension, postcode!!, street!!, place!!)
-            val event = Event(title!!, description!!, address, this.date, binding.switchAddExclusive.isChecked, R.drawable.event1)
+            val event = Event(title!!, description!!, address, this.date, binding.switchAddExclusive.isChecked, R.drawable.event1, false)
 
             addToDatabase(event)
         } else {

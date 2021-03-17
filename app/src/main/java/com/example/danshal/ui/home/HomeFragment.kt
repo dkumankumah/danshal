@@ -103,6 +103,7 @@ class HomeFragment : Fragment() {
             .addOnSuccessListener { event ->
                 if (event != null) {
                     Log.d("Fetching events", "Document Snapshot data: ${event.size()}")
+                    events.clear()
                     for (result in event.toObjects(Event::class.java)) {
                         events.add(
                             Event(
@@ -114,7 +115,7 @@ class HomeFragment : Fragment() {
                                     result.address.street,
                                     result.address.place
                                 ),
-                                result.date, result.exclusive, result.image, result.liked
+                                result.date, result.exclusive, result.image
                             )
                         )
                     }

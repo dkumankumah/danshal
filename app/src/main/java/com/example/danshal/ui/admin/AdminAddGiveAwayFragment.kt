@@ -9,9 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.example.danshal.R
 import com.example.danshal.databinding.AdminAddGiveAwayFragmentBinding
 import com.example.danshal.models.GiveAway
+import com.example.danshal.models.Notification
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.util.*
@@ -76,6 +78,10 @@ class AdminAddGiveAwayFragment : Fragment() {
             .add(giveAway)
             .addOnSuccessListener { documentReference ->
                 Log.d("Cloud", "DocumentSnapshot added with ID: ${documentReference.id}")
+                db.collection("notifications")
+                    .add(Notification("Give away toegevoegd: ${giveAway.title}"))
+
+                findNavController().navigate(R.id.action_adminAddGiveAwayFragment_to_nav_admin_dashboard)
                 // TODO: Toast is not showing up
                 Toast.makeText(context, "Give away is toegevoegd", Toast.LENGTH_SHORT).show()
             }

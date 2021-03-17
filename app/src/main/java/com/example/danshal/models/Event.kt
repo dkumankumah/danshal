@@ -2,6 +2,7 @@ package com.example.danshal.models
 
 import androidx.annotation.DrawableRes
 import com.example.danshal.R
+import com.google.firebase.Timestamp
 import java.time.LocalDate
 import java.util.*
 
@@ -12,6 +13,7 @@ data class Event (
     var date: Date,
     var exclusive: Boolean,
     @DrawableRes var image: Int,
+    val timestamp: Timestamp? = Timestamp.now()
 ) {
     companion object {
         val EVENT_EXAMPLES = arrayOf(

@@ -8,8 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.example.danshal.R
 import com.example.danshal.databinding.AdminAddPostFragmentBinding
+import com.example.danshal.models.Notification
 import com.example.danshal.models.Post
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -63,6 +65,11 @@ class AdminAddPostFragment : Fragment() {
             .add(post)
             .addOnSuccessListener { documentReference ->
                 Log.d("Cloud", "DocumentSnapshot added with ID: ${documentReference.id}")
+                val notificationText = if (post.exclusive) "Exclusieve post is toegevoegd: ${post.title}" else "Post is toegevoegd: ${post.title}"
+                db.collection("notifications")
+                    .add(Notification(notificationText))
+                findNavController().navigate(R.id.action_adminAddPostFragment_to_nav_admin_dashboard)
+
                 // TODO: Toast is not showing up
                 Toast.makeText(context, "De post is toegevoegd", Toast.LENGTH_SHORT).show()
             }

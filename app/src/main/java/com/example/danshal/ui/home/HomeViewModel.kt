@@ -24,6 +24,15 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
         }
     }
 
-
+    fun getUpcomingEvents() {
+        viewModelScope.launch {
+            try {
+                eventRepository.getUpcomingEvents()
+            } catch (ex: EventRepository.EventRetrievalError) {
+                val errorMsg = "Something went wrong while retrieving the upcoming events."
+                Log.e("HomeViewModel", ex.message ?: errorMsg)
+            }
+        }
+    }
 
 }

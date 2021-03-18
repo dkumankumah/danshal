@@ -83,101 +83,32 @@ class HomeFragment : Fragment() {
             AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_down_to_up)
         binding.rvEvents.layoutAnimation = controller
 
-        binding.rvEvents.adapter = homeAdapter
-
-        // retrieve events
-        viewModel.getEvents()
-
-        viewModel.eventListData.observe(viewLifecycleOwner, {
-            events.addAll(it)
-            homeAdapter.notifyDataSetChanged()
-        })
-
-//        setFilter()
-        upEventAdapter.notifyDataSetChanged()
-        binding.rvEvents.scheduleLayoutAnimation()
+        applyFilter()
     }
 
-    private fun setFilter() {
-        binding.rvEvents.adapter = homeAdapter
-        events.clear()
-
+    // TODO: Code lijkt te veel op elkaar, kan misschien korter/beter
+    private fun applyFilter() {
         if (currentEventType == getString(R.string.title_up_event)) {
             binding.rvEvents.adapter = upEventAdapter
+            viewModel.getUpcomingEvents()
 
-            // get today's date and the date of 7 days from now
-            val start: Timestamp = Timestamp.now()
-            val range: Calendar = Calendar.getInstance()
-            range.add(Calendar.DATE, +7)
-            val end = Timestamp(range.time)
-
-
-            val docRef = db.collection("events")
-                .orderBy("date", Query.Direction.ASCENDING)
-                .whereGreaterThanOrEqualTo("date", start.toDate())
-                .whereLessThanOrEqualTo("date", end.toDate())
-
-            docRef.get()
-                .addOnSuccessListener { event ->
-                    if (event != null) {
-                        for (result in event.toObjects(Event::class.java)) {
-                            events.add(
-                                Event(
-                                    result.title, result.content,
-                                    Address(
-                                        result.address.housenumber,
-                                        result.address.housenumberExtension.toString(),
-                                        result.address.postcode,
-                                        result.address.street,
-                                        result.address.place
-                                    ),
-                                    result.date, result.exclusive, result.image
-                                )
-                            )
-                        }
-                    }
-                    upEventAdapter.notifyDataSetChanged()
-                }
-                .addOnFailureListener { exception ->
-                    Log.d("fetching", "No such document")
-                }
+            viewModel.eventListData.observe(viewLifecycleOwner, {
+                events.clear()
+                events.addAll(it)
+                upEventAdapter.notifyDataSetChanged()
+                binding.rvEvents.scheduleLayoutAnimation()
+            })
         } else {
-            println("NIET HIER")
-            fetchEvents()
-        }
-    }
+            binding.rvEvents.adapter = homeAdapter
+            viewModel.getEvents()
 
-
-    private fun fetchEvents() {
-        val docRef = db.collection("events")
-            .orderBy("date", Query.Direction.ASCENDING)
-            .whereGreaterThanOrEqualTo("date", Timestamp.now().toDate())
-        docRef.get()
-            .addOnSuccessListener { event ->
-                if (event != null) {
-                    Log.d("Fetching events", "Document Snapshot data: ${event.size()}")
-                    events.clear()
-                    for (result in event.toObjects(Event::class.java)) {
-                        events.add(
-                            Event(
-                                result.title, result.content,
-                                Address(
-                                    result.address.housenumber,
-                                    result.address.housenumberExtension.toString(),
-                                    result.address.postcode,
-                                    result.address.street,
-                                    result.address.place
-                                ),
-                                result.date, result.exclusive, result.image
-                            )
-                        )
-                    }
-                }
+            viewModel.eventListData.observe(viewLifecycleOwner, {
+                events.clear()
+                events.addAll(it)
                 homeAdapter.notifyDataSetChanged()
-            }
-            .addOnFailureListener { exception ->
-                Log.d("fetching", "No such document")
-            }
+                binding.rvEvents.scheduleLayoutAnimation()
+            })
+        }
     }
 
     private fun openFilterWindow() {
@@ -204,8 +135,6 @@ class HomeFragment : Fragment() {
                 .show()
         }
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

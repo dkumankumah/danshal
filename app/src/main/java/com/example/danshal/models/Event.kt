@@ -20,6 +20,8 @@ data class Event (
     constructor() : this("", "",
         Address(0, "", "", "", ""),Date(), false, 0)
 
+//    constructor() : this("")
+
     companion object {
         val EVENT_EXAMPLES = arrayOf(
             Event("Title event 1", "Content voor event 1", Address(1, null,"1091 GR","Wibautstraat", "Amsterdam"),  Date(2021, 3, 5), false, R.drawable.event1),

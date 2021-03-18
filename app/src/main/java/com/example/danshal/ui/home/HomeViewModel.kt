@@ -1,14 +1,29 @@
 package com.example.danshal.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import android.util.Log
+import androidx.lifecycle.*
+import com.example.danshal.models.Event
+import com.example.danshal.repository.EventRepository
+import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(application: Application) : AndroidViewModel(application){
+    private val eventRepository = EventRepository()
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    val eventListData: LiveData<List<Event>> = eventRepository.events
+
+
+    fun getEvents() {
+        viewModelScope.launch {
+            try {
+                eventRepository.getEvents()
+            } catch (ex: EventRepository.EventRetrievalError) {
+                val errorMsg = "Something went wrong while retrieving the events."
+                Log.e("HomeViewModel", ex.message ?: errorMsg)
+            }
+        }
     }
-    val text: LiveData<String> = _text
+
+
 
 }

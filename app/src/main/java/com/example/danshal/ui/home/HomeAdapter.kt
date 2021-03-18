@@ -27,6 +27,8 @@ class HomeAdapter(private val events: List<Event>) :
         }
     }
 
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)

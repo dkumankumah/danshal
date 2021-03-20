@@ -1,10 +1,8 @@
 package com.example.danshal.ui.home
 
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.danshal.R
 import com.example.danshal.databinding.ItemEventBinding

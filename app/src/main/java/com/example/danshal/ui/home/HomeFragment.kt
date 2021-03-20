@@ -1,7 +1,6 @@
 package com.example.danshal.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.LayoutInflater
@@ -9,18 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.danshal.R
 import com.example.danshal.databinding.FragmentHomeBinding
-import com.example.danshal.models.Address
 import com.example.danshal.models.Event
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.Timestamp
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.util.*
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null

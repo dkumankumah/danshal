@@ -1,7 +1,5 @@
 package com.example.danshal.repository
 
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.danshal.models.Address

@@ -3,8 +3,6 @@ package com.example.danshal.models
 import androidx.annotation.DrawableRes
 import com.example.danshal.R
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.PropertyName
-import java.time.LocalDate
 import java.util.*
 
 data class Event (

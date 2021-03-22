@@ -1,6 +1,7 @@
 package com.example.danshal.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.LayoutInflater
@@ -13,13 +14,14 @@ import com.example.danshal.R
 import com.example.danshal.databinding.FragmentHomeBinding
 import com.example.danshal.models.Event
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-
+    private lateinit var auth: FirebaseAuth
 
     private val events = arrayListOf<Event>()
     private val homeAdapter = HomeAdapter(events)
@@ -28,7 +30,6 @@ class HomeFragment : Fragment() {
     private var currentEventType: String? = null
 
     private val viewModel: HomeViewModel by activityViewModels()
-    private val db = Firebase.firestore
 
 
     // Menu options:
@@ -63,6 +64,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        auth = Firebase.auth
         return binding.root
     }
 
@@ -84,7 +86,7 @@ class HomeFragment : Fragment() {
     private fun applyFilter() {
         if (currentEventType == getString(R.string.title_up_event)) {
             binding.rvEvents.adapter = upEventAdapter
-            viewModel.getUpcomingEvents()
+            viewModel.getUpcomingEvents(auth.currentUser != null)
 
             viewModel.eventListData.observe(viewLifecycleOwner, {
                 events.clear()
@@ -94,7 +96,7 @@ class HomeFragment : Fragment() {
             })
         } else {
             binding.rvEvents.adapter = homeAdapter
-            viewModel.getEvents()
+            viewModel.getAllEvents(auth.currentUser != null)
 
             viewModel.eventListData.observe(viewLifecycleOwner, {
                 events.clear()

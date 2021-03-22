@@ -13,10 +13,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
     val eventListData: LiveData<List<Event>> = eventRepository.events
 
 
-    fun getEvents() {
+    fun getAllEvents(loggedIn: Boolean) {
         viewModelScope.launch {
             try {
-                eventRepository.getEvents()
+                eventRepository.getAllEvents(loggedIn)
             } catch (ex: EventRepository.EventRetrievalError) {
                 val errorMsg = "Something went wrong while retrieving the events."
                 Log.e("HomeViewModel", ex.message ?: errorMsg)
@@ -24,10 +24,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
         }
     }
 
-    fun getUpcomingEvents() {
+    fun getUpcomingEvents(loggedIn: Boolean) {
         viewModelScope.launch {
             try {
-                eventRepository.getUpcomingEvents()
+                eventRepository.getUpcomingEvents(loggedIn)
             } catch (ex: EventRepository.EventRetrievalError) {
                 val errorMsg = "Something went wrong while retrieving the upcoming events."
                 Log.e("HomeViewModel", ex.message ?: errorMsg)

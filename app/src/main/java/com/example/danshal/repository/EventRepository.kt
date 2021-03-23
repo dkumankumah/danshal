@@ -43,7 +43,7 @@ class EventRepository() {
                             result.address.street,
                             result.address.place
                         ),
-                        result.date, result.exclusive, result.image
+                        result.date, result.exclusive, result.imageUrl
                     )
                 )
             }
@@ -80,7 +80,7 @@ class EventRepository() {
                             result.address.street,
                             result.address.place
                         ),
-                        result.date, result.exclusive, result.image
+                        result.date, result.exclusive, result.imageUrl
                     )
                 )
             }

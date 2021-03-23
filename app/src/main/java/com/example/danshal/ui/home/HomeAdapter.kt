@@ -1,10 +1,12 @@
 package com.example.danshal.ui.home
 
 import android.content.Context
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.danshal.R
 import com.example.danshal.databinding.ItemEventBinding
 import com.example.danshal.databinding.ItemPostImageBinding
@@ -36,11 +38,11 @@ class HomeAdapter(private val context: Context) :
         val binding = ItemEventBinding.bind(itemView)
 
         override fun bind(item: Event) {
-            binding.tvEventTitle.text = item.title
-            binding.ibEventLike.setImageResource(R.drawable.ic_like_true)
-            //wanneer image getten werkt, dan dit weg commenten
-            // Glide.with(context).load(event.image).into(binding.ivEventImage)
-        }
+                binding.tvEventTitle.text = item.title
+                if (item.imageUrl != null) {
+                    Glide.with(context).load(item.imageUrl).into(binding.ivEventImage)
+                }
+            }
     }
 
     inner class PostTextViewHolder(itemView: View): BaseViewHolder<Post>(itemView) {

@@ -32,11 +32,10 @@ class HomeFragment : Fragment() {
 
     private val viewModel: HomeViewModel by activityViewModels()
 
-
-    // Menu options:
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         currentEventType = getString(R.string.title_event)
+
         // let the app know that this fragment is expecting menu related callbacks
         setHasOptionsMenu(true)
     }

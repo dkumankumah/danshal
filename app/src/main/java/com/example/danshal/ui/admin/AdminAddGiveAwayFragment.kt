@@ -76,7 +76,7 @@ class AdminAddGiveAwayFragment : Fragment() {
         val description = binding.etAddDescription.text?.toString()
 
         if (validate(title) && validate(description)) {
-            val giveAway = GiveAway(title!!, description!!, emptyList(), this.date)
+            val giveAway = GiveAway(title!!, description!!, this.date)
 
             addToDatabase(giveAway)
         } else {

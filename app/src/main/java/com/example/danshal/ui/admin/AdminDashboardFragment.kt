@@ -6,12 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.danshal.databinding.AdminDashboardFragmentBinding
 import com.example.danshal.models.Event
+import com.example.danshal.models.GiveAway
 import com.example.danshal.models.Notification
+import com.example.danshal.models.Post
 import com.example.danshal.ui.home.HomeAdapter
+import com.example.danshal.ui.home.HomeViewModel
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -22,10 +26,12 @@ class AdminDashboardFragment : Fragment() {
 
     private var _binding: AdminDashboardFragmentBinding? = null
     private val binding get() = _binding!!
+
     private val notifications = arrayListOf<Notification>()
     private val adminNotificationAdapter = AdminNotificationAdapter(notifications)
 
     private val db = Firebase.firestore
+    private val viewModel: AdminDashboardViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -85,46 +91,30 @@ class AdminDashboardFragment : Fragment() {
     }
 
     private fun setTotals() {
-        val eventsRef = db.collection("events")
-        val giveawaysRef = db.collection("giveaways")
-        val postsRef = db.collection("posts").whereEqualTo("exclusive", false)
-        val exclPostsRef = db.collection("posts").whereEqualTo("exclusive", true)
+        viewModel.getAllEvents()
+        viewModel.getAllGiveAways()
+        viewModel.getAllExclusivePosts()
+        viewModel.getAllNonExclusivePosts()
 
-        eventsRef.get()
-            .addOnSuccessListener { events ->
-                binding.tvNumberEvents.text = events.size().toString()
-                binding.tvNumberEvents.visibility = View.VISIBLE
-            }
-            .addOnFailureListener {
-                Log.w("ADMIN DASHBOARD", "Failed retrieving events")
-            }
+        viewModel.eventListData.observe(viewLifecycleOwner, {
+            binding.tvNumberEvents.text = it.size.toString()
+            binding.tvNumberEvents.visibility = View.VISIBLE
+        })
 
-        giveawaysRef.get()
-            .addOnSuccessListener { giveaways ->
-                binding.tvNumberGiveaways.text = giveaways.size().toString()
-                binding.tvNumberGiveaways.visibility = View.VISIBLE
-            }
-            .addOnFailureListener {
-                Log.w("ADMIN DASHBOARD", "Failed retrieving giveaways")
-            }
+        viewModel.giveawayListData.observe(viewLifecycleOwner, {
+            binding.tvNumberGiveaways.text = it.size.toString()
+            binding.tvNumberGiveaways.visibility = View.VISIBLE
+        })
 
-        postsRef.get()
-            .addOnSuccessListener { posts ->
-                binding.tvNumberPosts.text = posts.size().toString()
-                binding.tvNumberPosts.visibility = View.VISIBLE
-            }
-            .addOnFailureListener {
-                Log.w("ADMIN DASHBOARD", "Failed retrieving posts")
-            }
+        viewModel.exclusivePostListData.observe(viewLifecycleOwner, {
+            binding.tvNumberPosts.text = it.size.toString()
+            binding.tvNumberPosts.visibility = View.VISIBLE
+        })
 
-        exclPostsRef.get()
-            .addOnSuccessListener { exclusivePosts ->
-                binding.tvNumberExclPosts.text = exclusivePosts.size().toString()
-                binding.tvNumberExclPosts.visibility = View.VISIBLE
-            }
-            .addOnFailureListener {
-                Log.w("ADMIN DASHBOARD", "Failed retrieving exclusive posts")
-            }
+        viewModel.nonExclusivePostListData.observe(viewLifecycleOwner, {
+            binding.tvNumberExclPosts.text = it.size.toString()
+            binding.tvNumberExclPosts.visibility = View.VISIBLE
+        })
     }
 
     override fun onDestroyView() {

@@ -1,5 +1,6 @@
 package com.example.danshal.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.danshal.models.Post
@@ -29,7 +30,7 @@ class PostRepository() {
 
             val data = postRef
                 .orderBy("timestamp", Query.Direction.ASCENDING)
-                .whereGreaterThanOrEqualTo("timestamp", Timestamp.now().toDate())
+//                .whereGreaterThanOrEqualTo("timestamp", Timestamp.now().toDate())
                 .get()
                 .await()
 

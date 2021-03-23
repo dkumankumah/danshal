@@ -1,5 +1,6 @@
 package com.example.danshal.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.danshal.models.Address
@@ -35,6 +36,7 @@ class EventRepository() {
                 .await()
 
             for (result in data.toObjects(EventTest::class.java)) {
+                Log.d("EventRepository", result.title)
                 val event = EventTest(
                     Address(
                         result.address.housenumber,

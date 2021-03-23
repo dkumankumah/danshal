@@ -60,6 +60,7 @@ class HomeAdapter(var postEventItems: List<PostEvent>) :
 
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = ItemPostBinding.bind(itemView)
+
         fun bind(postEvent: PostEvent, context: Context) {
             println("testttt")
             binding.tvPostImageTitle.text = postEvent.title
@@ -70,8 +71,8 @@ class HomeAdapter(var postEventItems: List<PostEvent>) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (postEventItems[position].postType === PostEvent.TYPE.EVENT) {
-            TYPE_EVENT
+        return if (postEventItems[position].postType == PostEvent.TYPE.POST) {
+            TYPE_POST
         } else {
             TYPE_POST
         }

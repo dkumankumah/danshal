@@ -86,10 +86,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadData() {
+        viewModel.getAllPosts()
         viewModel.getAllEvents()
+        viewModel.postListData.observe(viewLifecycleOwner, {
+            postTest.addAll(it)
+            homeAdapter.postEventItems = postTest
+        })
         viewModel.eventListData.observe(viewLifecycleOwner, {
             postTest.addAll(it)
-            Log.d("HomeFragment", postTest.size.toString())
             homeAdapter.postEventItems = postTest
             homeAdapter.notifyDataSetChanged()
         })

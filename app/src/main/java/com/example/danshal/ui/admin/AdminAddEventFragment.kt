@@ -119,7 +119,7 @@ class AdminAddEventFragment : Fragment() {
                         val eventsRef = db.collection("events").document(document)
 
                         eventsRef
-                            .update("imageUrl", task.result)
+                            .update("imageUrl", task.result.toString())
                     }
                 }
             }

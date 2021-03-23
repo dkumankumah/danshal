@@ -13,5 +13,5 @@ data class Event (
     val timestamp: Timestamp? = Timestamp.now()
 ) {
     constructor() : this("", "",
-        Address(0, "", "", "", ""),Date(), false, 0)
+        Address(0, "", "", "", ""),Date(), false, null)
 }

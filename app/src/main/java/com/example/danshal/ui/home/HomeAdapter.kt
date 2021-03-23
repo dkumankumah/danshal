@@ -22,7 +22,9 @@ class HomeAdapter(private val events: List<Event>): RecyclerView.Adapter<HomeAda
 
         fun databind(event: Event) {
             binding.tvEventTitle.text = event.title
-            Glide.with(context).load(event.imageUrl).into(binding.ivEventImage)
+            if (event.imageUrl != null) {
+                Glide.with(context).load(event.imageUrl).into(binding.ivEventImage)
+            }
         }
     }
 

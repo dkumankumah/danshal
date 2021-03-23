@@ -1,35 +1,30 @@
 package com.example.danshal.ui.home
 
+import android.graphics.ColorSpace.Model
 import android.os.Bundle
-import android.transition.Transition
-import android.transition.TransitionInflater
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.danshal.R
 import com.example.danshal.databinding.FragmentHomeBinding
 import com.example.danshal.models.Event
+import com.example.danshal.models.Post
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
+
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
-
     private val events = arrayListOf<Event>()
-    private val homeAdapter = HomeAdapter(events)
-
+    private val posts = arrayListOf<Post>()
+    private val homeAdapter: HomeAdapter? = null
     private var currentEventType: String? = null
-
     private val viewModel: HomeViewModel by activityViewModels()
 
 
@@ -79,12 +74,34 @@ class HomeFragment : Fragment() {
         val controller =
             AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_down_to_up)
         binding.rvEvents.layoutAnimation = controller
+
+        val list: ArrayList<Model> = ArrayList()
+
         binding.rvEvents.adapter = homeAdapter
 
-        applyFilter()
+
+
+
+
+        viewModel.getAllEvents()
+        viewModel.eventListData.observe(viewLifecycleOwner, {
+            events.clear()
+            events.addAll(it)
+//            homeAdapter.notifyDataSetChanged()
+            binding.rvEvents.scheduleLayoutAnimation()
+        })
+
+        viewModel.getAllPosts()
+        viewModel.postListData.observe(viewLifecycleOwner, {
+            posts.clear()
+            posts.addAll(it)
+//            homeAdapter.notifyDataSetChanged()
+            binding.rvEvents.scheduleLayoutAnimation()
+        })
+
+//        applyFilter()
     }
 
-    // TODO: Code lijkt te veel op elkaar, kan misschien korter/beter
     private fun applyFilter() {
         if (currentEventType == getString(R.string.title_up_event)) {
             viewModel.getUpcomingEvents()
@@ -97,7 +114,7 @@ class HomeFragment : Fragment() {
         viewModel.eventListData.observe(viewLifecycleOwner, {
             events.clear()
             events.addAll(it)
-            homeAdapter.notifyDataSetChanged()
+//            homeAdapter.notifyDataSetChanged()
             binding.rvEvents.scheduleLayoutAnimation()
         })
     }

@@ -58,14 +58,13 @@ class EventRepository() {
         try {
             val tempList = arrayListOf<Event>()
             // get today's date and the date of 7 days from now
-            val start: Timestamp = Timestamp.now()
             val range: Calendar = Calendar.getInstance()
             range.add(Calendar.DATE, +7)
             val end = Timestamp(range.time)
 
             val data = eventRef
                 .orderBy("date", Query.Direction.ASCENDING)
-                .whereGreaterThanOrEqualTo("date", start.toDate())
+                .whereGreaterThanOrEqualTo("date", Timestamp.now().toDate())
                 .whereLessThanOrEqualTo("date", end.toDate())
                 .get()
                 .await()

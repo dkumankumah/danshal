@@ -1,7 +1,6 @@
 package com.example.danshal.ui.home
 
 import android.content.Context
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,92 +8,72 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.danshal.R
 import com.example.danshal.databinding.ItemEventBinding
-import com.example.danshal.databinding.ItemPostImageBinding
-import com.example.danshal.databinding.ItemPostTextBinding
-import com.example.danshal.models.Event
-import com.example.danshal.models.Post
-import java.lang.IllegalArgumentException
+import com.example.danshal.databinding.ItemPostBinding
+import com.example.danshal.models.PostEvent
+
+// Our data structure types
+private const val TYPE_EVENT = 0
+private const val TYPE_POST = 1
+private const val TYPE_GIVEAWAY = 2
 
 
-class HomeAdapter(private val context: Context) :
-    RecyclerView.Adapter<HomeAdapter.BaseViewHolder<*>>() {
-    // *Any* makes sure we can render our desired ViewHolder
-    private val adapterDataList: List<Any> = emptyList()
+class HomeAdapter(var postEventItems: List<PostEvent>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    // Our data structure types
-    companion object {
-        private const val TYPE_EVENT = 0
-        private const val TYPE_POST_TEXT = 1
-        private const val TYPE_POST_IMAGE = 2
-    }
+    private lateinit var context: Context
 
-    // BaseVIewHolder will push different type of view into the recyclerview
-    abstract class BaseViewHolder<T>(itemView: View): RecyclerView.ViewHolder(itemView) {
-        abstract fun bind(item: T)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        context = parent.context
 
-    // Inner class for binding
-    inner class EventViewHolder(itemView: View) : BaseViewHolder<Event>(itemView) {
-        val binding = ItemEventBinding.bind(itemView)
-
-        override fun bind(item: Event) {
-                binding.tvEventTitle.text = item.title
-                if (item.imageUrl != null) {
-                    Glide.with(context).load(item.imageUrl).into(binding.ivEventImage)
-                }
-            }
-    }
-
-    inner class PostTextViewHolder(itemView: View): BaseViewHolder<Post>(itemView) {
-        val binding = ItemPostTextBinding.bind(itemView)
-
-        override fun bind(item: Post) {
-            binding.tvPostTextTitle.text = item.title
-            binding.tvPostTextContent.text = item.content
+        return if(viewType == TYPE_EVENT) {
+            val view = LayoutInflater.from(context).inflate(R.layout.item_event, parent, false)
+            EventViewHolder(view)
+        } else {
+            val view = LayoutInflater.from(context).inflate(R.layout.item_post, parent, false)
+            PostViewHolder(view)
         }
     }
 
-
-    inner class PostImageViewHolder(itemView: View) : BaseViewHolder<Post>(itemView) {
-        val binding = ItemPostImageBinding.bind(itemView)
-
-        override fun bind(item: Post) {
-            binding.tvPostImageTitle.text = item.title
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
-        return when (viewType) {
-            TYPE_EVENT -> {
-                val view = LayoutInflater.from(context)
-                    .inflate(R.layout.item_event, parent, false)
-                EventViewHolder(view)
-            }
-            TYPE_POST_TEXT -> {
-                val view = LayoutInflater.from(context)
-                    .inflate(R.layout.item_post_text, parent, false)
-                PostTextViewHolder(view)
-            }
-            TYPE_POST_IMAGE -> {
-                val view = LayoutInflater.from(context)
-                    .inflate(R.layout.item_post_image, parent, false)
-                PostImageViewHolder(view)
-            }
-            else -> throw IllegalArgumentException("Invalid view type")
-        }
-    }
-
-    override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
-        val element = adapterDataList[position]
-        when(holder) {
-            is EventViewHolder -> holder.bind(element as Event)
-            is PostTextViewHolder -> holder.bind(element as Post)
-            is PostImageViewHolder -> holder.bind(element as Post)
-            else -> throw IllegalArgumentException()
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if(getItemViewType(position) == TYPE_EVENT) {
+            (holder as EventViewHolder).bind(postEventItems[position], context)
+        } else {
+            (holder as PostViewHolder).bind(postEventItems[position], context)
         }
     }
 
     override fun getItemCount(): Int {
-        return adapterDataList.size
+        return postEventItems.size
+    }
+
+    class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val binding = ItemEventBinding.bind(itemView)
+
+        fun bind(postEvent: PostEvent, context: Context) {
+            println("asasasasas")
+            binding.tvEventTitle.text = postEvent.title
+            if (postEvent.imageUrl != null) {
+                Glide.with(context).load(postEvent.imageUrl).into(binding.ivEventImage)
+            }
+        }
+    }
+
+    class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val binding = ItemPostBinding.bind(itemView)
+        fun bind(postEvent: PostEvent, context: Context) {
+            println("testttt")
+            binding.tvPostImageTitle.text = postEvent.title
+            if (postEvent.imageUrl != null) {
+                Glide.with(context).load(postEvent.imageUrl).into(binding.ivPostImage)
+            }
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (postEventItems[position].postType === PostEvent.TYPE.EVENT) {
+            TYPE_EVENT
+        } else {
+            TYPE_POST
+        }
     }
 }

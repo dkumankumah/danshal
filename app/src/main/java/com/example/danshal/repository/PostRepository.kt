@@ -3,6 +3,8 @@ package com.example.danshal.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.danshal.models.Post
+import com.example.danshal.models.PostEvent
+import com.example.danshal.models.PostTest
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -15,15 +17,15 @@ class PostRepository() {
     private val db = Firebase.firestore
     private val postRef = db.collection("posts")
 
-    private val _posts: MutableLiveData<List<Post>> = MutableLiveData()
+    private val _posts: MutableLiveData<List<PostTest>> = MutableLiveData()
 
-    val posts: LiveData<List<Post>>
+    val posts: LiveData<List<PostTest>>
         get() = _posts
 
     // Fetch posts from the database where the date is greater than today's date
     suspend fun getAllPosts() {
         try {
-            val tempList = arrayListOf<Post>()
+            val tempList = arrayListOf<PostTest>()
 
             val data = postRef
                 .orderBy("timestamp", Query.Direction.ASCENDING)
@@ -31,10 +33,14 @@ class PostRepository() {
                 .get()
                 .await()
 
-            for (result in data.toObjects(Post::class.java)) {
-                tempList.add(
-                    Post(result.title, result.content, result.exclusive, result.image, result.timestamp)
-                )
+            for (result in data.toObjects(PostTest::class.java)) {
+                val post = PostTest(result.exclusive)
+                post.postType = PostEvent.TYPE.POST
+                post.title = result.title
+                post.content = result.content
+                post.imageUrl = result.imageUrl
+
+                tempList.add(post)
             }
 
             _posts.value = tempList
@@ -46,7 +52,7 @@ class PostRepository() {
     // Only fetch the upcoming posts (between today and one week from now)
     suspend fun getUpcomingPosts() {
         try {
-            val tempList = arrayListOf<Post>()
+            val tempList = arrayListOf<PostTest>()
             // get today's date and the date of 7 days from now
             val range: Calendar = Calendar.getInstance()
             range.add(Calendar.DATE, +7)
@@ -59,10 +65,14 @@ class PostRepository() {
                 .get()
                 .await()
 
-            for (result in data.toObjects(Post::class.java)) {
-                tempList.add(
-                    Post(result.title, result.content, result.exclusive, result.image, result.timestamp)
-                )
+            for (result in data.toObjects(PostTest::class.java)) {
+                val post = PostTest(result.exclusive)
+                post.postType = PostEvent.TYPE.POST
+                post.title = result.title
+                post.content = result.content
+                post.imageUrl = result.imageUrl
+
+                tempList.add(post)
             }
 
             _posts.value = tempList

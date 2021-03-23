@@ -1,21 +1,24 @@
 package com.example.danshal.ui.home
 
-import android.graphics.ColorSpace.Model
 import android.os.Bundle
+import android.transition.Transition
+import android.transition.TransitionInflater
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.danshal.R
 import com.example.danshal.databinding.FragmentHomeBinding
-import com.example.danshal.models.Event
-import com.example.danshal.models.Post
+import com.example.danshal.models.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -23,7 +26,9 @@ class HomeFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private val events = arrayListOf<Event>()
     private val posts = arrayListOf<Post>()
-    private val homeAdapter: HomeAdapter? = null
+
+    private val postTest = arrayListOf<PostEvent>()
+    private val homeAdapter = HomeAdapter(postTest)
     private var currentEventType: String? = null
     private val viewModel: HomeViewModel by activityViewModels()
 
@@ -73,51 +78,39 @@ class HomeFragment : Fragment() {
         binding.rvEvents.layoutManager = GridLayoutManager(context, 1)
         val controller =
             AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_down_to_up)
+
+        loadData()
+
         binding.rvEvents.layoutAnimation = controller
-
-        val list: ArrayList<Model> = ArrayList()
-
         binding.rvEvents.adapter = homeAdapter
+    }
 
-
-
-
-
+    private fun loadData() {
         viewModel.getAllEvents()
         viewModel.eventListData.observe(viewLifecycleOwner, {
-            events.clear()
-            events.addAll(it)
-//            homeAdapter.notifyDataSetChanged()
-            binding.rvEvents.scheduleLayoutAnimation()
-        })
-
-        viewModel.getAllPosts()
-        viewModel.postListData.observe(viewLifecycleOwner, {
-            posts.clear()
-            posts.addAll(it)
-//            homeAdapter.notifyDataSetChanged()
-            binding.rvEvents.scheduleLayoutAnimation()
-        })
-
-//        applyFilter()
-    }
-
-    private fun applyFilter() {
-        if (currentEventType == getString(R.string.title_up_event)) {
-            viewModel.getUpcomingEvents()
-            binding.tvHome.text = getString(R.string.title_up_event)
-        } else {
-            viewModel.getAllEvents()
-            binding.tvHome.text = getString(R.string.title_event)
-        }
-
-        viewModel.eventListData.observe(viewLifecycleOwner, {
-            events.clear()
-            events.addAll(it)
-//            homeAdapter.notifyDataSetChanged()
-            binding.rvEvents.scheduleLayoutAnimation()
+            postTest.addAll(it)
+            Log.d("HomeFragment", postTest.size.toString())
+            homeAdapter.postEventItems = postTest
+            homeAdapter.notifyDataSetChanged()
         })
     }
+
+//    private fun applyFilter() {
+//        if (currentEventType == getString(R.string.title_up_event)) {
+//            viewModel.getUpcomingEvents()
+//            binding.tvHome.text = getString(R.string.title_up_event)
+//        } else {
+//            viewModel.getAllEvents()
+//            binding.tvHome.text = getString(R.string.title_event)
+//        }
+//
+//        viewModel.eventListData.observe(viewLifecycleOwner, {
+//            events.clear()
+//            events.addAll(it)
+////            homeAdapter.notifyDataSetChanged()
+//            binding.rvEvents.scheduleLayoutAnimation()
+//        })
+//    }
 
     private fun openFilterWindow() {
         val dialogItems =

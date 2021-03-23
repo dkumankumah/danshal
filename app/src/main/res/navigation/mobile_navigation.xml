@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_nav_admin_add_to_adminAddPostFragment"
             app:destination="@id/adminAddPostFragment" />
+        <action
+            android:id="@+id/action_nav_admin_add_to_nav_login"
+            app:destination="@id/nav_login" />
     </fragment>
 
     <fragment

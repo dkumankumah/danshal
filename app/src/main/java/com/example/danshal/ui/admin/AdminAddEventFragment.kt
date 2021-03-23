@@ -1,9 +1,12 @@
 package com.example.danshal.ui.admin
 
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,11 +18,16 @@ import com.example.danshal.databinding.AdminAddEventFragmentBinding
 import com.example.danshal.models.Address
 import com.example.danshal.models.Event
 import com.example.danshal.models.Notification
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import java.io.ByteArrayOutputStream
 import java.util.*
 
 class AdminAddEventFragment : Fragment() {
+    private val REQUEST_CODE = 100
 
     private lateinit var adminAddEventViewModel: AdminAddEventViewModel
 
@@ -29,6 +37,8 @@ class AdminAddEventFragment : Fragment() {
     private lateinit var date: Date
 
     private val db = Firebase.firestore
+    private val storage = Firebase.storage("gs://danshal-c7e70.appspot.com/")
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,6 +48,8 @@ class AdminAddEventFragment : Fragment() {
         adminAddEventViewModel =
             ViewModelProvider(this).get(AdminAddEventViewModel::class.java)
 
+        auth = Firebase.auth
+
         _binding = AdminAddEventFragmentBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -46,12 +58,72 @@ class AdminAddEventFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.btnAddUpload.setOnClickListener {
+            openGalleryForImage()
+        }
+
         binding.btnAddEvent.setOnClickListener {
             postEvent()
         }
 
         setDate()
         addDatePicker()
+    }
+
+    private fun openGalleryForImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
+            binding.imageView.setImageURI(data?.data) // handle chosen image
+        }
+    }
+
+    private fun addImageToStorage(document: String) {
+        if (binding.imageView.drawable != null) {
+            binding.imageView.isDrawingCacheEnabled = true
+            binding.imageView.buildDrawingCache()
+            val bitmap = (binding.imageView.drawable as BitmapDrawable).bitmap
+
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data = baos.toByteArray()
+
+            val storageRef = storage.reference
+            val ref = storageRef.child("content_images/event-$document.jpg")
+            val uploadTask = ref.putBytes(data)
+
+            /**
+             * Uploading video/photo to storage
+             */
+            uploadTask.addOnFailureListener {
+                Toast.makeText(context, "Uploaden van foto/video is niet gelukt", Toast.LENGTH_SHORT).show()
+            }.addOnSuccessListener {
+                /**
+                 * Check if the upload is done
+                 * If completed retrieve the download url and add it to the database column
+                 */
+                uploadTask.continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            throw it
+                        }
+                    }
+                    ref.downloadUrl
+                }.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val eventsRef = db.collection("events").document(document)
+
+                        eventsRef
+                            .update("imageUrl", task.result.toString())
+                    }
+                }
+            }
+        }
     }
 
     private fun setDate() {
@@ -72,11 +144,10 @@ class AdminAddEventFragment : Fragment() {
 
         if (validate(housenumber) && validate(postcode) && validate(street) && validate(place) && validate(title) && validate(description)) {
             val address = Address(housenumber!!.toInt(), housenumberExtension, postcode!!, street!!, place!!)
-            val event = Event(title!!, description!!, address, this.date, binding.switchAddExclusive.isChecked, R.drawable.event1)
+            val event = Event(title!!, description!!, address, this.date, binding.switchAddExclusive.isChecked)
 
             addToDatabase(event)
         } else {
-            // TODO: Toast is not showing up
             Toast.makeText(context, "Er zijn een aantal verplichte velden niet ingevuld", Toast.LENGTH_SHORT).show()
         }
     }
@@ -85,16 +156,14 @@ class AdminAddEventFragment : Fragment() {
         db.collection("events")
             .add(event)
             .addOnSuccessListener { documentReference ->
-                Log.d("Cloud", "DocumentSnapshot added with ID: ${documentReference.id}")
+                addImageToStorage(documentReference.id)
+
                 db.collection("notifications")
                     .add(Notification("Event toegevoegd: ${event.title}"))
                 findNavController().navigate(R.id.action_adminAddEventFragment_to_nav_admin_dashboard)
-                // TODO: Toast is not showing up
                 Toast.makeText(context, "Event is toegevoegd", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
-                Log.w("Cloud", "Error adding document", e)
-                // TODO: Toast is not showing up
                 Toast.makeText(context, "Het is niet gelukt het event toe te voegen", Toast.LENGTH_SHORT).show()
             }
     }

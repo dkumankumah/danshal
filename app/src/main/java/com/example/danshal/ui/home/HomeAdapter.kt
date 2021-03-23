@@ -1,16 +1,18 @@
 package com.example.danshal.ui.home
 
+import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.danshal.R
 import com.example.danshal.databinding.ItemEventBinding
 import com.example.danshal.models.Event
 
-
-class HomeAdapter(private val events: List<Event>) :
-    RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+class HomeAdapter(private val events: List<Event>): RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+    private lateinit var context: Context
 
     // Inner class for binding
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -20,17 +22,17 @@ class HomeAdapter(private val events: List<Event>) :
 
         fun databind(event: Event) {
             binding.tvEventTitle.text = event.title
-            binding.ibEventLike.setImageResource(R.drawable.ic_like_true)
-            //TODO wanneer image getten werkt, dan dit weg commenten
-            // Glide.with(context).load(event.image).into(binding.ivEventImage)
+            if (event.imageUrl != null) {
+                Glide.with(context).load(event.imageUrl).into(binding.ivEventImage)
+            }
         }
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)
-        )
+        val vh = LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)
+        context = vh.context
+
+        return ViewHolder(vh)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

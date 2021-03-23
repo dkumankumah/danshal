@@ -22,14 +22,13 @@ class EventRepository() {
         get() = _events
 
     // Fetch events from the database where the date is greater than today's date
-    suspend fun getAllEvents(loggedIn: Boolean) {
+    suspend fun getAllEvents() {
         try {
             val tempList = arrayListOf<Event>()
 
             val data = eventRef
                 .orderBy("date", Query.Direction.ASCENDING)
                 .whereGreaterThanOrEqualTo("date", Timestamp.now().toDate())
-//                .whereEqualTo("exclusive",  loggedIn)
                 .get()
                 .await()
 
@@ -55,7 +54,7 @@ class EventRepository() {
     }
 
     // Only fetch the upcoming events (between today and one week from now)
-    suspend fun getUpcomingEvents(loggedIn: Boolean) {
+    suspend fun getUpcomingEvents() {
         try {
             val tempList = arrayListOf<Event>()
             // get today's date and the date of 7 days from now
@@ -68,7 +67,6 @@ class EventRepository() {
                 .orderBy("date", Query.Direction.ASCENDING)
                 .whereGreaterThanOrEqualTo("date", start.toDate())
                 .whereLessThanOrEqualTo("date", end.toDate())
-//                .whereEqualTo("exclusive",  loggedIn)
                 .get()
                 .await()
 

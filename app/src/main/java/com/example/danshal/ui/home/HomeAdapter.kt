@@ -21,10 +21,10 @@ class HomeAdapter(private val events: List<Event>) :
         fun databind(event: Event) {
             binding.tvEventTitle.text = event.title
             binding.ibEventLike.setImageResource(R.drawable.ic_like_true)
-//            binding.ivEventImage.setImageResource(event.image)
+            //TODO wanneer image getten werkt, dan dit weg commenten
+            // Glide.with(context).load(event.image).into(binding.ivEventImage)
         }
     }
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

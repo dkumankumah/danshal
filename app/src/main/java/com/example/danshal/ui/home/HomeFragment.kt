@@ -1,6 +1,8 @@
 package com.example.danshal.ui.home
 
 import android.os.Bundle
+import android.transition.Transition
+import android.transition.TransitionInflater
 import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
@@ -25,7 +27,6 @@ class HomeFragment : Fragment() {
 
     private val events = arrayListOf<Event>()
     private val homeAdapter = HomeAdapter(events)
-    private val upEventAdapter = UpEventAdapter(events)
 
     private var currentEventType: String? = null
 
@@ -78,6 +79,7 @@ class HomeFragment : Fragment() {
         val controller =
             AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_down_to_up)
         binding.rvEvents.layoutAnimation = controller
+        binding.rvEvents.adapter = homeAdapter
 
         applyFilter()
     }
@@ -85,26 +87,19 @@ class HomeFragment : Fragment() {
     // TODO: Code lijkt te veel op elkaar, kan misschien korter/beter
     private fun applyFilter() {
         if (currentEventType == getString(R.string.title_up_event)) {
-            binding.rvEvents.adapter = upEventAdapter
-            viewModel.getUpcomingEvents(auth.currentUser != null)
-
-            viewModel.eventListData.observe(viewLifecycleOwner, {
-                events.clear()
-                events.addAll(it)
-                upEventAdapter.notifyDataSetChanged()
-                binding.rvEvents.scheduleLayoutAnimation()
-            })
+            viewModel.getUpcomingEvents()
+            binding.tvHome.text = getString(R.string.title_up_event)
         } else {
-            binding.rvEvents.adapter = homeAdapter
-            viewModel.getAllEvents(auth.currentUser != null)
-
-            viewModel.eventListData.observe(viewLifecycleOwner, {
-                events.clear()
-                events.addAll(it)
-                homeAdapter.notifyDataSetChanged()
-                binding.rvEvents.scheduleLayoutAnimation()
-            })
+            viewModel.getAllEvents()
+            binding.tvHome.text = getString(R.string.title_event)
         }
+
+        viewModel.eventListData.observe(viewLifecycleOwner, {
+            events.clear()
+            events.addAll(it)
+            homeAdapter.notifyDataSetChanged()
+            binding.rvEvents.scheduleLayoutAnimation()
+        })
     }
 
     private fun openFilterWindow() {

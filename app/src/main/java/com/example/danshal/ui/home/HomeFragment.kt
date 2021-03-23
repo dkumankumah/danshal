@@ -1,36 +1,36 @@
 package com.example.danshal.ui.home
 
 import android.os.Bundle
+import android.transition.Transition
+import android.transition.TransitionInflater
 import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.danshal.R
 import com.example.danshal.databinding.FragmentHomeBinding
-import com.example.danshal.models.Address
 import com.example.danshal.models.Event
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private lateinit var auth: FirebaseAuth
+
     private val events = arrayListOf<Event>()
     private val homeAdapter = HomeAdapter(events)
-    private val upEventAdapter = UpEventAdapter(events)
 
     private var currentEventType: String? = null
 
-    private lateinit var homeViewModel: HomeViewModel
-    private val db = Firebase.firestore
+    private val viewModel: HomeViewModel by activityViewModels()
 
 
     // Menu options:
@@ -64,14 +64,8 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        auth = Firebase.auth
         return binding.root
     }
 
@@ -82,55 +76,30 @@ class HomeFragment : Fragment() {
 
     private fun initViews() {
         binding.rvEvents.layoutManager = GridLayoutManager(context, 1)
-
         val controller =
             AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_down_to_up)
         binding.rvEvents.layoutAnimation = controller
+        binding.rvEvents.adapter = homeAdapter
 
-        binding.rvEvents.adapter =
-            if (currentEventType == getString(R.string.title_event)) homeAdapter else upEventAdapter
-
-
-        fetchEvents()
-
-        upEventAdapter.notifyDataSetChanged()
-        binding.rvEvents.scheduleLayoutAnimation()
+        applyFilter()
     }
 
-    private fun fetchEvents() {
-        val docRef = db.collection("events")
-        docRef.get()
-            .addOnSuccessListener { event ->
-                if (event != null) {
-                    Log.d("Fetching events", "Document Snapshot data: ${event.size()}")
-                    events.clear()
-                    for (result in event.toObjects(Event::class.java)) {
-                        events.add(
-                            Event(
-                                result.title, result.content,
-                                Address(
-                                    result.address.housenumber,
-                                    result.address.housenumberExtension.toString(),
-                                    result.address.postcode,
-                                    result.address.street,
-                                    result.address.place
-                                ),
-                                result.date, result.exclusive, result.image
-                            )
-                        )
-                    }
-                }
-                initEvents()
-            }
-            .addOnFailureListener { exception ->
-                Log.d("fetching", "No such document")
-            }
-    }
+    // TODO: Code lijkt te veel op elkaar, kan misschien korter/beter
+    private fun applyFilter() {
+        if (currentEventType == getString(R.string.title_up_event)) {
+            viewModel.getUpcomingEvents()
+            binding.tvHome.text = getString(R.string.title_up_event)
+        } else {
+            viewModel.getAllEvents()
+            binding.tvHome.text = getString(R.string.title_event)
+        }
 
-    private fun initEvents() {
-
-
-        homeAdapter.notifyDataSetChanged()
+        viewModel.eventListData.observe(viewLifecycleOwner, {
+            events.clear()
+            events.addAll(it)
+            homeAdapter.notifyDataSetChanged()
+            binding.rvEvents.scheduleLayoutAnimation()
+        })
     }
 
     private fun openFilterWindow() {
@@ -157,8 +126,6 @@ class HomeFragment : Fragment() {
                 .show()
         }
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

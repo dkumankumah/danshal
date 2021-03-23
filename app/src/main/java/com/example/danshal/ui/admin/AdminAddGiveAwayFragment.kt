@@ -1,6 +1,10 @@
 package com.example.danshal.ui.admin
 
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -16,9 +20,12 @@ import com.example.danshal.models.GiveAway
 import com.example.danshal.models.Notification
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import java.io.ByteArrayOutputStream
 import java.util.*
 
 class AdminAddGiveAwayFragment : Fragment() {
+    private val REQUEST_CODE = 100
 
     private lateinit var adminAddGiveAwayViewModel: AdminAddGiveAwayViewModel
 
@@ -27,6 +34,7 @@ class AdminAddGiveAwayFragment : Fragment() {
 
     private lateinit var date: Date
 
+    private val storage = Firebase.storage("gs://danshal-c7e70.appspot.com/")
     private val db = Firebase.firestore
 
     override fun onCreateView(
@@ -49,6 +57,10 @@ class AdminAddGiveAwayFragment : Fragment() {
             postGiveAway()
         }
 
+        binding.btnAddUpload.setOnClickListener {
+            openGalleryForImage()
+        }
+
         setDate()
         addDatePicker()
     }
@@ -64,7 +76,7 @@ class AdminAddGiveAwayFragment : Fragment() {
         val description = binding.etAddDescription.text?.toString()
 
         if (validate(title) && validate(description)) {
-            val giveAway = GiveAway(title!!, description!!, emptyList(), this.date, R.drawable.event1)
+            val giveAway = GiveAway(title!!, description!!, emptyList(), this.date)
 
             addToDatabase(giveAway)
         } else {
@@ -77,19 +89,73 @@ class AdminAddGiveAwayFragment : Fragment() {
         db.collection("giveaways")
             .add(giveAway)
             .addOnSuccessListener { documentReference ->
-                Log.d("Cloud", "DocumentSnapshot added with ID: ${documentReference.id}")
+                addImageToStorage(documentReference.id)
+
                 db.collection("notifications")
                     .add(Notification("Give away toegevoegd: ${giveAway.title}"))
 
                 findNavController().navigate(R.id.action_adminAddGiveAwayFragment_to_nav_admin_dashboard)
-                // TODO: Toast is not showing up
                 Toast.makeText(context, "Give away is toegevoegd", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
-                Log.w("Cloud", "Error adding document", e)
-                // TODO: Toast is not showing up
                 Toast.makeText(context, "Het is niet gelukt de give away toe te voegen", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun openGalleryForImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
+            binding.imageView.setImageURI(data?.data) // handle chosen image
+        }
+    }
+
+    private fun addImageToStorage(document: String) {
+        if (binding.imageView.drawable != null) {
+            binding.imageView.isDrawingCacheEnabled = true
+            binding.imageView.buildDrawingCache()
+            val bitmap = (binding.imageView.drawable as BitmapDrawable).bitmap
+
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data = baos.toByteArray()
+
+            val storageRef = storage.reference
+            val ref = storageRef.child("content_images/giveaway-$document.jpg")
+            val uploadTask = ref.putBytes(data)
+
+            /**
+             * Uploading video/photo to storage
+             */
+            uploadTask.addOnFailureListener {
+                Toast.makeText(context, "Uploaden van foto/video is niet gelukt", Toast.LENGTH_SHORT).show()
+            }.addOnSuccessListener {
+                /**
+                 * Check if the upload is done
+                 * If completed retrieve the download url and add it to the database column
+                 */
+                uploadTask.continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            throw it
+                        }
+                    }
+                    ref.downloadUrl
+                }.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val eventsRef = db.collection("giveaways").document(document)
+
+                        eventsRef
+                            .update("imageUrl", task.result.toString())
+                    }
+                }
+            }
+        }
     }
 
     /**

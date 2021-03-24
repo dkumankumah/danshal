@@ -2,18 +2,26 @@ package com.example.danshal.ui.admin
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.danshal.databinding.FragmentAdminAddBinding
+import androidx.navigation.fragment.findNavController
+import com.example.danshal.R
+import com.example.danshal.databinding.AdminAddFragmentBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class AdminAddFragment : Fragment() {
 
     private lateinit var adminAddViewModel: AdminAddViewModel
 
-    private var _binding: FragmentAdminAddBinding? = null
+    private var _binding: AdminAddFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,14 +30,39 @@ class AdminAddFragment : Fragment() {
         adminAddViewModel =
             ViewModelProvider(this).get(AdminAddViewModel::class.java)
 
-        _binding = FragmentAdminAddBinding.inflate(inflater, container, false)
+        auth = Firebase.auth
 
-//        binding.btnAddEvent.setOnClickListener { startAdminAddFragment(AdminAddEventFragment) }
+        _binding = AdminAddFragmentBinding.inflate(inflater, container, false)
+
         return binding.root
+    }
 
-        // val eventButton: Button = root.findViewById(R.id.btn_add_event)
-        // val giveAwayButton: Button = root.findViewById(R.id.btn_add_give_away)
-        // val postButton: Button = root.findViewById(R.id.btn_add_post)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.btnAddEvent.setOnClickListener {
+            startAdminAddFragment(R.id.action_nav_admin_add_to_adminAddEventFragment)
+        }
+
+        binding.btnAddGiveAway.setOnClickListener {
+            startAdminAddFragment(R.id.action_nav_admin_add_to_adminAddGiveAwayFragment)
+        }
+
+        binding.btnAddPost.setOnClickListener {
+            startAdminAddFragment(R.id.action_nav_admin_add_to_adminAddPostFragment)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+
+        if (currentUser == null){
+            findNavController().navigate(
+                R.id.action_nav_admin_add_to_nav_login
+            )
+        }
     }
 
     override fun onDestroyView() {
@@ -37,8 +70,10 @@ class AdminAddFragment : Fragment() {
         _binding = null
     }
 
-    private fun startAdminAddFragment(fragment: Fragment) {
-
+    private fun startAdminAddFragment(id: Int) {
+        findNavController().navigate(
+            id
+        )
     }
 
 }

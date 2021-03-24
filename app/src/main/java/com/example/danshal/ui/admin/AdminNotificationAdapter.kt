@@ -17,7 +17,6 @@ class AdminNotificationAdapter(private val notifications: List<Notification>): R
         val binding = AdminItemNotificationBinding.bind(itemView)
 
         fun databind(notification: Notification) {
-            Log.d("ADMIN NOTIFICATION AD", notification.toString())
             binding.tvNotificationText.text = notification.text
         }
     }

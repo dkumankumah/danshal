@@ -11,7 +11,4 @@ data class Event (
     var exclusive: Boolean = false,
     var imageUrl: String? = null,
     val timestamp: Timestamp? = Timestamp.now()
-) {
-    constructor() : this("", "",
-        Address(0, "", "", "", ""),Date(), false, null)
-}
+)

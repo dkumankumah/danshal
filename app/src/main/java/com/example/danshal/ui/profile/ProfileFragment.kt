@@ -184,15 +184,6 @@ class ProfileFragment : Fragment() {
                     .load(user.profileImage)
                     .into(binding.ivProfile)
             }
-
-//            binding.ivProfile.setImageURI(user.profileImage?.toUri())
-
-//            if (user.profileImage == null){
-//                binding.ivProfile.setImageResource(R.drawable.event3)
-//            }else {
-//                binding.ivProfile.setImageURI(user.profileImage!!.toUri())
-//            }
-
         }
 
     }

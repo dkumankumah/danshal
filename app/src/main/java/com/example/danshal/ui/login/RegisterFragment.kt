@@ -115,9 +115,6 @@ class RegisterFragment : Fragment() {
                 val naam = binding.etName.text.toString()
                 val adres: Address? = null
                 val email = email
-//                val profileImage = R.drawable.ic_user_round
-//                profileImage.uri
-
                 val user = id?.let { User(naam, adres, email, profileIm, it ) }
                 // Add a new document with a generated ID
                 user?.let {
@@ -147,7 +144,6 @@ class RegisterFragment : Fragment() {
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if(currentUser != null){
-//            reload();
             findNavController().navigate(
                 R.id.action_nav_register_to_nav_home
             )

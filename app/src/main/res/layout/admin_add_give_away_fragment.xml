@@ -41,10 +41,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textImeMultiLine"
-        app:layout_constraintBottom_toTopOf="@+id/tv_add_date"
+        app:layout_constraintBottom_toTopOf="@+id/cl_upload"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_description" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_give_away"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_add_description">
+
 
     <TextView
         android:id="@+id/tv_add_date"
@@ -53,7 +62,7 @@
         android:text="@string/admin_add_end_date"
         app:layout_constraintBottom_toTopOf="@+id/btn_add_date"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_description" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_add_date"
@@ -78,9 +87,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/admin_add_upload"
-        app:layout_constraintBottom_toTopOf="@+id/btn_add_give_away"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_upload" />
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_add_upload"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+<!--        <VideoView-->
+<!--            android:id="@+id/video_view"-->
+<!--            android:layout_width="130dp"-->
+<!--            android:layout_height="130dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@id/btn_add_upload"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/btn_add_give_away"
@@ -89,6 +117,6 @@
         android:text="@string/admin_add_post"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_add_upload" />
+        app:layout_constraintTop_toBottomOf="@+id/cl_upload" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -126,7 +126,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/address_layout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_add_exclusive" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_exclusive"
+        android:clickable="false" />
     
     <include
         android:id="@+id/address_layout"

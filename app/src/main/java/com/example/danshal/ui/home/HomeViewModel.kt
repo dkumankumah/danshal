@@ -13,14 +13,19 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
     private val eventRepository = EventRepository()
     private val postRepository = PostRepository()
 
-    val eventListData: LiveData<List<Event>> = eventRepository.events
-    val postListData: LiveData<List<Post>> = postRepository.posts
+    val eventListData: MutableLiveData<List<Event>> = eventRepository.events
+    val postListData: MutableLiveData<List<Post>> = postRepository.posts
 
 
-    fun getAllEvents() {
+    init {
+        loadAllEvents()
+        loadAllPosts()
+    }
+
+    private fun loadAllEvents() {
         viewModelScope.launch {
             try {
-                eventRepository.getAllEvents()
+                eventRepository.getAllEventsForUsers()
             } catch (ex: EventRepository.EventRetrievalError) {
                 val errorMsg = "Something went wrong while retrieving the events."
                 Log.e("HomeViewModel", ex.message ?: errorMsg)
@@ -28,7 +33,18 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
         }
     }
 
-    fun getUpcomingEvents() {
+    private fun loadAllPosts() {
+        viewModelScope.launch {
+            try {
+                postRepository.getAllPostsForUsers()
+            } catch (ex: PostRepository.PostRetrievalError) {
+                val errorMsg = "Something went wrong while retrieving all posts"
+                Log.e("HomeViewModel", ex.message ?: errorMsg)
+            }
+        }
+    }
+
+    private fun loadUpcomingEvents() {
         viewModelScope.launch {
             try {
                 eventRepository.getUpcomingEvents()
@@ -39,14 +55,17 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
         }
     }
 
-    fun getAllPosts() {
-        viewModelScope.launch {
-            try {
-                postRepository.getAllPosts()
-            } catch (ex: PostRepository.PostRetrievalError) {
-                val errorMsg = "Something went wrong while retrieving all posts"
-                Log.e("HomeViewModel", ex.message ?: errorMsg)
-            }
-        }
+    fun getAllEvents(): MutableLiveData<List<Event>> {
+        return eventListData
     }
+
+    fun getAllPosts(): MutableLiveData<List<Post>> {
+        return postListData
+    }
+
+    fun getUpcomingEvents(): MutableLiveData<List<Event>> {
+        return eventListData
+    }
+
+
 }

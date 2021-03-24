@@ -11,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.danshal.R
@@ -28,7 +30,7 @@ class HomeFragment : Fragment() {
     private val content = arrayListOf<Content>()
     private val homeAdapter = HomeAdapter(content)
     private var currentEventType: String? = null
-    private val viewModel: HomeViewModel by activityViewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,19 +98,27 @@ class HomeFragment : Fragment() {
 
     private fun loadData() {
         content.clear()
-        viewModel.getAllPosts()
-        viewModel.getAllEvents()
+        if(currentEventType == getString(R.string.title_event)) {
+            viewModel.getAllEvents().observe(viewLifecycleOwner, {
+                content.addAll(it)
+                homeAdapter.contentItems = content
+                homeAdapter.notifyDataSetChanged()
+            })
 
-        viewModel.postListData.observe(viewLifecycleOwner, {
-            content.addAll(it)
-            homeAdapter.contentItems = content
-        })
-        viewModel.eventListData.observe(viewLifecycleOwner, {
-            content.addAll(it)
-            homeAdapter.contentItems = content
-            binding.rvEvents.scheduleLayoutAnimation()
-            homeAdapter.notifyDataSetChanged()
-        })
+            viewModel.getAllPosts().observe(viewLifecycleOwner, {
+                content.addAll(it)
+                homeAdapter.contentItems = content
+                homeAdapter.notifyDataSetChanged()
+                binding.rvEvents.scheduleLayoutAnimation()
+            })
+        } else {
+            viewModel.getUpcomingEvents().observe(viewLifecycleOwner, {
+                content.addAll(it)
+                homeAdapter.contentItems = content
+                homeAdapter.notifyDataSetChanged()
+                binding.rvEvents.scheduleLayoutAnimation()
+            })
+        }
     }
 
     private fun openFilterWindow() {
@@ -129,7 +139,6 @@ class HomeFragment : Fragment() {
                 // Single-choice items (initialized with checked item)
                 .setSingleChoiceItems(dialogItems, checkedItem) { dialog, which ->
                     // Respond to item chosen
-                    println(which)
                     currentEventType = dialogItems[which]
                 }
                 .show()

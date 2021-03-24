@@ -20,11 +20,44 @@ class EventRepository() {
 
     private val _events: MutableLiveData<List<Event>> = MutableLiveData()
 
-    val events: LiveData<List<Event>>
+    val events: MutableLiveData<List<Event>>
         get() = _events
 
-    // Fetch events from the database where the date is greater than today's date
+    // Fetch events from the database for the admin
     suspend fun getAllEvents() {
+        try {
+            val tempList = arrayListOf<Event>()
+
+            val data = eventRef
+                .get()
+                .await()
+
+            for (result in data.toObjects(Event::class.java)) {
+                val event = Event(
+                    Address(
+                        result.address.housenumber,
+                        result.address.housenumberExtension.toString(),
+                        result.address.postcode,
+                        result.address.street,
+                        result.address.place
+                    ),
+                    result.date, result.exclusive)
+
+                event.postType = Content.TYPE.EVENT
+                event.title = result.title
+                event.content = result.content
+                event.imageUrl = result.imageUrl
+
+                tempList.add(event)
+            }
+            _events.value = tempList
+        } catch (e: Exception) {
+            throw EventRetrievalError("Volgende ging mis: ${e}")
+        }
+    }
+
+    // Fetch events from the database for the users
+    suspend fun getAllEventsForUsers() {
         try {
             val tempList = arrayListOf<Event>()
 

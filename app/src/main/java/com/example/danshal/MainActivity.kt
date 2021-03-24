@@ -46,19 +46,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_admin_dashboard, R.id.nav_admin_add, R.id.nav_admin_users, R.id.nav_login, R.id.nav_logout, R.id.nav_profile, R.id.nav_register), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-//        navView.setNavigationItemSelectedListener(NavigationView.OnNavigationItemSelectedListener {
-//            item ->
-//                when(item.itemId) {
-//                    R.id.nav_logout -> {
-//                        auth.signOut()
-//                    }
-//                }
-//            true
-//        })
-
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.danshal.R
 import com.example.danshal.databinding.AdminAddPostFragmentBinding
 import com.example.danshal.models.Notification
-import com.example.danshal.models.Post
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 

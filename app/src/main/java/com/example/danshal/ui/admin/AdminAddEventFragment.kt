@@ -16,7 +16,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.danshal.R
 import com.example.danshal.databinding.AdminAddEventFragmentBinding
 import com.example.danshal.models.Address
-import com.example.danshal.models.Event
 import com.example.danshal.models.Notification
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth

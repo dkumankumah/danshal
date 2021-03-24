@@ -1,9 +1,8 @@
 package com.example.danshal.ui.home
 
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.RectShape
 import android.os.Bundle
-import android.transition.Transition
-import android.transition.TransitionInflater
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.LayoutInflater
@@ -11,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.danshal.R
 import com.example.danshal.databinding.FragmentHomeBinding
@@ -24,11 +24,8 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
-    private val events = arrayListOf<Event>()
-    private val posts = arrayListOf<Post>()
-
-    private val postTest = arrayListOf<PostEvent>()
-    private val homeAdapter = HomeAdapter(postTest)
+    private val content = arrayListOf<Content>()
+    private val homeAdapter = HomeAdapter(content)
     private var currentEventType: String? = null
     private val viewModel: HomeViewModel by activityViewModels()
 
@@ -76,8 +73,15 @@ class HomeFragment : Fragment() {
 
     private fun initViews() {
         binding.rvEvents.layoutManager = GridLayoutManager(context, 1)
-        val controller =
-            AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_down_to_up)
+        // Adds spacing between rv items
+        binding.rvEvents.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL).also { deco ->
+            with (ShapeDrawable(RectShape())){
+                intrinsicHeight = (resources.displayMetrics.density * 42).toInt()
+                alpha = 0
+                deco.setDrawable(this)
+            }
+        })
+        val controller = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_down_to_up)
 
         loadData()
 
@@ -89,12 +93,12 @@ class HomeFragment : Fragment() {
         viewModel.getAllPosts()
         viewModel.getAllEvents()
         viewModel.postListData.observe(viewLifecycleOwner, {
-            postTest.addAll(it)
-            homeAdapter.postEventItems = postTest
+            content.addAll(it)
+            homeAdapter.contentItems = content
         })
         viewModel.eventListData.observe(viewLifecycleOwner, {
-            postTest.addAll(it)
-            homeAdapter.postEventItems = postTest
+            content.addAll(it)
+            homeAdapter.contentItems = content
             homeAdapter.notifyDataSetChanged()
         })
     }

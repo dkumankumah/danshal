@@ -1,6 +1,7 @@
 package com.example.danshal.ui.home
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.danshal.R
 import com.example.danshal.databinding.ItemEventBinding
 import com.example.danshal.databinding.ItemPostBinding
-import com.example.danshal.models.PostEvent
+import com.example.danshal.models.Content
 
 // Our data structure types
 private const val TYPE_EVENT = 0
@@ -17,7 +18,7 @@ private const val TYPE_POST = 1
 private const val TYPE_GIVEAWAY = 2
 
 
-class HomeAdapter(var postEventItems: List<PostEvent>) :
+class HomeAdapter(var contentItems: List<Content>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private lateinit var context: Context
@@ -36,24 +37,23 @@ class HomeAdapter(var postEventItems: List<PostEvent>) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(getItemViewType(position) == TYPE_EVENT) {
-            (holder as EventViewHolder).bind(postEventItems[position], context)
+            (holder as EventViewHolder).bind(contentItems[position], context)
         } else {
-            (holder as PostViewHolder).bind(postEventItems[position], context)
+            (holder as PostViewHolder).bind(contentItems[position], context)
         }
     }
 
     override fun getItemCount(): Int {
-        return postEventItems.size
+        return contentItems.size
     }
 
     class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = ItemEventBinding.bind(itemView)
 
-        fun bind(postEvent: PostEvent, context: Context) {
-            println("asasasasas")
-            binding.tvEventTitle.text = postEvent.title
-            if (postEvent.imageUrl != null) {
-                Glide.with(context).load(postEvent.imageUrl).into(binding.ivEventImage)
+        fun bind(content: Content, context: Context) {
+            binding.tvEventTitle.text = content.postType
+            if (content.imageUrl != null) {
+                Glide.with(context).load(content.imageUrl).into(binding.ivEventImage)
             }
         }
     }
@@ -61,20 +61,20 @@ class HomeAdapter(var postEventItems: List<PostEvent>) :
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = ItemPostBinding.bind(itemView)
 
-        fun bind(postEvent: PostEvent, context: Context) {
-            println("testttt")
-            binding.tvPostImageTitle.text = postEvent.title
-            if (postEvent.imageUrl != null) {
-                Glide.with(context).load(postEvent.imageUrl).into(binding.ivPostImage)
+        fun bind(content: Content, context: Context) {
+            binding.tvPostImageTitle.text = content.postType
+            if (content.imageUrl != null) {
+                Glide.with(context).load(content.imageUrl).into(binding.ivPostImage)
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (postEventItems[position].postType == PostEvent.TYPE.POST) {
+        Log.d("HomeAdapter", contentItems[position].postType.toString())
+        return if (contentItems[position].postType == Content.TYPE.POST) {
             TYPE_POST
         } else {
-            TYPE_POST
+            TYPE_EVENT
         }
     }
 }

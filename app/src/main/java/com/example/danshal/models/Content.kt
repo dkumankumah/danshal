@@ -4,8 +4,8 @@ import com.google.firebase.Timestamp
 import java.util.*
 
 // Base class
-abstract class PostEvent(
-    var postType: Int,
+abstract class Content(
+    var postType: String,
     var title: String,
     var content: String,
     var imageUrl: String? = null,
@@ -13,24 +13,24 @@ abstract class PostEvent(
 
     class TYPE {
         companion object {
-            val EVENT = 0
-            val POST = 1
-            val GIVEAWAY = 2
+            val EVENT = "EVENT"
+            val POST = "POST"
+            val GIVEAWAY = "GIVEAWAY"
         }
     }
 }
 
-data class EventTest(
+data class Event(
     var address: Address = Address(0, "", "", "", ""),
     var date: Date = Date(),
     var exclusive: Boolean = false,
-) : PostEvent(TYPE.EVENT, "", "", "")
+) : Content(TYPE.EVENT, "", "", "")
 
-data class PostTest(
+data class Post(
     var exclusive: Boolean = false,
-) : PostEvent(TYPE.POST, "", "", "")
+) : Content(TYPE.POST, "", "", "")
 
-data class GiveAwayTest(
+data class GiveAway(
     var participants: List<User>?,
     var endDate: Date,
-) : PostEvent(TYPE.GIVEAWAY, "", "", "")
+) : Content(TYPE.GIVEAWAY, "", "", "")

@@ -5,8 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.danshal.models.Address
 import com.example.danshal.models.Event
-import com.example.danshal.models.EventTest
-import com.example.danshal.models.PostEvent
+import com.example.danshal.models.Content
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -19,15 +18,15 @@ class EventRepository() {
     private val db = Firebase.firestore
     private val eventRef = db.collection("events")
 
-    private val _events: MutableLiveData<List<EventTest>> = MutableLiveData()
+    private val _events: MutableLiveData<List<Event>> = MutableLiveData()
 
-    val events: LiveData<List<EventTest>>
+    val events: LiveData<List<Event>>
         get() = _events
 
     // Fetch events from the database where the date is greater than today's date
     suspend fun getAllEvents() {
         try {
-            val tempList = arrayListOf<EventTest>()
+            val tempList = arrayListOf<Event>()
 
             val data = eventRef
                 .orderBy("date", Query.Direction.ASCENDING)
@@ -35,9 +34,9 @@ class EventRepository() {
                 .get()
                 .await()
 
-            for (result in data.toObjects(EventTest::class.java)) {
+            for (result in data.toObjects(Event::class.java)) {
                 Log.d("EventRepository", result.title)
-                val event = EventTest(
+                val event = Event(
                     Address(
                         result.address.housenumber,
                         result.address.housenumberExtension.toString(),
@@ -47,7 +46,7 @@ class EventRepository() {
                     ),
                     result.date, result.exclusive)
 
-                event.postType = PostEvent.TYPE.EVENT
+                event.postType = Content.TYPE.EVENT
                 event.title = result.title
                 event.content = result.content
                 event.imageUrl = result.imageUrl
@@ -63,7 +62,7 @@ class EventRepository() {
     // Only fetch the upcoming events (between today and one week from now)
     suspend fun getUpcomingEvents() {
         try {
-            val tempList = arrayListOf<EventTest>()
+            val tempList = arrayListOf<Event>()
             // get today's date and the date of 7 days from now
             val range: Calendar = Calendar.getInstance()
             range.add(Calendar.DATE, +7)
@@ -76,8 +75,8 @@ class EventRepository() {
                 .get()
                 .await()
 
-            for (result in data.toObjects(EventTest::class.java)) {
-                val event = EventTest(
+            for (result in data.toObjects(Event::class.java)) {
+                val event = Event(
                     Address(
                         result.address.housenumber,
                         result.address.housenumberExtension.toString(),
@@ -87,7 +86,7 @@ class EventRepository() {
                     ),
                     result.date, result.exclusive)
 
-                event.postType = PostEvent.TYPE.EVENT
+                event.postType = Content.TYPE.EVENT
                 event.title = result.title
                 event.content = result.content
                 event.imageUrl = result.imageUrl

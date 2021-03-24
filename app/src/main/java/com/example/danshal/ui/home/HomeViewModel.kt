@@ -3,9 +3,7 @@ package com.example.danshal.ui.home
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.danshal.models.Event
 import com.example.danshal.models.EventTest
-import com.example.danshal.models.Post
 import com.example.danshal.models.PostTest
 import com.example.danshal.repository.EventRepository
 import com.example.danshal.repository.PostRepository

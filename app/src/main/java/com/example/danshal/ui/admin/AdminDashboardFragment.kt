@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.danshal.databinding.AdminDashboardFragmentBinding
-import com.example.danshal.models.Event
 import com.example.danshal.models.Notification
 import com.example.danshal.ui.home.HomeAdapter
 import com.google.firebase.firestore.Query

@@ -63,7 +63,9 @@ class AdminAddPostFragment : Fragment() {
         val description = binding.etAddDescription.text?.toString()
 
         if (validate(title) && validate(description)) {
-            val post = Post(title!!, description!!, binding.switchAddExclusive.isChecked)
+            val post = Post(binding.switchAddExclusive.isChecked)
+            post.title = title!!
+            post.content = description!!
 
             addToDatabase(post)
         } else {

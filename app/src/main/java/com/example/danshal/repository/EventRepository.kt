@@ -1,8 +1,10 @@
 package com.example.danshal.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.danshal.models.Address
+import com.example.danshal.models.Content
 import com.example.danshal.models.Event
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.Query
@@ -33,19 +35,23 @@ class EventRepository() {
                 .await()
 
             for (result in data.toObjects(Event::class.java)) {
-                tempList.add(
-                    Event(
-                        result.title, result.content,
-                        Address(
-                            result.address.housenumber,
-                            result.address.housenumberExtension.toString(),
-                            result.address.postcode,
-                            result.address.street,
-                            result.address.place
-                        ),
-                        result.date, result.exclusive, result.imageUrl
-                    )
-                )
+                Log.d("EventRepository", result.title)
+                val event = Event(
+                    Address(
+                        result.address.housenumber,
+                        result.address.housenumberExtension.toString(),
+                        result.address.postcode,
+                        result.address.street,
+                        result.address.place
+                    ),
+                    result.date, result.exclusive)
+
+                event.postType = Content.TYPE.EVENT
+                event.title = result.title
+                event.content = result.content
+                event.imageUrl = result.imageUrl
+
+                tempList.add(event)
             }
             _events.value = tempList
         } catch (e: Exception) {
@@ -58,32 +64,34 @@ class EventRepository() {
         try {
             val tempList = arrayListOf<Event>()
             // get today's date and the date of 7 days from now
-            val start: Timestamp = Timestamp.now()
             val range: Calendar = Calendar.getInstance()
             range.add(Calendar.DATE, +7)
             val end = Timestamp(range.time)
 
             val data = eventRef
                 .orderBy("date", Query.Direction.ASCENDING)
-                .whereGreaterThanOrEqualTo("date", start.toDate())
+                .whereGreaterThanOrEqualTo("date", Timestamp.now().toDate())
                 .whereLessThanOrEqualTo("date", end.toDate())
                 .get()
                 .await()
 
             for (result in data.toObjects(Event::class.java)) {
-                tempList.add(
-                    Event(
-                        result.title, result.content,
-                        Address(
-                            result.address.housenumber,
-                            result.address.housenumberExtension.toString(),
-                            result.address.postcode,
-                            result.address.street,
-                            result.address.place
-                        ),
-                        result.date, result.exclusive, result.imageUrl
-                    )
-                )
+                val event = Event(
+                    Address(
+                        result.address.housenumber,
+                        result.address.housenumberExtension.toString(),
+                        result.address.postcode,
+                        result.address.street,
+                        result.address.place
+                    ),
+                    result.date, result.exclusive)
+
+                event.postType = Content.TYPE.EVENT
+                event.title = result.title
+                event.content = result.content
+                event.imageUrl = result.imageUrl
+
+                tempList.add(event)
             }
             _events.value = tempList
         } catch (e: Exception) {

@@ -7,7 +7,6 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +17,7 @@ import com.example.danshal.R
 import com.example.danshal.databinding.AdminAddGiveAwayFragmentBinding
 import com.example.danshal.models.GiveAway
 import com.example.danshal.models.Notification
+import com.example.danshal.models.User
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -76,7 +76,9 @@ class AdminAddGiveAwayFragment : Fragment() {
         val description = binding.etAddDescription.text?.toString()
 
         if (validate(title) && validate(description)) {
-            val giveAway = GiveAway(title!!, description!!, this.date)
+            val giveAway = GiveAway(emptyList(), this.date)
+            giveAway.title = title!!
+            giveAway.content = description!!
 
             addToDatabase(giveAway)
         } else {

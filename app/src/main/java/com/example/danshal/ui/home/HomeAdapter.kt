@@ -1,7 +1,7 @@
 package com.example.danshal.ui.home
 
 import android.content.Context
-import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,38 +9,71 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.danshal.R
 import com.example.danshal.databinding.ItemEventBinding
-import com.example.danshal.models.Event
+import com.example.danshal.databinding.ItemPostBinding
+import com.example.danshal.models.Content
 
-class HomeAdapter(private val events: List<Event>): RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+// Our data structure types
+private const val TYPE_EVENT = 0
+private const val TYPE_POST = 1
+
+
+class HomeAdapter(var contentItems: List<Content>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
     private lateinit var context: Context
 
-    // Inner class for binding
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        context = parent.context
 
-        // Binding to the item_event.xml
+        return if(viewType == TYPE_EVENT) {
+            val view = LayoutInflater.from(context).inflate(R.layout.item_event, parent, false)
+            EventViewHolder(view)
+        } else {
+            val view = LayoutInflater.from(context).inflate(R.layout.item_post, parent, false)
+            PostViewHolder(view)
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if(getItemViewType(position) == TYPE_EVENT) {
+            (holder as EventViewHolder).bind(contentItems[position], context)
+        } else {
+            (holder as PostViewHolder).bind(contentItems[position], context)
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return contentItems.size
+    }
+
+    class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = ItemEventBinding.bind(itemView)
 
-        fun databind(event: Event) {
-            binding.tvEventTitle.text = event.title
-            if (event.imageUrl != null) {
-                Glide.with(context).load(event.imageUrl).into(binding.ivEventImage)
+        fun bind(content: Content, context: Context) {
+            binding.tvEventTitle.text = content.title
+            if (content.imageUrl != null) {
+                Glide.with(context).load(content.imageUrl).into(binding.ivEventImage)
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val vh = LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)
-        context = vh.context
+    class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val binding = ItemPostBinding.bind(itemView)
 
-        return ViewHolder(vh)
+        fun bind(content: Content, context: Context) {
+            binding.tvPostImageTitle.text = content.title
+            if (content.imageUrl != null) {
+                Glide.with(context).load(content.imageUrl).into(binding.ivPostImage)
+            }
+        }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.databind(events[position])
+    override fun getItemViewType(position: Int): Int {
+        Log.d("HomeAdapter", contentItems[position].postType.toString())
+        return if (contentItems[position].postType == Content.TYPE.POST) {
+            TYPE_POST
+        } else {
+            TYPE_EVENT
+        }
     }
-
-    override fun getItemCount(): Int {
-        return events.size
-    }
-
 }

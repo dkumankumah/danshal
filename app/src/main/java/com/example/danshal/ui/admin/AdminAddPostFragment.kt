@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.danshal.R
 import com.example.danshal.databinding.AdminAddPostFragmentBinding
 import com.example.danshal.models.Notification
+import com.example.danshal.models.Post
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -62,7 +63,9 @@ class AdminAddPostFragment : Fragment() {
         val description = binding.etAddDescription.text?.toString()
 
         if (validate(title) && validate(description)) {
-            val post = Post(title!!, description!!, binding.switchAddExclusive.isChecked)
+            val post = Post(binding.switchAddExclusive.isChecked)
+            post.title = title!!
+            post.content = description!!
 
             addToDatabase(post)
         } else {

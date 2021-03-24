@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.danshal.R
 import com.example.danshal.databinding.AdminAddEventFragmentBinding
 import com.example.danshal.models.Address
+import com.example.danshal.models.Event
 import com.example.danshal.models.Notification
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -143,7 +144,9 @@ class AdminAddEventFragment : Fragment() {
 
         if (validate(housenumber) && validate(postcode) && validate(street) && validate(place) && validate(title) && validate(description)) {
             val address = Address(housenumber!!.toInt(), housenumberExtension, postcode!!, street!!, place!!)
-            val event = Event(title!!, description!!, address, this.date, binding.switchAddExclusive.isChecked)
+            val event = Event(address, this.date, binding.switchAddExclusive.isChecked)
+            event.title = title!!
+            event.content = description!!
 
             addToDatabase(event)
         } else {

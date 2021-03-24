@@ -3,7 +3,6 @@ package com.example.danshal.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.danshal.models.GiveAway
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -30,16 +29,13 @@ class GiveAwayRepository {
                 .await()
 
             for (result in data.toObjects(GiveAway::class.java)) {
-                tempList.add(
-                    GiveAway(
-                        result.title,
-                        result.content,
-                        result.endDate,
-                        result.imageUrl,
-                        result.participants,
-                        result.timestamp
-                    )
-                )
+                val giveAway = GiveAway( result.participants, result.endDate)
+                giveAway.title = result.title
+                giveAway.content = result.content
+                giveAway.imageUrl = result.imageUrl
+                giveAway.timestamp = result.timestamp
+
+                tempList.add(giveAway)
             }
             _giveaways.value = tempList
         } catch (e: Exception) {

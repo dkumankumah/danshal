@@ -15,7 +15,6 @@ import com.example.danshal.models.Content
 // Our data structure types
 private const val TYPE_EVENT = 0
 private const val TYPE_POST = 1
-private const val TYPE_GIVEAWAY = 2
 
 
 class HomeAdapter(var contentItems: List<Content>) :
@@ -51,7 +50,7 @@ class HomeAdapter(var contentItems: List<Content>) :
         val binding = ItemEventBinding.bind(itemView)
 
         fun bind(content: Content, context: Context) {
-            binding.tvEventTitle.text = content.postType
+            binding.tvEventTitle.text = content.title
             if (content.imageUrl != null) {
                 Glide.with(context).load(content.imageUrl).into(binding.ivEventImage)
             }
@@ -62,7 +61,7 @@ class HomeAdapter(var contentItems: List<Content>) :
         val binding = ItemPostBinding.bind(itemView)
 
         fun bind(content: Content, context: Context) {
-            binding.tvPostImageTitle.text = content.postType
+            binding.tvPostImageTitle.text = content.title
             if (content.imageUrl != null) {
                 Glide.with(context).load(content.imageUrl).into(binding.ivPostImage)
             }

@@ -9,7 +9,7 @@ abstract class Content(
     var title: String,
     var content: String,
     var imageUrl: String? = null,
-    val timestamp: Timestamp? = Timestamp.now()) {
+    var timestamp: Timestamp? = Timestamp.now()) {
 
     class TYPE {
         companion object {

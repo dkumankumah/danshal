@@ -3,7 +3,6 @@ package com.example.danshal.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.danshal.models.Post
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
@@ -35,15 +34,13 @@ class PostRepository {
                 .await()
 
             for (result in data.toObjects(Post::class.java)) {
-                tempList.add(
-                    Post(
-                        result.title,
-                        result.content,
-                        result.exclusive,
-                        result.imageUrl,
-                        result.timestamp
-                    )
-                )
+                val post = Post(result.exclusive,)
+                post.title = result.title
+                post.content = result.content
+                post.imageUrl = result.imageUrl
+                post.timestamp = result.timestamp
+
+                tempList.add(post)
             }
             _posts.value = tempList
         } catch (e: Exception) {
@@ -61,15 +58,13 @@ class PostRepository {
                 .await()
 
             for (result in data.toObjects(Post::class.java)) {
-                tempList.add(
-                    Post(
-                        result.title,
-                        result.content,
-                        result.exclusive,
-                        result.imageUrl,
-                        result.timestamp
-                    )
-                )
+                val post = Post(result.exclusive,)
+                post.title = result.title
+                post.content = result.content
+                post.imageUrl = result.imageUrl
+                post.timestamp = result.timestamp
+
+                tempList.add(post)
             }
             _exclusivePosts.value = tempList
         } catch (e: Exception) {
@@ -87,15 +82,13 @@ class PostRepository {
                 .await()
 
             for (result in data.toObjects(Post::class.java)) {
-                tempList.add(
-                    Post(
-                        result.title,
-                        result.content,
-                        result.exclusive,
-                        result.imageUrl,
-                        result.timestamp
-                    )
-                )
+                val post = Post(result.exclusive,)
+                post.title = result.title
+                post.content = result.content
+                post.imageUrl = result.imageUrl
+                post.timestamp = result.timestamp
+
+                tempList.add(post)
             }
             _nonExclusivePosts.value = tempList
         } catch (e: Exception) {
@@ -103,5 +96,5 @@ class PostRepository {
         }
     }
 
-    class PostRetrievalError(message: String): Exception(message)
+    class PostRetrievalError(message: String) : Exception(message)
 }

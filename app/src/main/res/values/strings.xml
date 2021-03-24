@@ -62,6 +62,8 @@
     <string name="hint_location">Plaats</string>
     <string name="profile_email">email</string>
     <string name="update_profile">Wijzigen</string>
+    <string name="housenumber">nr.</string>
+    <string name="gewijzigd">Gegevens zijn gewijzigd</string>
 
 
 </resources>

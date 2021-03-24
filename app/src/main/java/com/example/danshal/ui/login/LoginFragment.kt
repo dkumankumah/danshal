@@ -103,9 +103,6 @@ class LoginFragment : Fragment() {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if(task.isSuccessful){
                 Log.e("Task", "Succes")
-//                findNavController().navigate(
-//                    R.id.action_nav_login_to_nav_home
-//                )
                 auth.currentUser?.let { dataFetch(it.uid) }
             }
             else{

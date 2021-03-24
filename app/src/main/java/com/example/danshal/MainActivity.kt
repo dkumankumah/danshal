@@ -93,15 +93,15 @@ class MainActivity : AppCompatActivity() {
         val navView: NavigationView = findViewById(R.id.nav_view)
         val menu = navView.menu
         if(boolean) {
-            menu.findItem(R.id.nav_logout).setVisible(true)
-            menu.findItem(R.id.nav_profile).setVisible(true)
-            menu.findItem(R.id.nav_login).setVisible(false)
-            menu.findItem(R.id.nav_register).setVisible(false)
+            menu.findItem(R.id.nav_logout).isVisible = true
+            menu.findItem(R.id.nav_profile).isVisible = true
+            menu.findItem(R.id.nav_login).isVisible = false
+            menu.findItem(R.id.nav_register).isVisible = false
         } else {
-            menu.findItem(R.id.nav_logout).setVisible(false)
-            menu.findItem(R.id.nav_profile).setVisible(false)
-            menu.findItem(R.id.nav_login).setVisible(true)
-            menu.findItem(R.id.nav_register).setVisible(true)
+            menu.findItem(R.id.nav_logout).isVisible = false
+            menu.findItem(R.id.nav_profile).isVisible = false
+            menu.findItem(R.id.nav_login).isVisible = true
+            menu.findItem(R.id.nav_register).isVisible = true
         }
 
     }

@@ -17,6 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.danshal.R
+import com.example.danshal.models.Address
 import com.example.danshal.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -36,6 +37,8 @@ class RegisterFragment : Fragment() {
 
     private val db = Firebase.firestore
 
+    private var profileIm = "https://firebasestorage.googleapis.com/v0/b/danshal-c7e70.appspot.com/o/user_images%2Fflat-faces-icons-circle-persona-icon-115628952315akhsf8ncl.png?alt=media&token=9e6dd540-85ab-4ec3-8dff-1b4339c3e76f"
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,10 +56,6 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnRegister.setOnClickListener {
-            // TODO: Action needs to be created
-//            findNavController().navigate(
-//                R.id.action_registerFragment_to_blankFragment
-//            )
             if (validate()){
                 createUser(binding.etUsername.text.toString(), binding.etPassword.text.toString())
             }
@@ -114,12 +113,12 @@ class RegisterFragment : Fragment() {
 
                 //Data inputfields
                 val naam = binding.etName.text.toString()
-                val adres = null
-                val postcode = null
-                val plaats = null
+                val adres: Address? = null
                 val email = email
+//                val profileImage = R.drawable.ic_user_round
+//                profileImage.uri
 
-                val user = id?.let { User(naam, adres, postcode, plaats, email, it, false ) }
+                val user = id?.let { User(naam, adres, email, profileIm, it ) }
                 // Add a new document with a generated ID
                 user?.let {
                     db.collection("users")

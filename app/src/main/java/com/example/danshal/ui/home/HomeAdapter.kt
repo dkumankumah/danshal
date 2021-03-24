@@ -69,7 +69,6 @@ class HomeAdapter(var contentItems: List<Content>) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        Log.d("HomeAdapter", contentItems[position].postType.toString())
         return if (contentItems[position].postType == Content.TYPE.POST) {
             TYPE_POST
         } else {

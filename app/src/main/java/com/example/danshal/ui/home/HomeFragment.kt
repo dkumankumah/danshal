@@ -3,6 +3,7 @@ package com.example.danshal.ui.home
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.LayoutInflater
@@ -73,14 +74,19 @@ class HomeFragment : Fragment() {
     private fun initViews() {
         binding.rvEvents.layoutManager = GridLayoutManager(context, 1)
         // Adds spacing between rv items
-        binding.rvEvents.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL).also { deco ->
-            with (ShapeDrawable(RectShape())){
-                intrinsicHeight = (resources.displayMetrics.density * 32).toInt()
-                alpha = 0
-                deco.setDrawable(this)
-            }
-        })
-        val controller = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_down_to_up)
+        binding.rvEvents.addItemDecoration(
+            DividerItemDecoration(
+                context,
+                DividerItemDecoration.VERTICAL
+            ).also { deco ->
+                with(ShapeDrawable(RectShape())) {
+                    intrinsicHeight = (resources.displayMetrics.density * 32).toInt()
+                    alpha = 0
+                    deco.setDrawable(this)
+                }
+            })
+        val controller =
+            AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_down_to_up)
 
         loadData()
 
@@ -90,14 +96,8 @@ class HomeFragment : Fragment() {
 
     private fun loadData() {
         content.clear()
-
         viewModel.getAllPosts()
-
-        if(currentEventType == getString(R.string.title_event)) {
-            viewModel.getAllEvents()
-        } else {
-            viewModel.getUpcomingEvents()
-        }
+        viewModel.getAllEvents()
 
         viewModel.postListData.observe(viewLifecycleOwner, {
             content.addAll(it)
@@ -106,6 +106,7 @@ class HomeFragment : Fragment() {
         viewModel.eventListData.observe(viewLifecycleOwner, {
             content.addAll(it)
             homeAdapter.contentItems = content
+            binding.rvEvents.scheduleLayoutAnimation()
             homeAdapter.notifyDataSetChanged()
         })
     }
@@ -123,7 +124,7 @@ class HomeFragment : Fragment() {
                 }
                 .setPositiveButton(resources.getString(R.string.action_filter)) { dialog, which ->
                     // Respond to positive button press
-                    initViews()
+                    loadData()
                 }
                 // Single-choice items (initialized with checked item)
                 .setSingleChoiceItems(dialogItems, checkedItem) { dialog, which ->

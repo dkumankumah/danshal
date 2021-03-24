@@ -35,7 +35,6 @@ class EventRepository() {
                 .await()
 
             for (result in data.toObjects(Event::class.java)) {
-                Log.d("EventRepository", result.title)
                 val event = Event(
                     Address(
                         result.address.housenumber,

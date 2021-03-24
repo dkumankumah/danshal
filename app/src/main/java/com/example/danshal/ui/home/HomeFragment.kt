@@ -75,7 +75,7 @@ class HomeFragment : Fragment() {
         // Adds spacing between rv items
         binding.rvEvents.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL).also { deco ->
             with (ShapeDrawable(RectShape())){
-                intrinsicHeight = (resources.displayMetrics.density * 42).toInt()
+                intrinsicHeight = (resources.displayMetrics.density * 32).toInt()
                 alpha = 0
                 deco.setDrawable(this)
             }
@@ -89,8 +89,16 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadData() {
+        content.clear()
+
         viewModel.getAllPosts()
-        viewModel.getAllEvents()
+
+        if(currentEventType == getString(R.string.title_event)) {
+            viewModel.getAllEvents()
+        } else {
+            viewModel.getUpcomingEvents()
+        }
+
         viewModel.postListData.observe(viewLifecycleOwner, {
             content.addAll(it)
             homeAdapter.contentItems = content
@@ -101,23 +109,6 @@ class HomeFragment : Fragment() {
             homeAdapter.notifyDataSetChanged()
         })
     }
-
-//    private fun applyFilter() {
-//        if (currentEventType == getString(R.string.title_up_event)) {
-//            viewModel.getUpcomingEvents()
-//            binding.tvHome.text = getString(R.string.title_up_event)
-//        } else {
-//            viewModel.getAllEvents()
-//            binding.tvHome.text = getString(R.string.title_event)
-//        }
-//
-//        viewModel.eventListData.observe(viewLifecycleOwner, {
-//            events.clear()
-//            events.addAll(it)
-////            homeAdapter.notifyDataSetChanged()
-//            binding.rvEvents.scheduleLayoutAnimation()
-//        })
-//    }
 
     private fun openFilterWindow() {
         val dialogItems =

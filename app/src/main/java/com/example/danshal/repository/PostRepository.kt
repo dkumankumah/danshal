@@ -176,5 +176,9 @@ class PostRepository {
             throw PostRetrievalError("Volgende ging mis: ${e}")
         }
     }
+
+     fun clearPosts() {
+        _posts.value = emptyList()
+    }
     class PostRetrievalError(message: String) : Exception(message)
 }

@@ -90,41 +90,40 @@ class HomeFragment : Fragment() {
         val controller =
             AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_down_to_up)
 
-        loadData()
 
+        viewModel.currentEvent.value = getString(R.string.title_event)
+
+        loadData()
         binding.rvEvents.layoutAnimation = controller
         binding.rvEvents.adapter = homeAdapter
     }
 
     private fun loadData() {
         content.clear()
-        if(currentEventType == getString(R.string.title_event)) {
-            viewModel.getAllEvents().observe(viewLifecycleOwner, {
-                content.addAll(it)
-                homeAdapter.contentItems = content
-                homeAdapter.notifyDataSetChanged()
-            })
 
-            viewModel.getAllPosts().observe(viewLifecycleOwner, {
-                content.addAll(it)
-                homeAdapter.contentItems = content
-                homeAdapter.notifyDataSetChanged()
-                binding.rvEvents.scheduleLayoutAnimation()
-            })
-        } else {
-            viewModel.getUpcomingEvents().observe(viewLifecycleOwner, {
-                content.addAll(it)
-                homeAdapter.contentItems = content
-                homeAdapter.notifyDataSetChanged()
-                binding.rvEvents.scheduleLayoutAnimation()
-            })
-        }
+        viewModel.getEvents().observe(viewLifecycleOwner, {
+            content.addAll(it)
+            homeAdapter.contentItems = content
+            homeAdapter.notifyDataSetChanged()
+            binding.rvEvents.scheduleLayoutAnimation()
+        })
+
+        viewModel.getPosts().observe(viewLifecycleOwner, {
+            content.addAll(it)
+            homeAdapter.contentItems = content
+            homeAdapter.notifyDataSetChanged()
+            binding.rvEvents.scheduleLayoutAnimation()
+        })
+
+        viewModel.currentEvent.observe(viewLifecycleOwner, {
+            viewModel.loadAllContent()
+        })
     }
 
     private fun openFilterWindow() {
         val dialogItems =
             arrayOf(getString(R.string.title_event), getString(R.string.title_up_event))
-        val checkedItem = dialogItems.indexOf(currentEventType)
+        val checkedItem = dialogItems.indexOf(viewModel.currentEvent.value)
 
         context?.let {
             MaterialAlertDialogBuilder(it)
@@ -134,7 +133,7 @@ class HomeFragment : Fragment() {
                 }
                 .setPositiveButton(resources.getString(R.string.action_filter)) { dialog, which ->
                     // Respond to positive button press
-                    loadData()
+                    viewModel.currentEvent.value = currentEventType
                 }
                 // Single-choice items (initialized with checked item)
                 .setSingleChoiceItems(dialogItems, checkedItem) { dialog, which ->

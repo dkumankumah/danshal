@@ -38,7 +38,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     }
                     "Events" -> {
                         eventRepository.getAllEventsForUsers()
-                        postRepository.getAllPostsForUsers()
                     }
                     "Posts" -> {
                         postRepository.getAllPostsForUsers()

@@ -110,11 +110,11 @@ class HomeFragment : Fragment() {
         viewModel.loadGiveAway()
 
         viewModel.currentEvent.observe(viewLifecycleOwner, {
+            content.clear()
             viewModel.loadAllContent()
         })
 
         viewModel.getEvents().observe(viewLifecycleOwner, {
-            content.clear()
             content.addAll(it)
             homeAdapter.contentItems = content
             homeAdapter.notifyDataSetChanged()
@@ -122,7 +122,6 @@ class HomeFragment : Fragment() {
         })
 
         viewModel.getPosts().observe(viewLifecycleOwner, {
-            content.clear()
             content.addAll(it)
             homeAdapter.contentItems = content
             homeAdapter.notifyDataSetChanged()
@@ -144,7 +143,8 @@ class HomeFragment : Fragment() {
             arrayOf(
                 getString(R.string.title_event),
                 getString(R.string.title_up_event),
-                getString(R.string.title_post)
+                getString(R.string.title_post),
+                getString(R.string.title_content)
             )
         val checkedItem = dialogItems.indexOf(viewModel.currentEvent.value)
 

@@ -31,6 +31,6 @@ data class Post(
 ) : Content(TYPE.POST, "", "", "")
 
 data class GiveAway(
-    var participants: List<User>?,
-    var endDate: Date,
+    var participants: List<User>? = emptyList(),
+    var endDate: Date = Date(),
 ) : Content(TYPE.GIVEAWAY, "", "", "")

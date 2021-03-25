@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.danshal.R
 import com.example.danshal.databinding.FragmentHomeBinding
 import com.example.danshal.models.*
@@ -28,7 +29,9 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
     private val content = arrayListOf<Content>()
+    private val giveAway = arrayListOf<GiveAway>()
     private val homeAdapter = HomeAdapter(content)
+    private val giveAwayAdapter = GiveAwayAdapter(giveAway)
     private var currentEventType: String? = null
     private val viewModel: HomeViewModel by viewModels()
 
@@ -75,6 +78,11 @@ class HomeFragment : Fragment() {
 
     private fun initViews() {
         binding.rvEvents.layoutManager = GridLayoutManager(context, 1)
+        binding.rvGiveAway.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val controller =
+            AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_down_to_up)
+
         // Adds spacing between rv items
         binding.rvEvents.addItemDecoration(
             DividerItemDecoration(
@@ -87,18 +95,23 @@ class HomeFragment : Fragment() {
                     deco.setDrawable(this)
                 }
             })
-        val controller =
-            AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_down_to_up)
 
 
         viewModel.currentEvent.value = getString(R.string.title_event)
 
         loadData()
         binding.rvEvents.layoutAnimation = controller
+        binding.rvGiveAway.layoutAnimation = controller
         binding.rvEvents.adapter = homeAdapter
+        binding.rvGiveAway.adapter = giveAwayAdapter
     }
 
     private fun loadData() {
+        viewModel.loadGiveAway()
+
+        viewModel.currentEvent.observe(viewLifecycleOwner, {
+            viewModel.loadAllContent()
+        })
 
         viewModel.getEvents().observe(viewLifecycleOwner, {
             content.clear()
@@ -116,14 +129,23 @@ class HomeFragment : Fragment() {
             binding.rvEvents.scheduleLayoutAnimation()
         })
 
-        viewModel.currentEvent.observe(viewLifecycleOwner, {
-            viewModel.loadAllContent()
+        viewModel.getGiveAway().observe(viewLifecycleOwner, {
+            giveAway.clear()
+            giveAway.addAll(it)
+            giveAwayAdapter.giveAway = giveAway
+            giveAwayAdapter.notifyDataSetChanged()
+            binding.rvGiveAway.scheduleLayoutAnimation()
         })
+
     }
 
     private fun openFilterWindow() {
         val dialogItems =
-            arrayOf(getString(R.string.title_event), getString(R.string.title_up_event), getString(R.string.title_post))
+            arrayOf(
+                getString(R.string.title_event),
+                getString(R.string.title_up_event),
+                getString(R.string.title_post)
+            )
         val checkedItem = dialogItems.indexOf(viewModel.currentEvent.value)
 
         context?.let {

@@ -65,6 +65,7 @@
     <string name="admin_add_date_btn">Datum kiezen</string>
     <string name="admin_add_post">Plaatsen</string>
     <string name="admin_add_exclusive">Exclusief</string>
+
     <string name="admin_add_upload">Upload foto/video</string>
 
     <string name="admin_add_address">Adres</string>
@@ -74,5 +75,17 @@
     <string name="admin_add_address_postcode">Postcode</string>
     <string name="admin_add_address_place">Plaats</string>
 
+  <!-- login/register -->
+    <string name="waarschuwing_uitloggen">Weet u zeker dat u wilt uitloggen?</string>
+    <string name="ja">Ja</string>
+    <string name="nee">nee</string>
+    <string name="hint_name">Naam</string>
+    <string name="hint_adress">Adres</string>
+    <string name="hint_postcode">Postcode</string>
+    <string name="hint_location">Plaats</string>
+    <string name="profile_email">email</string>
+    <string name="update_profile">Wijzigen</string>
+    <string name="housenumber">nr.</string>
+    <string name="gewijzigd">Gegevens zijn gewijzigd</string>
 
 </resources>

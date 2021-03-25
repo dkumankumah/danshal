@@ -17,8 +17,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.danshal.R
+import com.example.danshal.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 
@@ -31,6 +34,8 @@ class LoginFragment : Fragment() {
 
     private var _binding: LoginFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private val db = Firebase.firestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -98,9 +103,7 @@ class LoginFragment : Fragment() {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if(task.isSuccessful){
                 Log.e("Task", "Succes")
-                findNavController().navigate(
-                    R.id.action_nav_login_to_nav_home
-                )
+                auth.currentUser?.let { dataFetch(it.uid) }
             }
             else{
                 Log.e("Task", "Failed..."+task.exception)
@@ -112,6 +115,31 @@ class LoginFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun dataFetch(userId: String) {
+        val docRef = db.collection("users").document(userId)
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    Log.d("clouddata fetching", "DocumentSnapshot data: ${document.data}")
+                    val user = document.toObject<User>()
+                    if (user != null) {
+                        if (user.admin) {
+                            findNavController().navigate(
+                                R.id.action_nav_login_to_nav_admin_dashboard
+                            )
+                        } else findNavController().navigate(
+                            R.id.action_nav_login_to_nav_home
+                        )
+                    }
+                } else {
+                    Log.d("clouddata fething", "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("clouddata fething", "get failed with ", exception)
+            }
     }
 
 }

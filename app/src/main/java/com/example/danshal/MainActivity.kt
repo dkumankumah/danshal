@@ -1,6 +1,7 @@
 package com.example.danshal
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.google.android.material.navigation.NavigationView
@@ -16,6 +17,8 @@ import androidx.constraintlayout.widget.Group
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,6 +35,10 @@ class MainActivity : AppCompatActivity() {
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
+
+        auth = Firebase.auth
+        var currentuser = auth.currentUser
+
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -50,6 +57,40 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        auth = Firebase.auth
+
+        var currentuser = auth.currentUser
+
+        if (currentuser != null){
+            Log.d("Mainapplication", "currentuser is logged in")
+            toggleMenu(true)
+
+        }else {
+            Log.d("Mainapplication", "currentuser is logged out")
+            toggleMenu(false)
+        }
+
+    }
+
+    private fun toggleMenu(boolean: Boolean) {
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        val menu = navView.menu
+        if(boolean) {
+            menu.findItem(R.id.nav_logout).isVisible = true
+            menu.findItem(R.id.nav_profile).isVisible = true
+            menu.findItem(R.id.nav_login).isVisible = false
+            menu.findItem(R.id.nav_register).isVisible = false
+        } else {
+            menu.findItem(R.id.nav_logout).isVisible = false
+            menu.findItem(R.id.nav_profile).isVisible = false
+            menu.findItem(R.id.nav_login).isVisible = true
+            menu.findItem(R.id.nav_register).isVisible = true
+        }
+
     }
 
 

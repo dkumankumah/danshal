@@ -29,16 +29,18 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 when (currentEvent.value.toString()) {
                     "Upcoming Events" -> {
-                        eventRepository.clearEvents()
-                        getUpcomingEvents()
+                        eventRepository.getUpcomingEvents()
                     }
                     "Events" -> {
                         eventRepository.getAllEventsForUsers()
-//                        postRepository.getAllPostsForUsers()
+                        postRepository.getAllPostsForUsers()
+                    }
+                    "Posts" -> {
+                        postRepository.getAllPostsForUsers()
                     }
                     else -> {
                         eventRepository.getAllEventsForUsers()
-//                        postRepository.getAllPostsForUsers()
+                        postRepository.getAllPostsForUsers()
                     }
                 }
             } catch (ex: EventRepository.EventRetrievalError) {

@@ -99,9 +99,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadData() {
-        content.clear()
 
         viewModel.getEvents().observe(viewLifecycleOwner, {
+            content.clear()
             content.addAll(it)
             homeAdapter.contentItems = content
             homeAdapter.notifyDataSetChanged()
@@ -109,6 +109,7 @@ class HomeFragment : Fragment() {
         })
 
         viewModel.getPosts().observe(viewLifecycleOwner, {
+            content.clear()
             content.addAll(it)
             homeAdapter.contentItems = content
             homeAdapter.notifyDataSetChanged()
@@ -122,7 +123,7 @@ class HomeFragment : Fragment() {
 
     private fun openFilterWindow() {
         val dialogItems =
-            arrayOf(getString(R.string.title_event), getString(R.string.title_up_event))
+            arrayOf(getString(R.string.title_event), getString(R.string.title_up_event), getString(R.string.title_post))
         val checkedItem = dialogItems.indexOf(viewModel.currentEvent.value)
 
         context?.let {
@@ -134,6 +135,7 @@ class HomeFragment : Fragment() {
                 .setPositiveButton(resources.getString(R.string.action_filter)) { dialog, which ->
                     // Respond to positive button press
                     viewModel.currentEvent.value = currentEventType
+
                 }
                 // Single-choice items (initialized with checked item)
                 .setSingleChoiceItems(dialogItems, checkedItem) { dialog, which ->

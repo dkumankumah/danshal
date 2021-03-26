@@ -3,16 +3,16 @@ package com.example.danshal.ui.home
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
+import androidx.lifecycle.Observer
 import com.example.danshal.R
-import com.example.danshal.models.Event
-import com.example.danshal.models.GiveAway
-import com.example.danshal.models.Post
+import com.example.danshal.models.*
 import com.example.danshal.repository.EventRepository
 import com.example.danshal.repository.GiveAwayRepository
 import com.example.danshal.repository.PostRepository
-import com.google.firebase.Timestamp
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.util.*
+
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val eventRepository = EventRepository()
@@ -23,8 +23,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val postListData: MutableLiveData<List<Post>> = postRepository.posts
     private val giveAwayListData: MutableLiveData<List<GiveAway>> = giveAwayRepository.giveaways
 
+    private val contentListData: MediatorLiveData<List<Content>> = MediatorLiveData()
+
     val currentEvent: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
+    }
+
+    init {
+        currentEvent.value = R.string.title_content.toString()
     }
 
     // Voor nu zijn de filters hardcoded, moet er later uit
@@ -41,6 +47,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                         postRepository.getAllPostsForUsers()
                     }
                 }
+                combineAllContent()
             } catch (ex: EventRepository.EventRetrievalError) {
                 val errorMsg = "Something went wrong while retrieving the content."
                 Log.e("HomeViewModel", ex.message ?: errorMsg)
@@ -59,16 +66,29 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getEvents(): MutableLiveData<List<Event>> {
-        return eventListData
+//     Merge the two liveData by adding it to MediatorLiveData
+    private fun combineAllContent() {
+        viewModelScope.launch {
+            contentListData.value = emptyList()
+
+            contentListData.removeSource(eventListData)
+            contentListData.addSource(eventListData) { value ->
+                contentListData.value = value
+            }
+
+            contentListData.removeSource(postListData)
+            contentListData.addSource(postListData) { value ->
+                contentListData.value = value
+            }
+        }
     }
 
-    fun getPosts(): MutableLiveData<List<Post>> {
-        return postListData
+    fun getContent(): MediatorLiveData<List<Content>> {
+        return contentListData
     }
 
     fun getGiveAway(): MutableLiveData<List<GiveAway>> {
-        Log.d("ViewModel", giveAwayListData.value?.size.toString())
         return giveAwayListData
     }
 }
+

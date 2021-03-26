@@ -1,6 +1,7 @@
 package com.example.danshal.ui.home
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,7 @@ class GiveAwayAdapter(var giveAway: List<GiveAway>) :
             fun bind(giveAway: GiveAway) {
                 binding.tvGiveAwayTitle.text = giveAway.title
 
-                if(giveAway.imageUrl != null || giveAway.imageUrl != "") {
+                if(giveAway.imageUrl != null && giveAway.imageUrl != "") {
                     Glide.with(context).load(giveAway.imageUrl).into(binding.ivGiveAwayImage)
                 } else {
                     binding.ivGiveAwayImage.setImageResource(R.drawable.event1)

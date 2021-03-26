@@ -60,7 +60,7 @@ class HomeAdapter(var contentItems: List<Content>) :
             binding.tvDay.text = getDate(content.date, false).toString()
             binding.tvMonth.text = monthName[getDate(content.date, true)]
 
-            if (content.imageUrl != null || content.imageUrl != "") {
+            if (content.imageUrl != null && content.imageUrl != "") {
                 Glide.with(context).load(content.imageUrl).into(binding.ivEventImage)
             } else {
                 binding.ivEventImage.setImageResource(R.drawable.event2)
@@ -70,7 +70,6 @@ class HomeAdapter(var contentItems: List<Content>) :
         private fun getDate(date: Date, type: Boolean): Int {
             val cal: Calendar = Calendar.getInstance()
             cal.time = date
-
             //return the month (starts at 0) or day
             return if(type) cal.get(Calendar.MONTH) else cal.get(Calendar.DAY_OF_MONTH)
         }
@@ -81,7 +80,7 @@ class HomeAdapter(var contentItems: List<Content>) :
 
         fun bind(content: Post, context: Context) {
             binding.tvPostImageTitle.text = content.title
-            if (content.imageUrl != null || content.imageUrl != "") {
+            if (content.imageUrl != null && content.imageUrl != "") {
                 Glide.with(context).load(content.imageUrl).into(binding.ivPostImage)
             } else {
                 binding.ivPostImage.setImageResource(R.drawable.event2)

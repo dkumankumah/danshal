@@ -96,9 +96,6 @@ class HomeFragment : Fragment() {
                 }
             })
 
-
-        viewModel.currentEvent.value = getString(R.string.title_event)
-
         loadData()
         binding.rvEvents.layoutAnimation = controller
         binding.rvGiveAway.layoutAnimation = controller
@@ -114,14 +111,7 @@ class HomeFragment : Fragment() {
             viewModel.loadAllContent()
         })
 
-        viewModel.getEvents().observe(viewLifecycleOwner, {
-            content.addAll(it)
-            homeAdapter.contentItems = content
-            homeAdapter.notifyDataSetChanged()
-            binding.rvEvents.scheduleLayoutAnimation()
-        })
-
-        viewModel.getPosts().observe(viewLifecycleOwner, {
+        viewModel.getContent().observe(viewLifecycleOwner, {
             content.addAll(it)
             homeAdapter.contentItems = content
             homeAdapter.notifyDataSetChanged()
@@ -144,7 +134,7 @@ class HomeFragment : Fragment() {
                 getString(R.string.title_up_event),
                 getString(R.string.title_content)
             )
-        val checkedItem = dialogItems.indexOf(viewModel.currentEvent.value)
+        val checkedItem = dialogItems.indexOf(viewModel.currentEvent.value.toString())
 
         context?.let {
             MaterialAlertDialogBuilder(it)

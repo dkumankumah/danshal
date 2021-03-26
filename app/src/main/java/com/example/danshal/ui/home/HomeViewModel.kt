@@ -36,12 +36,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     "Upcoming Events" -> {
                         eventRepository.getUpcomingEvents()
                     }
-                    "Events" -> {
-                        eventRepository.getAllEventsForUsers()
-                    }
-                    "Posts" -> {
-                        postRepository.getAllPostsForUsers()
-                    }
                     else -> {
                         eventRepository.getAllEventsForUsers()
                         postRepository.getAllPostsForUsers()

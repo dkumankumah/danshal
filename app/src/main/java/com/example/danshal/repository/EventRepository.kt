@@ -1,7 +1,5 @@
 package com.example.danshal.repository
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.danshal.models.Address
 import com.example.danshal.models.Content
@@ -11,7 +9,6 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
-import java.lang.Exception
 import java.util.*
 
 class EventRepository() {
@@ -41,7 +38,8 @@ class EventRepository() {
                         result.address.street,
                         result.address.place
                     ),
-                    result.date, result.exclusive)
+                    result.date, result.exclusive
+                )
 
                 event.postType = Content.TYPE.EVENT
                 event.title = result.title
@@ -76,7 +74,8 @@ class EventRepository() {
                         result.address.street,
                         result.address.place
                     ),
-                    result.date, result.exclusive)
+                    result.date, result.exclusive
+                )
 
                 event.postType = Content.TYPE.EVENT
                 event.title = result.title
@@ -116,7 +115,8 @@ class EventRepository() {
                         result.address.street,
                         result.address.place
                     ),
-                    result.date, result.exclusive)
+                    result.date, result.exclusive
+                )
 
                 event.postType = Content.TYPE.EVENT
                 event.title = result.title

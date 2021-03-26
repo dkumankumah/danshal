@@ -21,7 +21,12 @@ class GiveAwayAdapter(var giveAway: List<GiveAway>) :
 
             fun bind(giveAway: GiveAway) {
                 binding.tvGiveAwayTitle.text = giveAway.title
-                Glide.with(context).load(giveAway.imageUrl).into(binding.ivGiveAwayImage)
+
+                if(giveAway.imageUrl != null || giveAway.imageUrl != "") {
+                    Glide.with(context).load(giveAway.imageUrl).into(binding.ivGiveAwayImage)
+                } else {
+                    binding.ivGiveAwayImage.setImageResource(R.drawable.event1)
+                }
             }
         }
 

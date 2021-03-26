@@ -141,9 +141,7 @@ class HomeFragment : Fragment() {
     private fun openFilterWindow() {
         val dialogItems =
             arrayOf(
-                getString(R.string.title_event),
                 getString(R.string.title_up_event),
-                getString(R.string.title_post),
                 getString(R.string.title_content)
             )
         val checkedItem = dialogItems.indexOf(viewModel.currentEvent.value)

@@ -11,6 +11,10 @@ import com.example.danshal.R
 import com.example.danshal.databinding.ItemEventBinding
 import com.example.danshal.databinding.ItemPostBinding
 import com.example.danshal.models.Content
+import com.example.danshal.models.Event
+import com.example.danshal.models.Post
+import java.text.DateFormatSymbols
+import java.util.*
 
 // Our data structure types
 private const val TYPE_EVENT = 0
@@ -36,9 +40,9 @@ class HomeAdapter(var contentItems: List<Content>) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(getItemViewType(position) == TYPE_EVENT) {
-            (holder as EventViewHolder).bind(contentItems[position], context)
+            (holder as EventViewHolder).bind(contentItems[position] as Event, context)
         } else {
-            (holder as PostViewHolder).bind(contentItems[position], context)
+            (holder as PostViewHolder).bind(contentItems[position] as Post, context)
         }
     }
 
@@ -48,22 +52,39 @@ class HomeAdapter(var contentItems: List<Content>) :
 
     class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = ItemEventBinding.bind(itemView)
+        val monthName = DateFormatSymbols(Locale.ENGLISH).shortMonths
 
-        fun bind(content: Content, context: Context) {
+        fun bind(content: Event, context: Context) {
+
             binding.tvEventTitle.text = content.title
-            if (content.imageUrl != null) {
+            binding.tvDay.text = getDate(content.date, false).toString()
+            binding.tvMonth.text = monthName[getDate(content.date, true)]
+
+            if (content.imageUrl != null || content.imageUrl != "") {
                 Glide.with(context).load(content.imageUrl).into(binding.ivEventImage)
+            } else {
+                binding.ivEventImage.setImageResource(R.drawable.event2)
             }
+        }
+
+        private fun getDate(date: Date, type: Boolean): Int {
+            val cal: Calendar = Calendar.getInstance()
+            cal.time = date
+
+            //return the month (starts at 0) or day
+            return if(type) cal.get(Calendar.MONTH) else cal.get(Calendar.DAY_OF_MONTH)
         }
     }
 
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = ItemPostBinding.bind(itemView)
 
-        fun bind(content: Content, context: Context) {
+        fun bind(content: Post, context: Context) {
             binding.tvPostImageTitle.text = content.title
-            if (content.imageUrl != null) {
+            if (content.imageUrl != null || content.imageUrl != "") {
                 Glide.with(context).load(content.imageUrl).into(binding.ivPostImage)
+            } else {
+                binding.ivPostImage.setImageResource(R.drawable.event2)
             }
         }
     }
@@ -75,4 +96,6 @@ class HomeAdapter(var contentItems: List<Content>) :
             TYPE_EVENT
         }
     }
+
+
 }

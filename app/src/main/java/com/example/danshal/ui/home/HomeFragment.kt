@@ -10,9 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +19,7 @@ import com.example.danshal.R
 import com.example.danshal.databinding.FragmentHomeBinding
 import com.example.danshal.models.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -97,6 +97,8 @@ class HomeFragment : Fragment() {
             })
 
         loadData()
+
+
         binding.rvEvents.layoutAnimation = controller
         binding.rvGiveAway.layoutAnimation = controller
         binding.rvEvents.adapter = homeAdapter
@@ -106,13 +108,21 @@ class HomeFragment : Fragment() {
     private fun loadData() {
         viewModel.loadGiveAway()
 
-        viewModel.currentEvent.observe(viewLifecycleOwner, {
+        viewModel.currentContentType.observe(viewLifecycleOwner, {
             content.clear()
             viewModel.loadAllContent()
         })
 
         viewModel.getContent().observe(viewLifecycleOwner, {
-            content.addAll(it)
+
+            content.addAll(it.sortedWith(compareBy(Content::getSeconds)))
+
+            if(content.size > 0) {
+                for (cont in content) {
+                    Log.d("HomveFragment", "title: " + cont.title + " - " +  cont.getSeconds().toString())
+                }
+            }
+
             homeAdapter.contentItems = content
             homeAdapter.notifyDataSetChanged()
             binding.rvEvents.scheduleLayoutAnimation()
@@ -134,7 +144,7 @@ class HomeFragment : Fragment() {
                 getString(R.string.title_up_event),
                 getString(R.string.title_content)
             )
-        val checkedItem = dialogItems.indexOf(viewModel.currentEvent.value.toString())
+        val checkedItem = dialogItems.indexOf(viewModel.currentContentType.value.toString())
 
         context?.let {
             MaterialAlertDialogBuilder(it)
@@ -144,7 +154,7 @@ class HomeFragment : Fragment() {
                 }
                 .setPositiveButton(resources.getString(R.string.action_filter)) { dialog, which ->
                     // Respond to positive button press
-                    viewModel.currentEvent.value = currentEventType
+                    viewModel.currentContentType.value = currentEventType
 
                 }
                 // Single-choice items (initialized with checked item)

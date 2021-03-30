@@ -9,7 +9,12 @@ abstract class Content(
     var title: String,
     var content: String,
     var imageUrl: String? = null,
-    var timestamp: Timestamp? = Timestamp.now()) {
+    var timestamp: Timestamp? = Timestamp.now()
+) {
+
+    fun getSeconds() = timestamp?.toDate()
+
+
 
     class TYPE {
         companion object {

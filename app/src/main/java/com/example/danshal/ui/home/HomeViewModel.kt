@@ -3,15 +3,12 @@ package com.example.danshal.ui.home
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import androidx.lifecycle.Observer
 import com.example.danshal.R
 import com.example.danshal.models.*
 import com.example.danshal.repository.EventRepository
 import com.example.danshal.repository.GiveAwayRepository
 import com.example.danshal.repository.PostRepository
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import java.util.*
 
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
@@ -25,12 +22,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private val contentListData: MediatorLiveData<List<Content>> = MediatorLiveData()
 
-    val currentEvent: MutableLiveData<String> by lazy {
+    val currentContentType: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
 
     init {
-        currentEvent.value = R.string.title_content.toString()
+        currentContentType.value = R.string.title_content.toString()
+        combineAllContent()
     }
 
     // Voor nu zijn de filters hardcoded, moet er later uit
@@ -38,7 +36,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     fun loadAllContent() {
         viewModelScope.launch {
             try {
-                when (currentEvent.value.toString()) {
+                when (currentContentType.value.toString()) {
                     "Upcoming Events" -> {
                         eventRepository.getUpcomingEvents()
                     }
@@ -47,7 +45,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                         postRepository.getAllPostsForUsers()
                     }
                 }
-                combineAllContent()
             } catch (ex: EventRepository.EventRetrievalError) {
                 val errorMsg = "Something went wrong while retrieving the content."
                 Log.e("HomeViewModel", ex.message ?: errorMsg)

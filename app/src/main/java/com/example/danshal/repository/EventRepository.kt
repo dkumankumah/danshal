@@ -45,6 +45,7 @@ class EventRepository() {
                 event.title = result.title
                 event.content = result.content
                 event.imageUrl = result.imageUrl
+                event.timestamp = result.timestamp
 
                 tempList.add(event)
             }
@@ -81,6 +82,7 @@ class EventRepository() {
                 event.title = result.title
                 event.content = result.content
                 event.imageUrl = result.imageUrl
+                event.timestamp = result.timestamp
 
                 tempList.add(event)
             }
@@ -122,6 +124,7 @@ class EventRepository() {
                 event.title = result.title
                 event.content = result.content
                 event.imageUrl = result.imageUrl
+                event.timestamp = result.timestamp
 
                 tempList.add(event)
             }

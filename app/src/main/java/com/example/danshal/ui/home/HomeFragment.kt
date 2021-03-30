@@ -114,16 +114,17 @@ class HomeFragment : Fragment() {
         })
 
         viewModel.getContent().observe(viewLifecycleOwner, {
+            var tempList = arrayListOf<Content>()
+            tempList.addAll(it)
 
-            content.addAll(it.sortedWith(compareBy(Content::getSeconds)))
+            Log.d("HomeFragment", "Voor sorteren ${tempList.size}")
+            content.addAll(tempList)
 
-            if(content.size > 0) {
-                for (cont in content) {
-                    Log.d("HomveFragment", "title: " + cont.title + " - " +  cont.getSeconds().toString())
-                }
+            for (cont in content) {
+                Log.d("HomeFragment", cont.title + ": " + cont.getSeconds())
             }
 
-            homeAdapter.contentItems = content
+            homeAdapter.contentItems = content.sortedWith(compareBy(Content::getSeconds))
             homeAdapter.notifyDataSetChanged()
             binding.rvEvents.scheduleLayoutAnimation()
         })

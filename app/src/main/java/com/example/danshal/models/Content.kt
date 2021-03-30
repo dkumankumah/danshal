@@ -12,7 +12,7 @@ abstract class Content(
     var timestamp: Timestamp? = Timestamp.now()
 ) {
 
-    fun getSeconds() = timestamp?.toDate()
+    fun getSeconds() = timestamp?.seconds
 
 
 

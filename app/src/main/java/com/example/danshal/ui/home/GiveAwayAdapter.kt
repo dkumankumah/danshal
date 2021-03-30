@@ -12,12 +12,17 @@ import com.example.danshal.R
 import com.example.danshal.databinding.ItemGiveawayBinding
 import com.example.danshal.models.GiveAway
 
-class GiveAwayAdapter(var giveAway: List<GiveAway>) :
+class GiveAwayAdapter(var giveAway: List<GiveAway>, private val onClick: (GiveAway) -> Unit) :
     RecyclerView.Adapter<GiveAwayAdapter.ViewHolder>() {
 
         private lateinit var context: Context
 
         inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+
+            init {
+                itemView.setOnClickListener {onClick(giveAway[adapterPosition])}
+            }
+
             private val binding = ItemGiveawayBinding.bind(itemView)
 
             fun bind(giveAway: GiveAway) {

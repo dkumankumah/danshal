@@ -19,6 +19,7 @@ import com.example.danshal.R
 import com.example.danshal.databinding.FragmentHomeBinding
 import com.example.danshal.models.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -30,8 +31,8 @@ class HomeFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private val content = arrayListOf<Content>()
     private val giveAway = arrayListOf<GiveAway>()
-    private val homeAdapter = HomeAdapter(content)
-    private val giveAwayAdapter = GiveAwayAdapter(giveAway)
+    private lateinit var homeAdapter: HomeAdapter
+    private lateinit var giveAwayAdapter: GiveAwayAdapter
     private var currentEventType: String? = null
     private val viewModel: HomeViewModel by viewModels()
 
@@ -98,6 +99,8 @@ class HomeFragment : Fragment() {
             })
 
         loadData()
+        giveAwayAdapter = GiveAwayAdapter(giveAway, ::onGiveAwayClick)
+        homeAdapter = HomeAdapter(content)
         binding.rvEvents.layoutAnimation = controller
         binding.rvGiveAway.layoutAnimation = controller
         binding.rvEvents.adapter = homeAdapter
@@ -159,6 +162,11 @@ class HomeFragment : Fragment() {
                 .show()
         }
     }
+
+    private fun onGiveAwayClick(giveAway: GiveAway) {
+        Snackbar.make(binding.rvGiveAway, giveAway.title, Snackbar.LENGTH_SHORT).show()
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

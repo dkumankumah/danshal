@@ -38,7 +38,7 @@
     
 <!--    These are String values for the events overview page-->
     <string name="title_giveaway">Giveaway</string>
-    <string name="title_content">Posts &amp; Events</string>
+    <string name="title_content">Berichten</string>
 
 <!--    Dialog filter event-->
     <string name="title_event">Events</string>

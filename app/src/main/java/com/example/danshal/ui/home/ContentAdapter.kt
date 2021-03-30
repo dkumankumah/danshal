@@ -1,7 +1,6 @@
 package com.example.danshal.ui.home
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,19 +8,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.danshal.R
 import com.example.danshal.databinding.ItemEventBinding
+import com.example.danshal.databinding.ItemGiveawayBinding
 import com.example.danshal.databinding.ItemPostBinding
 import com.example.danshal.models.Content
 import com.example.danshal.models.Event
+import com.example.danshal.models.GiveAway
 import com.example.danshal.models.Post
 import java.text.DateFormatSymbols
 import java.util.*
 
-// Our data structure types
 private const val TYPE_EVENT = 0
 private const val TYPE_POST = 1
+private const val TYPE_GIVEAWAY = 2
 
-
-class HomeAdapter(var contentItems: List<Content>) :
+class ContentAdapter(var contentItems: List<Content>, var giveawayItems: List<GiveAway>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private lateinit var context: Context
@@ -29,25 +29,46 @@ class HomeAdapter(var contentItems: List<Content>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         context = parent.context
 
-        return if(viewType == TYPE_EVENT) {
-            val view = LayoutInflater.from(context).inflate(R.layout.item_event, parent, false)
-            EventViewHolder(view)
-        } else {
-            val view = LayoutInflater.from(context).inflate(R.layout.item_post, parent, false)
-            PostViewHolder(view)
+        return when (viewType) {
+            TYPE_EVENT -> {
+                val view = LayoutInflater.from(context).inflate(R.layout.item_event, parent, false)
+                EventViewHolder(view)
+            }
+            TYPE_POST -> {
+                val view =
+                    LayoutInflater.from(context).inflate(R.layout.item_giveaway, parent, false)
+                GiveAwayViewHolder(view)
+            }
+            else -> {
+                val view = LayoutInflater.from(context).inflate(R.layout.item_post, parent, false)
+                PostViewHolder(view)
+            }
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(getItemViewType(position) == TYPE_EVENT) {
-            (holder as EventViewHolder).bind(contentItems[position] as Event, context)
-        } else {
-            (holder as PostViewHolder).bind(contentItems[position] as Post, context)
+        when {
+            getItemViewType(position) == TYPE_EVENT -> {
+                (holder as EventViewHolder).bind(contentItems[position] as Event, context)
+            }
+            getItemViewType(position) == TYPE_GIVEAWAY -> {
+                var giveawayAdapter: GiveAwayAdapter = GiveAwayAdapter(giveawayItems)
+                (holder as GiveAwayViewHolder).bind(giveawayItems[position], context)
+            }
+            else -> (holder as PostViewHolder).bind(contentItems[position] as Post, context)
         }
     }
 
     override fun getItemCount(): Int {
         return contentItems.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return when (contentItems[position].postType) {
+            Content.TYPE.POST -> TYPE_POST
+            Content.TYPE.GIVEAWAY -> TYPE_GIVEAWAY
+            else -> TYPE_EVENT
+        }
     }
 
     class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -71,7 +92,7 @@ class HomeAdapter(var contentItems: List<Content>) :
             val cal: Calendar = Calendar.getInstance()
             cal.time = date
             //return the month (starts at 0) or day
-            return if(type) cal.get(Calendar.MONTH) else cal.get(Calendar.DAY_OF_MONTH)
+            return if (type) cal.get(Calendar.MONTH) else cal.get(Calendar.DAY_OF_MONTH)
         }
     }
 
@@ -88,11 +109,16 @@ class HomeAdapter(var contentItems: List<Content>) :
         }
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return if (contentItems[position].postType == Content.TYPE.POST) {
-            TYPE_POST
-        } else {
-            TYPE_EVENT
+    class GiveAwayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val binding = ItemGiveawayBinding.bind(itemView)
+
+        fun bind(giveAway: GiveAway, context: Context) {
+            binding.tvGiveAwayTitle.text = giveAway.title
+            if (giveAway.imageUrl != null && giveAway.imageUrl != "") {
+                Glide.with(context).load(giveAway.imageUrl).into(binding.ivGiveAwayImage)
+            } else {
+                binding.ivGiveAwayImage.setImageResource(R.drawable.event1)
+            }
         }
     }
 

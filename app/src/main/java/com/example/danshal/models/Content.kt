@@ -9,7 +9,12 @@ abstract class Content(
     var title: String,
     var content: String,
     var imageUrl: String? = null,
-    var timestamp: Timestamp? = Timestamp.now()) {
+    var timestamp: Timestamp? = Timestamp.now()
+) {
+
+    fun getSeconds() = timestamp?.seconds
+
+
 
     class TYPE {
         companion object {
@@ -31,6 +36,6 @@ data class Post(
 ) : Content(TYPE.POST, "", "", "")
 
 data class GiveAway(
-    var participants: List<User>?,
-    var endDate: Date,
+    var participants: List<User>? = emptyList(),
+    var endDate: Date = Date(),
 ) : Content(TYPE.GIVEAWAY, "", "", "")

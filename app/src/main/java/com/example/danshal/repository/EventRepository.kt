@@ -1,7 +1,5 @@
 package com.example.danshal.repository
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.danshal.models.Address
 import com.example.danshal.models.Content
@@ -11,7 +9,6 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
-import java.lang.Exception
 import java.util.*
 
 class EventRepository() {
@@ -20,11 +17,46 @@ class EventRepository() {
 
     private val _events: MutableLiveData<List<Event>> = MutableLiveData()
 
-    val events: LiveData<List<Event>>
+    val events: MutableLiveData<List<Event>>
         get() = _events
 
-    // Fetch events from the database where the date is greater than today's date
+    // Fetch events from the database for the admin
     suspend fun getAllEvents() {
+        try {
+            val tempList = arrayListOf<Event>()
+
+            val data = eventRef
+                .get()
+                .await()
+
+            for (result in data.toObjects(Event::class.java)) {
+                val event = Event(
+                    Address(
+                        result.address.housenumber,
+                        result.address.housenumberExtension.toString(),
+                        result.address.postcode,
+                        result.address.street,
+                        result.address.place
+                    ),
+                    result.date, result.exclusive
+                )
+
+                event.postType = Content.TYPE.EVENT
+                event.title = result.title
+                event.content = result.content
+                event.imageUrl = result.imageUrl
+                event.timestamp = result.timestamp
+
+                tempList.add(event)
+            }
+            _events.value = tempList
+        } catch (e: Exception) {
+            throw EventRetrievalError("Volgende ging mis: ${e}")
+        }
+    }
+
+    // Fetch events from the database for the users
+    suspend fun getAllEventsForUsers() {
         try {
             val tempList = arrayListOf<Event>()
 
@@ -35,7 +67,6 @@ class EventRepository() {
                 .await()
 
             for (result in data.toObjects(Event::class.java)) {
-                Log.d("EventRepository", result.title)
                 val event = Event(
                     Address(
                         result.address.housenumber,
@@ -44,12 +75,14 @@ class EventRepository() {
                         result.address.street,
                         result.address.place
                     ),
-                    result.date, result.exclusive)
+                    result.date, result.exclusive
+                )
 
                 event.postType = Content.TYPE.EVENT
                 event.title = result.title
                 event.content = result.content
                 event.imageUrl = result.imageUrl
+                event.timestamp = result.timestamp
 
                 tempList.add(event)
             }
@@ -84,12 +117,14 @@ class EventRepository() {
                         result.address.street,
                         result.address.place
                     ),
-                    result.date, result.exclusive)
+                    result.date, result.exclusive
+                )
 
                 event.postType = Content.TYPE.EVENT
                 event.title = result.title
                 event.content = result.content
                 event.imageUrl = result.imageUrl
+                event.timestamp = result.timestamp
 
                 tempList.add(event)
             }
@@ -97,6 +132,10 @@ class EventRepository() {
         } catch (e: Exception) {
             throw EventRetrievalError("Volgende ging mis: ${e}")
         }
+    }
+
+    fun clearEvents() {
+        _events.value = arrayListOf<Event>()
     }
 
     class EventRetrievalError(message: String): Exception(message)

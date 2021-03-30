@@ -77,7 +77,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViews() {
-        binding.rvEvents.layoutManager = GridLayoutManager(context, 1)
+        binding.rvEvents.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.rvGiveAway.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         val controller =
@@ -97,8 +98,6 @@ class HomeFragment : Fragment() {
             })
 
         loadData()
-
-
         binding.rvEvents.layoutAnimation = controller
         binding.rvGiveAway.layoutAnimation = controller
         binding.rvEvents.adapter = homeAdapter

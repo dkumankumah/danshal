@@ -1,4 +1,4 @@
-package com.example.danshal.ui.home
+package com.example.danshal.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -14,6 +14,7 @@ import com.example.danshal.models.Content
 import com.example.danshal.models.Event
 import com.example.danshal.models.GiveAway
 import com.example.danshal.models.Post
+import com.example.danshal.ui.home.InnerGiveAwayAdapter
 import java.text.DateFormatSymbols
 import java.util.*
 
@@ -21,10 +22,11 @@ private const val TYPE_EVENT = 0
 private const val TYPE_POST = 1
 private const val TYPE_GIVEAWAY = 2
 
-class ContentAdapter(var contentItems: List<Content>, var giveawayItems: List<GiveAway>) :
+class ContentAdapter( var contentItems: List<Content>, var giveawayItems: List<GiveAway>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private lateinit var context: Context
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         context = parent.context
@@ -33,11 +35,6 @@ class ContentAdapter(var contentItems: List<Content>, var giveawayItems: List<Gi
             TYPE_EVENT -> {
                 val view = LayoutInflater.from(context).inflate(R.layout.item_event, parent, false)
                 EventViewHolder(view)
-            }
-            TYPE_POST -> {
-                val view =
-                    LayoutInflater.from(context).inflate(R.layout.item_giveaway, parent, false)
-                GiveAwayViewHolder(view)
             }
             else -> {
                 val view = LayoutInflater.from(context).inflate(R.layout.item_post, parent, false)
@@ -51,10 +48,6 @@ class ContentAdapter(var contentItems: List<Content>, var giveawayItems: List<Gi
             getItemViewType(position) == TYPE_EVENT -> {
                 (holder as EventViewHolder).bind(contentItems[position] as Event, context)
             }
-            getItemViewType(position) == TYPE_GIVEAWAY -> {
-                var giveawayAdapter: GiveAwayAdapter = GiveAwayAdapter(giveawayItems)
-                (holder as GiveAwayViewHolder).bind(giveawayItems[position], context)
-            }
             else -> (holder as PostViewHolder).bind(contentItems[position] as Post, context)
         }
     }
@@ -66,7 +59,6 @@ class ContentAdapter(var contentItems: List<Content>, var giveawayItems: List<Gi
     override fun getItemViewType(position: Int): Int {
         return when (contentItems[position].postType) {
             Content.TYPE.POST -> TYPE_POST
-            Content.TYPE.GIVEAWAY -> TYPE_GIVEAWAY
             else -> TYPE_EVENT
         }
     }
@@ -121,6 +113,4 @@ class ContentAdapter(var contentItems: List<Content>, var giveawayItems: List<Gi
             }
         }
     }
-
-
 }

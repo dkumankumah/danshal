@@ -1,4 +1,4 @@
-package com.example.danshal.ui.home
+package com.example.danshal.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

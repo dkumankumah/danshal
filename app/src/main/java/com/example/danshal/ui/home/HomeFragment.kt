@@ -114,15 +114,9 @@ class HomeFragment : Fragment() {
         })
 
         viewModel.getContent().observe(viewLifecycleOwner, {
-            var tempList = arrayListOf<Content>()
+            val tempList = arrayListOf<Content>()
             tempList.addAll(it)
-
-            Log.d("HomeFragment", "Voor sorteren ${tempList.size}")
             content.addAll(tempList)
-
-            for (cont in content) {
-                Log.d("HomeFragment", cont.title + ": " + cont.getSeconds())
-            }
 
             homeAdapter.contentItems = content.sortedWith(compareBy(Content::getSeconds))
             homeAdapter.notifyDataSetChanged()

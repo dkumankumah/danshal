@@ -3,24 +3,16 @@ package com.example.danshal.ui.home
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.danshal.R
 import com.example.danshal.databinding.FragmentHomeBinding
 import com.example.danshal.models.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -34,7 +26,7 @@ class HomeFragment : Fragment() {
     private lateinit var homeAdapter: HomeAdapter
     private lateinit var giveAwayAdapter: GiveAwayAdapter
     private var currentEventType: String? = null
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -164,7 +156,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun onGiveAwayClick(giveAway: GiveAway) {
-        Snackbar.make(binding.rvGiveAway, giveAway.title, Snackbar.LENGTH_SHORT).show()
+        viewModel.currentGiveAway.value = giveAway
+        GiveawayDialogFragment().newInstance()?.show(parentFragmentManager, "giveaway_dialog_fragment")
     }
 
 

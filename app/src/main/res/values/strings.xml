@@ -90,5 +90,6 @@
     <string name="update_profile">Wijzigen</string>
     <string name="housenumber">nr.</string>
     <string name="gewijzigd">Gegevens zijn gewijzigd</string>
+    <string name="title_participate">Meedoen</string>
 
 </resources>

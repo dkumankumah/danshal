@@ -48,6 +48,9 @@
     <string name="action_filter">Toepassen</string>
     <string name="action_cancel_filter">Annuleren</string>
 
+<!--    Dialog/Bottom sheet GiveAway-->
+    <string name="title_btn_giveaway">Meedoen</string>
+
     <!--admin-->
     <string name="menu_admin_dashboard">Admin Dashboard</string>
     <string name="menu_admin_add">Admin Toevoegen</string>

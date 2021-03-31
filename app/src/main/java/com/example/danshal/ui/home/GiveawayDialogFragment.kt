@@ -1,16 +1,21 @@
 package com.example.danshal.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
+import com.example.danshal.R
 import com.example.danshal.databinding.FragmentBottomSheetBinding
+import com.example.danshal.models.Content
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import java.util.*
 
 class GiveawayDialogFragment: BottomSheetDialogFragment() {
     private var _binding: FragmentBottomSheetBinding? = null
@@ -30,6 +35,11 @@ class GiveawayDialogFragment: BottomSheetDialogFragment() {
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeGiveAway()
@@ -41,8 +51,23 @@ class GiveawayDialogFragment: BottomSheetDialogFragment() {
 
     private fun observeGiveAway() {
         viewModel.currentGiveAway.observe(viewLifecycleOwner, Observer {
-            binding.tvGT.text = it.title
+            binding.tvCurrentGiveAwayTitle.text = it.title
+            binding.tvGiveAwayDate.text = "${getDate(it.endDate, false)} ${getDate(it.endDate, true)}"
+            if(it.imageUrl != null && it.imageUrl != "") {
+                Glide.with(this).load(it.imageUrl).into(binding.ivCurrentGiveAway)
+            } else {
+                binding.ivCurrentGiveAway.setImageResource(R.drawable.event1)
+            }
         })
+    }
+
+    // TODO: wordt ook gebruikt in homeadapter! (dubbel)
+    // either return the day(false) or month(true)
+    fun getDate(date: Date, type: Boolean): Int {
+        val cal: Calendar = Calendar.getInstance()
+        cal.time = date
+        //return the month (starts at 0) or day
+        return if(type) cal.get(Calendar.MONTH) else cal.get(Calendar.DAY_OF_MONTH)
     }
 
     fun newInstance(): GiveawayDialogFragment? {

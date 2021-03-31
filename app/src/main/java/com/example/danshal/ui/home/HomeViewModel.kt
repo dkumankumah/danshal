@@ -87,15 +87,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     fun addUserToGiveAway() {
         if (auth.currentUser != null) {
             Log.d("HomeViewModel", auth.currentUser!!.uid)
-
-//            viewModelScope.launch {
-//                try {
-//                    auth.currentUser.toString()
-//                } catch (ex: GiveAwayRepository.GiveAwayRetrievalError) {
-//                    val errorMsg = "Something went wrong while adding user to a giveaway."
-//                    Log.e("HomeViewModel", ex.message ?: errorMsg)
-//                }
-//            }
+            viewModelScope.launch {
+                try {
+                    auth.currentUser.toString()
+                } catch (ex: GiveAwayRepository.GiveAwayRetrievalError) {
+                    val errorMsg = "Something went wrong while adding user to a giveaway."
+                    Log.e("HomeViewModel", ex.message ?: errorMsg)
+                }
+            }
         }
     }
 

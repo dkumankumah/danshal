@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.danshal.R
 import com.example.danshal.databinding.FragmentBottomSheetBinding
@@ -15,14 +17,15 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
-class GiveawayDialogFragment: BottomSheetDialogFragment() {
+class GiveawayDialogFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentBottomSheetBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
     private val viewModel: HomeViewModel by activityViewModels()
-
 
 
     override fun onCreateView(
@@ -52,22 +55,32 @@ class GiveawayDialogFragment: BottomSheetDialogFragment() {
     private fun observeGiveAway() {
         viewModel.currentGiveAway.observe(viewLifecycleOwner, Observer {
             binding.tvCurrentGiveAwayTitle.text = it.title
-            binding.tvGiveAwayDate.text = "${getDate(it.endDate, false)} ${getDate(it.endDate, true)}"
-            if(it.imageUrl != null && it.imageUrl != "") {
+            binding.tvGiveAwayDate.text = convertDate(it.endDate)
+
+            if (it.imageUrl != null && it.imageUrl != "") {
                 Glide.with(this).load(it.imageUrl).into(binding.ivCurrentGiveAway)
             } else {
                 binding.ivCurrentGiveAway.setImageResource(R.drawable.event1)
             }
+
+
+        })
+
+        viewModel.userLoggedIn.observe(viewLifecycleOwner, {
+            binding.btnParticipate.setOnClickListener {
+                if(it != null) {
+                    viewModel.addUserToGiveAway()
+                    Toast.makeText(activity, "U neemt nu deel aan de giveaway!", Toast.LENGTH_SHORT).show() //idk werkt nog niet
+                } else {
+                    Toast.makeText(activity, "Log in om mee te doen aan een giveaway", Toast.LENGTH_SHORT).show()
+                }
+            }
         })
     }
 
-    // TODO: wordt ook gebruikt in homeadapter! (dubbel)
-    // either return the day(false) or month(true)
-    fun getDate(date: Date, type: Boolean): Int {
-        val cal: Calendar = Calendar.getInstance()
-        cal.time = date
-        //return the month (starts at 0) or day
-        return if(type) cal.get(Calendar.MONTH) else cal.get(Calendar.DAY_OF_MONTH)
+    fun convertDate(date: Date): String {
+        val df: DateFormat = SimpleDateFormat("dd/MM/yyy")
+        return df.format(date.getTime())
     }
 
     fun newInstance(): GiveawayDialogFragment? {

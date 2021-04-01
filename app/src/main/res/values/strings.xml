@@ -50,6 +50,7 @@
 
 <!--    Dialog/Bottom sheet GiveAway-->
     <string name="title_btn_giveaway">Meedoen</string>
+    <string name="title_btn_inlog">Inloggen</string>
 
     <!--admin-->
     <string name="menu_admin_dashboard">Admin Dashboard</string>

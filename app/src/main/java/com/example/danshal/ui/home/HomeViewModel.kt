@@ -10,6 +10,7 @@ import com.example.danshal.repository.GiveAwayRepository
 import com.example.danshal.repository.PostRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 
@@ -25,14 +26,19 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val postListData: MutableLiveData<List<Post>> = postRepository.posts
     private val giveAwayListData: MutableLiveData<List<GiveAway>> = giveAwayRepository.giveaways
     private val contentListData: MediatorLiveData<List<Content>> = MediatorLiveData()
+    private val _userLoggedIn: MutableLiveData<Boolean> = MutableLiveData()
 
     var currentGiveAway: MutableLiveData<GiveAway> = MutableLiveData<GiveAway>()
     val currentContentType: MutableLiveData<String> = MutableLiveData<String>()
+
+    val userLoggedIn: MutableLiveData<Boolean>
+        get() = _userLoggedIn
 
     init {
         currentContentType.value = R.string.title_content.toString()
         auth = Firebase.auth
         combineAllContent()
+        _userLoggedIn.value = Firebase.auth.currentUser != null
     }
 
     // Voor nu zijn de filters hardcoded, moet er later uit

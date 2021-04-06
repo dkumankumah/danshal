@@ -12,7 +12,6 @@
     android:foreground="?android:attr/selectableItemBackground"
     card_view:cardCornerRadius="15dp"
     card_view:cardElevation="2dp"
-    card_view:cardUseCompatPadding="true"
     tools:layout_editor_absoluteY="216dp">
 
 

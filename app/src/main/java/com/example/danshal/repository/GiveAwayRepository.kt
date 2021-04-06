@@ -1,5 +1,6 @@
 package com.example.danshal.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.danshal.models.GiveAway
@@ -55,6 +56,8 @@ class GiveAwayRepository {
                 .get()
                 .await()
 
+            var count = 0
+
             for (result in data.toObjects(GiveAway::class.java)) {
                 val giveAway = GiveAway( result.participants, result.endDate)
                 giveAway.title = result.title
@@ -63,7 +66,11 @@ class GiveAwayRepository {
                 giveAway.timestamp = result.timestamp
 
                 tempList.add(giveAway)
+
+                Log.d("Giveaway", data.documents.get(count).toString())
+                count++
             }
+
             _giveaways.value = tempList
         } catch (e: Exception) {
             throw GiveAwayRetrievalError("Volgende ging mis: ${e}")

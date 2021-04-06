@@ -38,7 +38,7 @@
     
 <!--    These are String values for the events overview page-->
     <string name="title_giveaway">Giveaway</string>
-    <string name="title_content">Posts &amp; Events</string>
+    <string name="title_content">Berichten</string>
 
 <!--    Dialog filter event-->
     <string name="title_event">Events</string>
@@ -47,6 +47,10 @@
     <string name="title_filter">Filter events</string>
     <string name="action_filter">Toepassen</string>
     <string name="action_cancel_filter">Annuleren</string>
+
+<!--    Dialog/Bottom sheet GiveAway-->
+    <string name="title_btn_giveaway">Meedoen</string>
+    <string name="title_btn_inlog">Inloggen</string>
 
     <!--admin-->
     <string name="menu_admin_dashboard">Admin Dashboard</string>
@@ -90,5 +94,6 @@
     <string name="update_profile">Wijzigen</string>
     <string name="housenumber">nr.</string>
     <string name="gewijzigd">Gegevens zijn gewijzigd</string>
+    <string name="title_participate">Meedoen</string>
 
 </resources>

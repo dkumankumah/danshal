@@ -1,10 +1,9 @@
 package com.example.danshal.repository
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.danshal.models.GiveAway
-import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -48,6 +47,7 @@ class GiveAwayRepository {
     suspend fun getAllGiveAwaysForUsers() {
         try {
             val tempList = arrayListOf<GiveAway>()
+            val tempUserList = arrayListOf<String>()
 
             val data = giveawayRef
                 .orderBy("timestamp", Query.Direction.ASCENDING)
@@ -56,22 +56,34 @@ class GiveAwayRepository {
                 .get()
                 .await()
 
-            var count = 0
+            for ((count, result) in data.toObjects(GiveAway::class.java).withIndex()) {
+                // Add user if exists to list
+                if(result.participants.isNotEmpty()) {
+                    for (user in result.participants) {
+                        tempUserList.add(user)
+                    }
+                }
 
-            for (result in data.toObjects(GiveAway::class.java)) {
-                val giveAway = GiveAway( result.participants, result.endDate)
+                val giveAway = GiveAway( tempUserList, result.endDate)
                 giveAway.title = result.title
                 giveAway.content = result.content
                 giveAway.imageUrl = result.imageUrl
                 giveAway.timestamp = result.timestamp
+                giveAway.id = data.documents[count].id
 
                 tempList.add(giveAway)
-
-                Log.d("Giveaway", data.documents.get(count).toString())
-                count++
             }
 
             _giveaways.value = tempList
+        } catch (e: Exception) {
+            throw GiveAwayRetrievalError("Volgende ging mis: ${e}")
+        }
+    }
+
+    fun addUserToGiveAway(userId: String, giveAwayId: String) {
+        Log.d("GiveAwayRepository", "ID VAN USER: $userId")
+        try {
+            giveawayRef.document(giveAwayId).update("participants", FieldValue.arrayUnion(userId))
         } catch (e: Exception) {
             throw GiveAwayRetrievalError("Volgende ging mis: ${e}")
         }

@@ -6,6 +6,7 @@ import java.util.*
 // Base class
 abstract class Content(
     var postType: String,
+    var id: String,
     var title: String,
     var content: String,
     var imageUrl: String? = null,
@@ -13,10 +14,6 @@ abstract class Content(
 ) {
 
     fun getSeconds() = timestamp?.seconds
-
-
-
-
 
     class TYPE {
         companion object {
@@ -38,6 +35,6 @@ data class Post(
 ) : Content(TYPE.POST, "", "", "")
 
 data class GiveAway(
-    var participants: List<User>? = emptyList(),
+    var participants: List<String> = emptyList(),
     var endDate: Date = Date(),
 ) : Content(TYPE.GIVEAWAY, "", "", "")

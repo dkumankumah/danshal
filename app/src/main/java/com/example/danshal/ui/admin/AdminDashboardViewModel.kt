@@ -19,8 +19,7 @@ class AdminDashboardViewModel : ViewModel() {
 
     val eventListData: LiveData<List<Event>> = eventRepository.events
     val giveawayListData: LiveData<List<GiveAway>> = giveAwayRepository.giveaways
-    val exclusivePostListData: LiveData<List<Post>> = postRepository.exclusivePosts
-    val nonExclusivePostListData: LiveData<List<Post>> = postRepository.nonExclusivePosts
+    val postListData: LiveData<List<Post>> = postRepository.posts
 
     fun getAllEvents() {
         viewModelScope.launch {
@@ -44,23 +43,12 @@ class AdminDashboardViewModel : ViewModel() {
         }
     }
 
-    fun getAllExclusivePosts() {
+    fun getAllPosts() {
         viewModelScope.launch {
             try {
-                postRepository.getAllExclusivePosts()
+                postRepository.getAllPosts()
             } catch (ex: PostRepository.PostRetrievalError) {
                 val errorMsg = "Something went wrong while retrieving the exclusive posts."
-                Log.e("HomeViewModel", ex.message ?: errorMsg)
-            }
-        }
-    }
-
-    fun getAllNonExclusivePosts() {
-        viewModelScope.launch {
-            try {
-                postRepository.getAllNonExclusivePosts()
-            } catch (ex: PostRepository.PostRetrievalError) {
-                val errorMsg = "Something went wrong while retrieving the non exclusive posts."
                 Log.e("HomeViewModel", ex.message ?: errorMsg)
             }
         }

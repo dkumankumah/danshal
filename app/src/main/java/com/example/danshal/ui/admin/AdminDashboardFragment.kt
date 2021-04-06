@@ -54,9 +54,6 @@ class AdminDashboardFragment : Fragment() {
         binding.cvPosts.setOnClickListener {
             Log.i("ADMIN DASHBOARD", "clicked posts overview")
         }
-        binding.cvPostsExcl.setOnClickListener {
-            Log.i("ADMIN DASHBOARD", "clicked exclusive posts overview")
-        }
 
         initViews()
     }
@@ -89,8 +86,7 @@ class AdminDashboardFragment : Fragment() {
     private fun setTotals() {
         viewModel.getAllEvents()
         viewModel.getAllGiveAways()
-        viewModel.getAllExclusivePosts()
-        viewModel.getAllNonExclusivePosts()
+        viewModel.getAllPosts()
 
         viewModel.eventListData.observe(viewLifecycleOwner, {
             binding.tvNumberEvents.text = it.size.toString()
@@ -102,15 +98,11 @@ class AdminDashboardFragment : Fragment() {
             binding.tvNumberGiveaways.visibility = View.VISIBLE
         })
 
-        viewModel.exclusivePostListData.observe(viewLifecycleOwner, {
+        viewModel.postListData.observe(viewLifecycleOwner, {
             binding.tvNumberPosts.text = it.size.toString()
             binding.tvNumberPosts.visibility = View.VISIBLE
         })
 
-        viewModel.nonExclusivePostListData.observe(viewLifecycleOwner, {
-            binding.tvNumberExclPosts.text = it.size.toString()
-            binding.tvNumberExclPosts.visibility = View.VISIBLE
-        })
     }
 
     override fun onDestroyView() {

@@ -51,6 +51,10 @@
 <!--    Dialog/Bottom sheet GiveAway-->
     <string name="title_btn_giveaway">Inschrijven</string>
     <string name="title_btn_unsubscribe">Uitschrijven</string>
+    <string name="msg_update_succes">U neemt nu deel aan deze Giveaway!</string>
+    <string name="msg_update_fail">U neemt  al deel aan deze Giveaway</string>
+    <string name="msg_update_unsub">U neemt geen deel meer aan deze Giveaway</string>
+    <string name="msg_login_giveaway">Log in om mee te doen aan een giveaway</string>
     <string name="title_btn_inlog">Inloggen</string>
 
     <!--admin-->

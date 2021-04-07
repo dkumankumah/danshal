@@ -1,8 +1,8 @@
 package com.example.danshal.repository
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import com.example.danshal.R
 import com.example.danshal.models.GiveAway
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
@@ -20,9 +20,9 @@ class GiveAwayRepository {
     val giveaways: MutableLiveData<List<GiveAway>>
         get() = _giveaways
 
-    private val _updateGiveAway: MutableLiveData<Boolean> = MutableLiveData()
-    val updateGiveAway: MutableLiveData<Boolean>
-        get() = _updateGiveAway
+    private val _giveAwayStatus: MutableLiveData<Boolean> = MutableLiveData()
+    val giveAwayStatus: MutableLiveData<Boolean>
+        get() = _giveAwayStatus
 
     // Fetch events from the database where the date is greater than today's date
     suspend fun getAllGiveAways() {
@@ -52,7 +52,6 @@ class GiveAwayRepository {
     suspend fun getAllGiveAwaysForUsers() {
         try {
             val tempList = arrayListOf<GiveAway>()
-            val tempUserList = arrayListOf<String>()
 
             val data = giveawayRef
                 .orderBy("timestamp", Query.Direction.ASCENDING)
@@ -62,6 +61,7 @@ class GiveAwayRepository {
                 .await()
 
             for ((count, result) in data.toObjects(GiveAway::class.java).withIndex()) {
+                val tempUserList = arrayListOf<String>()
                 // Add user if exists to list
                 if (result.participants.isNotEmpty()) {
                     for (user in result.participants) {
@@ -75,10 +75,8 @@ class GiveAwayRepository {
                 giveAway.imageUrl = result.imageUrl
                 giveAway.timestamp = result.timestamp
                 giveAway.id = data.documents[count].id
-
                 tempList.add(giveAway)
             }
-
             _giveaways.value = tempList
         } catch (e: Exception) {
             throw GiveAwayRetrievalError("Volgende ging mis: ${e}")
@@ -87,18 +85,20 @@ class GiveAwayRepository {
 
     fun addUserToGiveAway(userId: String, giveAwayId: String) {
         try {
-            // First check whether the user has already entered the giveaway
+            // The if statement might be redundant. If the user has already subscribed
+            // to this giveaway, this function won't be called. So the else statement kind of never
+            // happens, EXCEPT if a user has also logged in on an other device and tries to do the same...
             giveawayRef.whereEqualTo(FieldPath.documentId(), giveAwayId)
                 .whereArrayContains("participants", userId)
                 .get()
                 .addOnSuccessListener { documents ->
-                    if (documents.size() > 0) {
-                        _updateGiveAway.value = false
-                    } else {
+                    if (documents.size() == 0) {
                         // If it's their first time, add them to the list
                         giveawayRef.document(giveAwayId)
                             .update("participants", FieldValue.arrayUnion(userId))
-                        _updateGiveAway.value = true
+                        _giveAwayStatus.value =  true
+                    } else {
+                        _giveAwayStatus.value = false
                     }
                 }
         } catch (e: Exception) {
@@ -110,7 +110,6 @@ class GiveAwayRepository {
         try {
             giveawayRef.document(giveAwayId)
                 .update("participants", FieldValue.arrayRemove(userId))
-            _updateGiveAway.value = true
         } catch (e: Exception) {
             throw GiveAwayRetrievalError("Volgende ging mis: ${e}")
         }

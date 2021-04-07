@@ -10,7 +10,6 @@ import com.example.danshal.repository.GiveAwayRepository
 import com.example.danshal.repository.PostRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 
@@ -29,7 +28,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     // Checks for functions
     private val _userLoggedIn: MutableLiveData<Boolean> = MutableLiveData()
-    private val giveAwaySucceeded: MutableLiveData<Boolean> = giveAwayRepository.updateGiveAway
+    private val giveAwaySucceeded: MutableLiveData<Boolean> = giveAwayRepository.giveAwayStatus
 
     var currentGiveAway: MutableLiveData<GiveAway> = MutableLiveData<GiveAway>()
     val currentContentType: MutableLiveData<String> = MutableLiveData<String>()
@@ -130,7 +129,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     // observe this function to let the user know if they successfully entered the giveaway
     // Might be a better way to do this though
-    fun getGiveAwaySucceed(): MutableLiveData<Boolean> {
+    fun getGiveAwayStatus(): MutableLiveData<Boolean> {
         return giveAwaySucceeded
     }
 

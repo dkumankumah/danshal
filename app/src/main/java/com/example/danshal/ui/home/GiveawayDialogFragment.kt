@@ -60,8 +60,7 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
                 binding.ivCurrentGiveAway.setImageResource(R.drawable.event1)
             }
 
-            if(it.participants.contains(auth.currentUser!!.uid)) {
-                Log.d("Giveawa", it.participants.toString())
+            if (it.participants.contains(auth.currentUser!!.uid)) {
                 binding.btnParticipate.text = getString(R.string.title_btn_unsubscribe)
                 userExists = true
             } else {
@@ -69,32 +68,28 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
             }
         })
 
-        viewModel.userLoggedIn.observe(viewLifecycleOwner, {
-            binding.btnParticipate.setOnClickListener {
-                if(it != null) {
-                    // If a user has already entered the giveaway, the instead get the option to unsubscribe
-                    if(userExists) viewModel.removeUserFromGiveAway(giveAwayId) else viewModel.addUserToGiveAway(giveAwayId)
+        binding.btnParticipate.setOnClickListener {
+            viewModel.userLoggedIn.observe(viewLifecycleOwner, {
+                if (it != null) {
+                    // If a user has already entered the giveaway, they instead get the option to unsubscribe
+                    if (userExists) viewModel.removeUserFromGiveAway(giveAwayId) else viewModel.addUserToGiveAway(giveAwayId)
                     observeEnterGiveAway()
                 } else {
-                    Toast.makeText(activity, "Log in om mee te doen aan een giveaway", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, getString(R.string.msg_login_giveaway), Toast.LENGTH_SHORT).show()
                 }
-            }
+            })
+        }
+    }
+
+    private fun observeEnterGiveAway() {
+        viewModel.getGiveAwayStatus().observe(viewLifecycleOwner, {
+            Toast.makeText(activity, if(it) getString(R.string.msg_update_succes) else getString(R.string.msg_update_fail), Toast.LENGTH_SHORT).show()
         })
     }
 
     private fun convertDate(date: Date): String {
         val df: DateFormat = SimpleDateFormat("dd/MM/yyy")
         return df.format(date.getTime())
-    }
-
-    private fun observeEnterGiveAway() {
-        viewModel.getGiveAwaySucceed().observe(viewLifecycleOwner, {
-            if(it) {
-                Toast.makeText(activity, "U neemt nu deel aan deze giveaway!", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(activity, "Er is iets migegaan...Probeer het later opnieuw", Toast.LENGTH_SHORT).show()
-            }
-        })
     }
 
     fun newInstance(): GiveawayDialogFragment? {

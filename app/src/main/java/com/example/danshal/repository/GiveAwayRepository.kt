@@ -1,8 +1,10 @@
 package com.example.danshal.repository
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.example.danshal.models.GiveAway
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -15,9 +17,12 @@ class GiveAwayRepository {
     private val giveawayRef = db.collection("giveaways")
 
     private val _giveaways: MutableLiveData<List<GiveAway>> = MutableLiveData()
-
     val giveaways: MutableLiveData<List<GiveAway>>
         get() = _giveaways
+
+    private val _updateGiveAway: MutableLiveData<Boolean> = MutableLiveData()
+    val updateGiveAway: MutableLiveData<Boolean>
+        get() = _updateGiveAway
 
     // Fetch events from the database where the date is greater than today's date
     suspend fun getAllGiveAways() {
@@ -30,7 +35,7 @@ class GiveAwayRepository {
                 .await()
 
             for (result in data.toObjects(GiveAway::class.java)) {
-                val giveAway = GiveAway( result.participants, result.endDate)
+                val giveAway = GiveAway(result.participants, result.endDate)
                 giveAway.title = result.title
                 giveAway.content = result.content
                 giveAway.imageUrl = result.imageUrl
@@ -58,13 +63,13 @@ class GiveAwayRepository {
 
             for ((count, result) in data.toObjects(GiveAway::class.java).withIndex()) {
                 // Add user if exists to list
-                if(result.participants.isNotEmpty()) {
+                if (result.participants.isNotEmpty()) {
                     for (user in result.participants) {
                         tempUserList.add(user)
                     }
                 }
 
-                val giveAway = GiveAway( tempUserList, result.endDate)
+                val giveAway = GiveAway(tempUserList, result.endDate)
                 giveAway.title = result.title
                 giveAway.content = result.content
                 giveAway.imageUrl = result.imageUrl
@@ -81,13 +86,35 @@ class GiveAwayRepository {
     }
 
     fun addUserToGiveAway(userId: String, giveAwayId: String) {
-        Log.d("GiveAwayRepository", "ID VAN USER: $userId")
         try {
-            giveawayRef.document(giveAwayId).update("participants", FieldValue.arrayUnion(userId))
+            // First check whether the user has already entered the giveaway
+            giveawayRef.whereEqualTo(FieldPath.documentId(), giveAwayId)
+                .whereArrayContains("participants", userId)
+                .get()
+                .addOnSuccessListener { documents ->
+                    if (documents.size() > 0) {
+                        _updateGiveAway.value = false
+                    } else {
+                        // If it's their first time, add them to the list
+                        giveawayRef.document(giveAwayId)
+                            .update("participants", FieldValue.arrayUnion(userId))
+                        _updateGiveAway.value = true
+                    }
+                }
         } catch (e: Exception) {
             throw GiveAwayRetrievalError("Volgende ging mis: ${e}")
         }
     }
 
-    class GiveAwayRetrievalError(message: String): Exception(message)
+    fun removeUserFromGiveAway(userId: String, giveAwayId: String) {
+        try {
+            giveawayRef.document(giveAwayId)
+                .update("participants", FieldValue.arrayRemove(userId))
+            _updateGiveAway.value = true
+        } catch (e: Exception) {
+            throw GiveAwayRetrievalError("Volgende ging mis: ${e}")
+        }
+    }
+
+    class GiveAwayRetrievalError(message: String) : Exception(message)
 }

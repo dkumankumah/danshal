@@ -49,7 +49,8 @@
     <string name="action_cancel_filter">Annuleren</string>
 
 <!--    Dialog/Bottom sheet GiveAway-->
-    <string name="title_btn_giveaway">Meedoen</string>
+    <string name="title_btn_giveaway">Inschrijven</string>
+    <string name="title_btn_unsubscribe">Uitschrijven</string>
     <string name="title_btn_inlog">Inloggen</string>
 
     <!--admin-->

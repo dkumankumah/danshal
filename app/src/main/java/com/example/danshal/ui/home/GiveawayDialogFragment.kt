@@ -1,6 +1,7 @@
 package com.example.danshal.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,7 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
     private lateinit var auth: FirebaseAuth
     private val viewModel: HomeViewModel by activityViewModels()
     private lateinit var giveAwayId: String
+    private var userExists: Boolean = false
 
 
     override fun onCreateView(
@@ -57,13 +59,22 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
             } else {
                 binding.ivCurrentGiveAway.setImageResource(R.drawable.event1)
             }
+
+            if(it.participants.contains(auth.currentUser!!.uid)) {
+                Log.d("Giveawa", it.participants.toString())
+                binding.btnParticipate.text = getString(R.string.title_btn_unsubscribe)
+                userExists = true
+            } else {
+                userExists = false
+            }
         })
 
         viewModel.userLoggedIn.observe(viewLifecycleOwner, {
             binding.btnParticipate.setOnClickListener {
                 if(it != null) {
-                    viewModel.addUserToGiveAway(giveAwayId)
-                    Toast.makeText(activity, "U neemt nu deel aan de giveaway!", Toast.LENGTH_SHORT).show() //idk werkt nog niet
+                    // If a user has already entered the giveaway, the instead get the option to unsubscribe
+                    if(userExists) viewModel.removeUserFromGiveAway(giveAwayId) else viewModel.addUserToGiveAway(giveAwayId)
+                    observeEnterGiveAway()
                 } else {
                     Toast.makeText(activity, "Log in om mee te doen aan een giveaway", Toast.LENGTH_SHORT).show()
                 }
@@ -74,6 +85,16 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
     private fun convertDate(date: Date): String {
         val df: DateFormat = SimpleDateFormat("dd/MM/yyy")
         return df.format(date.getTime())
+    }
+
+    private fun observeEnterGiveAway() {
+        viewModel.getGiveAwaySucceed().observe(viewLifecycleOwner, {
+            if(it) {
+                Toast.makeText(activity, "U neemt nu deel aan deze giveaway!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(activity, "Er is iets migegaan...Probeer het later opnieuw", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     fun newInstance(): GiveawayDialogFragment? {

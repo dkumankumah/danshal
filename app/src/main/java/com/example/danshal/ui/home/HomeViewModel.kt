@@ -26,13 +26,17 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val postListData: MutableLiveData<List<Post>> = postRepository.posts
     private val giveAwayListData: MutableLiveData<List<GiveAway>> = giveAwayRepository.giveaways
     private val contentListData: MediatorLiveData<List<Content>> = MediatorLiveData()
+
+    // Checks for functions
     private val _userLoggedIn: MutableLiveData<Boolean> = MutableLiveData()
+    private val giveAwaySucceeded: MutableLiveData<Boolean> = giveAwayRepository.updateGiveAway
 
     var currentGiveAway: MutableLiveData<GiveAway> = MutableLiveData<GiveAway>()
     val currentContentType: MutableLiveData<String> = MutableLiveData<String>()
 
     val userLoggedIn: MutableLiveData<Boolean>
         get() = _userLoggedIn
+
 
     init {
         currentContentType.value = R.string.title_content.toString()
@@ -101,11 +105,34 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     Log.e("HomeViewModel", ex.message ?: errorMsg)
                 }
             }
+            getGiveAway()
         } else {
             println("niet ingelogd")
         }
     }
 
+    fun removeUserFromGiveAway(giveAwayId: String) {
+        if (auth.currentUser != null) {
+            viewModelScope.launch {
+                try {
+                    giveAwayRepository.removeUserFromGiveAway(auth.currentUser!!.uid, giveAwayId)
+                }
+                catch (ex: GiveAwayRepository.GiveAwayRetrievalError) {
+                    val errorMsg = "Something went wrong while adding user to a giveaway."
+                    Log.e("HomeViewModel", ex.message ?: errorMsg)
+                }
+            }
+            getGiveAway()
+        } else {
+            println("niet ingelogd")
+        }
+    }
+
+    // observe this function to let the user know if they successfully entered the giveaway
+    // Might be a better way to do this though
+    fun getGiveAwaySucceed(): MutableLiveData<Boolean> {
+        return giveAwaySucceeded
+    }
 
     fun getContent(): MediatorLiveData<List<Content>> {
         return contentListData

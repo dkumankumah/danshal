@@ -132,7 +132,8 @@
     <fragment
         android:id="@+id/adminDashboardDetailsFragment"
         android:name="com.example.danshal.ui.admin.AdminDashboardDetailsFragment"
-        android:label="AdminDashboardDetailsFragment" >
+        android:label="Admin Details" >
+
         <action
             android:id="@+id/action_adminDashboardDetailsFragment_to_nav_admin_dashboard"
             app:destination="@id/nav_admin_dashboard" />

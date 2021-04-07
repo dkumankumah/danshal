@@ -16,9 +16,9 @@ abstract class Content(
 
     class TYPE {
         companion object {
-            val EVENT = "EVENT"
-            val POST = "POST"
-            val GIVEAWAY = "GIVEAWAY"
+            val EVENT = "Event"
+            val POST = "Post"
+            val GIVEAWAY = "Giveaway"
         }
     }
 }

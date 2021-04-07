@@ -79,6 +79,9 @@ class AdminAddPostFragment : Fragment() {
             .addOnSuccessListener { documentReference ->
                 addImageToStorage(documentReference.id)
 
+                db.collection("posts").document(documentReference.id)
+                    .update("id", documentReference.id)
+
                 val notificationText = if (post.exclusive) "Exclusieve post is toegevoegd: ${post.title}" else "Post is toegevoegd: ${post.title}"
                 db.collection("notifications")
                     .add(Notification(notificationText))

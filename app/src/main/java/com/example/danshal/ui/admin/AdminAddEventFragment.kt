@@ -160,8 +160,12 @@ class AdminAddEventFragment : Fragment() {
             .addOnSuccessListener { documentReference ->
                 addImageToStorage(documentReference.id)
 
+                db.collection("events").document(documentReference.id)
+                    .update("id", documentReference.id)
+
                 db.collection("notifications")
                     .add(Notification("Event toegevoegd: ${event.title}"))
+
                 findNavController().navigate(R.id.action_adminAddEventFragment_to_nav_admin_dashboard)
                 Toast.makeText(context, "Event is toegevoegd", Toast.LENGTH_SHORT).show()
             }

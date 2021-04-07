@@ -95,6 +95,4 @@ class HomeAdapter(var contentItems: List<Content>) :
             TYPE_EVENT
         }
     }
-
-
 }

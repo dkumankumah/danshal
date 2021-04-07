@@ -8,6 +8,10 @@ import com.example.danshal.models.*
 import com.example.danshal.repository.EventRepository
 import com.example.danshal.repository.GiveAwayRepository
 import com.example.danshal.repository.PostRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 
 
@@ -15,20 +19,26 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val eventRepository = EventRepository()
     private val postRepository = PostRepository()
     private val giveAwayRepository = GiveAwayRepository()
+    private var auth: FirebaseAuth
 
+    // All the lists for the data
     private val eventListData: MutableLiveData<List<Event>> = eventRepository.events
     private val postListData: MutableLiveData<List<Post>> = postRepository.posts
     private val giveAwayListData: MutableLiveData<List<GiveAway>> = giveAwayRepository.giveaways
-
     private val contentListData: MediatorLiveData<List<Content>> = MediatorLiveData()
+    private val _userLoggedIn: MutableLiveData<Boolean> = MutableLiveData()
 
-    val currentContentType: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
+    var currentGiveAway: MutableLiveData<GiveAway> = MutableLiveData<GiveAway>()
+    val currentContentType: MutableLiveData<String> = MutableLiveData<String>()
+
+    val userLoggedIn: MutableLiveData<Boolean>
+        get() = _userLoggedIn
 
     init {
         currentContentType.value = R.string.title_content.toString()
+        auth = Firebase.auth
         combineAllContent()
+        _userLoggedIn.value = Firebase.auth.currentUser != null
     }
 
     // Voor nu zijn de filters hardcoded, moet er later uit
@@ -63,7 +73,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-//     Merge the two liveData by adding it to MediatorLiveData
+    //     Merge the two liveData by adding it to the sources of MediatorLiveData
     private fun combineAllContent() {
         viewModelScope.launch {
             contentListData.value = emptyList()
@@ -79,6 +89,21 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
+
+    fun addUserToGiveAway() {
+        if (auth.currentUser != null) {
+            Log.d("HomeViewModel", auth.currentUser!!.uid)
+            viewModelScope.launch {
+                try {
+                    auth.currentUser.toString()
+                } catch (ex: GiveAwayRepository.GiveAwayRetrievalError) {
+                    val errorMsg = "Something went wrong while adding user to a giveaway."
+                    Log.e("HomeViewModel", ex.message ?: errorMsg)
+                }
+            }
+        }
+    }
+
 
     fun getContent(): MediatorLiveData<List<Content>> {
         return contentListData

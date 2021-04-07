@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.danshal.models.Content
 import com.example.danshal.models.Event
 import com.example.danshal.models.GiveAway
 import com.example.danshal.models.Post
@@ -20,6 +21,8 @@ class AdminDashboardViewModel : ViewModel() {
     val eventListData: LiveData<List<Event>> = eventRepository.events
     val giveawayListData: LiveData<List<GiveAway>> = giveAwayRepository.giveaways
     val postListData: LiveData<List<Post>> = postRepository.posts
+
+    lateinit var detailContentType: String
 
     fun getAllEvents() {
         viewModelScope.launch {

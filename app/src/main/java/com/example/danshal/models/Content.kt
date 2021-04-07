@@ -14,10 +14,6 @@ abstract class Content(
 
     fun getSeconds() = timestamp?.seconds
 
-
-
-
-
     class TYPE {
         companion object {
             val EVENT = "EVENT"
@@ -38,6 +34,6 @@ data class Post(
 ) : Content(TYPE.POST, "", "", "")
 
 data class GiveAway(
-    var participants: List<User>? = emptyList(),
+    var participants: List<String>? = emptyList(),
     var endDate: Date = Date(),
 ) : Content(TYPE.GIVEAWAY, "", "", "")

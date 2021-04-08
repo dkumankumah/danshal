@@ -60,30 +60,42 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
                 binding.ivCurrentGiveAway.setImageResource(R.drawable.event1)
             }
 
-            if (it.participants.contains(auth.currentUser!!.uid)) {
-                binding.btnParticipate.text = getString(R.string.title_btn_unsubscribe)
-                userExists = true
-            } else {
-                userExists = false
-            }
-        })
 
-        binding.btnParticipate.setOnClickListener {
-            viewModel.userLoggedIn.observe(viewLifecycleOwner, {
-                if (it != null) {
-                    // If a user has already entered the giveaway, they instead get the option to unsubscribe
-                    if (userExists) viewModel.removeUserFromGiveAway(giveAwayId) else viewModel.addUserToGiveAway(giveAwayId)
-                    observeEnterGiveAway()
+            viewModel.userLoggedIn.observe(viewLifecycleOwner, Observer { user ->
+                // User is logged in, check if they are subscribed to this giveaway
+                if (user != null) {
+                    userExists = it.participants.contains(user.uid)
+
+                    binding.btnParticipate.setOnClickListener {
+                        if (userExists) {
+                            binding.btnParticipate.text = getString(R.string.title_btn_unsubscribe)
+                            viewModel.removeUserFromGiveAway(giveAwayId)
+                        } else {
+                            viewModel.addUserToGiveAway(giveAwayId)
+                        }
+                        observeEnterGiveAway()
+                    }
                 } else {
-                    Toast.makeText(activity, getString(R.string.msg_login_giveaway), Toast.LENGTH_SHORT).show()
+                    binding.btnParticipate.setOnClickListener {
+                        Toast.makeText(
+                            activity,
+                            getString(R.string.msg_login_giveaway),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             })
-        }
+
+        })
     }
 
     private fun observeEnterGiveAway() {
         viewModel.getGiveAwayStatus().observe(viewLifecycleOwner, {
-            Toast.makeText(activity, if(it) getString(R.string.msg_update_succes) else getString(R.string.msg_update_fail), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                activity,
+                it.toString(),
+                Toast.LENGTH_SHORT
+            ).show()
         })
     }
 

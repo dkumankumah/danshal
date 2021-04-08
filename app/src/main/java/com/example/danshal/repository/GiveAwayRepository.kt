@@ -20,8 +20,8 @@ class GiveAwayRepository {
     val giveaways: MutableLiveData<List<GiveAway>>
         get() = _giveaways
 
-    private val _giveAwayStatus: MutableLiveData<Boolean> = MutableLiveData()
-    val giveAwayStatus: MutableLiveData<Boolean>
+    private val _giveAwayStatus: MutableLiveData<String> = MutableLiveData()
+    val giveAwayStatus: MutableLiveData<String>
         get() = _giveAwayStatus
 
     // Fetch events from the database where the date is greater than today's date
@@ -60,7 +60,7 @@ class GiveAwayRepository {
                 .get()
                 .await()
 
-            for ((count, result) in data.toObjects(GiveAway::class.java).withIndex()) {
+            for (result in data.toObjects(GiveAway::class.java)) {
                 val tempUserList = arrayListOf<String>()
                 // Add user if exists to list
                 if (result.participants.isNotEmpty()) {
@@ -74,7 +74,7 @@ class GiveAwayRepository {
                 giveAway.content = result.content
                 giveAway.imageUrl = result.imageUrl
                 giveAway.timestamp = result.timestamp
-                giveAway.id = data.documents[count].id
+                giveAway.id = result.id
                 tempList.add(giveAway)
             }
             _giveaways.value = tempList
@@ -92,13 +92,13 @@ class GiveAwayRepository {
                 .whereArrayContains("participants", userId)
                 .get()
                 .addOnSuccessListener { documents ->
-                    if (documents.size() == 0) {
+                    if (documents.size() > 0) {
+                        _giveAwayStatus.value = "U neemt  al deel aan deze Giveaway"
+                    } else {
                         // If it's their first time, add them to the list
                         giveawayRef.document(giveAwayId)
                             .update("participants", FieldValue.arrayUnion(userId))
-                        _giveAwayStatus.value =  true
-                    } else {
-                        _giveAwayStatus.value = false
+                        _giveAwayStatus.value =  "U neemt nu deel aan deze Giveaway!"
                     }
                 }
         } catch (e: Exception) {
@@ -110,6 +110,7 @@ class GiveAwayRepository {
         try {
             giveawayRef.document(giveAwayId)
                 .update("participants", FieldValue.arrayRemove(userId))
+            _giveAwayStatus.value = "U neemt geen deel meer aan deze Giveaway"
         } catch (e: Exception) {
             throw GiveAwayRetrievalError("Volgende ging mis: ${e}")
         }

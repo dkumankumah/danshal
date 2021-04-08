@@ -9,6 +9,7 @@ import com.example.danshal.repository.EventRepository
 import com.example.danshal.repository.GiveAwayRepository
 import com.example.danshal.repository.PostRepository
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
@@ -27,13 +28,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val contentListData: MediatorLiveData<List<Content>> = MediatorLiveData()
 
     // Checks for functions
-    private val _userLoggedIn: MutableLiveData<Boolean> = MutableLiveData()
-    private val giveAwaySucceeded: MutableLiveData<Boolean> = giveAwayRepository.giveAwayStatus
+    private val giveAwaySucceeded: MutableLiveData<String> = giveAwayRepository.giveAwayStatus
 
     var currentGiveAway: MutableLiveData<GiveAway> = MutableLiveData<GiveAway>()
     val currentContentType: MutableLiveData<String> = MutableLiveData<String>()
 
-    val userLoggedIn: MutableLiveData<Boolean>
+    private val _userLoggedIn: MutableLiveData<FirebaseUser> = MutableLiveData()
+    val userLoggedIn: MutableLiveData<FirebaseUser>
         get() = _userLoggedIn
 
 
@@ -41,7 +42,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         currentContentType.value = R.string.title_content.toString()
         auth = Firebase.auth
         combineAllContent()
-        _userLoggedIn.value = Firebase.auth.currentUser != null
+        _userLoggedIn.value = Firebase.auth.currentUser
     }
 
     // Voor nu zijn de filters hardcoded, moet er later uit
@@ -98,13 +99,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             viewModelScope.launch {
                 try {
                     giveAwayRepository.addUserToGiveAway(auth.currentUser!!.uid, giveAwayId)
+                    loadGiveAway()
                 }
                 catch (ex: GiveAwayRepository.GiveAwayRetrievalError) {
                     val errorMsg = "Something went wrong while adding user to a giveaway."
                     Log.e("HomeViewModel", ex.message ?: errorMsg)
                 }
             }
-            getGiveAway()
         } else {
             println("niet ingelogd")
         }
@@ -115,13 +116,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             viewModelScope.launch {
                 try {
                     giveAwayRepository.removeUserFromGiveAway(auth.currentUser!!.uid, giveAwayId)
+                    loadGiveAway()
                 }
                 catch (ex: GiveAwayRepository.GiveAwayRetrievalError) {
                     val errorMsg = "Something went wrong while adding user to a giveaway."
                     Log.e("HomeViewModel", ex.message ?: errorMsg)
                 }
             }
-            getGiveAway()
         } else {
             println("niet ingelogd")
         }
@@ -129,7 +130,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     // observe this function to let the user know if they successfully entered the giveaway
     // Might be a better way to do this though
-    fun getGiveAwayStatus(): MutableLiveData<Boolean> {
+    fun getGiveAwayStatus(): MutableLiveData<String> {
         return giveAwaySucceeded
     }
 

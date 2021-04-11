@@ -1,6 +1,7 @@
 package com.example.danshal.repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.danshal.R
 import com.example.danshal.models.GiveAway
@@ -20,8 +21,8 @@ class GiveAwayRepository {
     val giveaways: MutableLiveData<List<GiveAway>>
         get() = _giveaways
 
-    private val _giveAwayStatus: MutableLiveData<String> = MutableLiveData()
-    val giveAwayStatus: MutableLiveData<String>
+    private val _giveAwayStatus: MutableLiveData<Boolean> = MutableLiveData()
+    val giveAwayStatus: LiveData<Boolean>
         get() = _giveAwayStatus
 
     // Fetch events from the database where the date is greater than today's date
@@ -93,12 +94,12 @@ class GiveAwayRepository {
                 .get()
                 .addOnSuccessListener { documents ->
                     if (documents.size() > 0) {
-                        _giveAwayStatus.value = "U neemt  al deel aan deze Giveaway"
+                        _giveAwayStatus.value = false
                     } else {
                         // If it's their first time, add them to the list
                         giveawayRef.document(giveAwayId)
                             .update("participants", FieldValue.arrayUnion(userId))
-                        _giveAwayStatus.value =  "U neemt nu deel aan deze Giveaway!"
+                        _giveAwayStatus.value =  true
                     }
                 }
         } catch (e: Exception) {
@@ -110,7 +111,7 @@ class GiveAwayRepository {
         try {
             giveawayRef.document(giveAwayId)
                 .update("participants", FieldValue.arrayRemove(userId))
-            _giveAwayStatus.value = "U neemt geen deel meer aan deze Giveaway"
+            _giveAwayStatus.value = false
         } catch (e: Exception) {
             throw GiveAwayRetrievalError("Volgende ging mis: ${e}")
         }

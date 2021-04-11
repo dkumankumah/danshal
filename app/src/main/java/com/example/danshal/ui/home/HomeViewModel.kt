@@ -28,7 +28,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val contentListData: MediatorLiveData<List<Content>> = MediatorLiveData()
 
     // Checks for functions
-    private val giveAwaySucceeded: MutableLiveData<String> = giveAwayRepository.giveAwayStatus
+    val giveAwayStatus: LiveData<Boolean> = giveAwayRepository.giveAwayStatus
 
     var currentGiveAway: MutableLiveData<GiveAway> = MutableLiveData<GiveAway>()
     val currentContentType: MutableLiveData<String> = MutableLiveData<String>()
@@ -36,6 +36,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val _userLoggedIn: MutableLiveData<FirebaseUser> = MutableLiveData()
     val userLoggedIn: MutableLiveData<FirebaseUser>
         get() = _userLoggedIn
+
+    private val _errorText: MutableLiveData<String> = MutableLiveData()
+    val errorText: LiveData<String>
+        get() = _errorText
 
 
     init {
@@ -62,6 +66,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             } catch (ex: EventRepository.EventRetrievalError) {
                 val errorMsg = "Something went wrong while retrieving the content."
                 Log.e("HomeViewModel", ex.message ?: errorMsg)
+                _errorText.value = errorMsg
             }
         }
     }
@@ -73,6 +78,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             } catch (ex: GiveAwayRepository.GiveAwayRetrievalError) {
                 val errorMsg = "Something went wrong while retrieving the giveaway."
                 Log.e("HomeViewModel", ex.message ?: errorMsg)
+                _errorText.value = errorMsg
             }
         }
     }
@@ -104,6 +110,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 catch (ex: GiveAwayRepository.GiveAwayRetrievalError) {
                     val errorMsg = "Something went wrong while adding user to a giveaway."
                     Log.e("HomeViewModel", ex.message ?: errorMsg)
+                    _errorText.value = errorMsg
                 }
             }
         } else {
@@ -121,17 +128,12 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 catch (ex: GiveAwayRepository.GiveAwayRetrievalError) {
                     val errorMsg = "Something went wrong while adding user to a giveaway."
                     Log.e("HomeViewModel", ex.message ?: errorMsg)
+                    _errorText.value = errorMsg
                 }
             }
         } else {
             println("niet ingelogd")
         }
-    }
-
-    // observe this function to let the user know if they successfully entered the giveaway
-    // Might be a better way to do this though
-    fun getGiveAwayStatus(): MutableLiveData<String> {
-        return giveAwaySucceeded
     }
 
     fun getContent(): MediatorLiveData<List<Content>> {

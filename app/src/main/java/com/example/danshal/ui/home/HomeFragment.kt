@@ -3,10 +3,14 @@ package com.example.danshal.ui.home
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
+import android.widget.Toast
+import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.danshal.R
@@ -70,6 +74,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViews() {
+//        activity?.viewModelStore?.clear()
+
         binding.rvEvents.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.rvGiveAway.layoutManager =
@@ -92,7 +98,7 @@ class HomeFragment : Fragment() {
 
         loadData()
         giveAwayAdapter = GiveAwayAdapter(giveAway, ::onGiveAwayClick)
-        homeAdapter = HomeAdapter(content)
+        homeAdapter = HomeAdapter(content, ::onContentClick)
         binding.rvEvents.layoutAnimation = controller
         binding.rvGiveAway.layoutAnimation = controller
         binding.rvEvents.adapter = homeAdapter
@@ -119,10 +125,18 @@ class HomeFragment : Fragment() {
 
         viewModel.getGiveAway().observe(viewLifecycleOwner, {
             giveAway.clear()
-            giveAway.addAll(it)
-            giveAwayAdapter.giveAway = giveAway
-            giveAwayAdapter.notifyDataSetChanged()
-            binding.rvGiveAway.scheduleLayoutAnimation()
+
+            if(it.isNotEmpty()) {
+                Log.d("hf", (it == null).toString())
+                giveAway.addAll(it)
+                giveAwayAdapter.giveAway = giveAway
+                giveAwayAdapter.notifyDataSetChanged()
+                binding.rvGiveAway.scheduleLayoutAnimation()
+            } else {
+                Log.d("hf2", (it == null).toString())
+                binding.tvGiveaway.visibility = View.GONE
+                binding.rvGiveAway.visibility = View.GONE
+            }
         })
 
     }
@@ -144,7 +158,6 @@ class HomeFragment : Fragment() {
                 .setPositiveButton(resources.getString(R.string.action_filter)) { dialog, which ->
                     // Respond to positive button press
                     viewModel.currentContentType.value = currentEventType
-
                 }
                 // Single-choice items (initialized with checked item)
                 .setSingleChoiceItems(dialogItems, checkedItem) { dialog, which ->
@@ -156,13 +169,21 @@ class HomeFragment : Fragment() {
     }
 
     private fun onGiveAwayClick(giveAway: GiveAway) {
-        viewModel.currentGiveAway.value = giveAway
+        viewModel.setCurrentGiveAway(giveAway)
         GiveawayDialogFragment().newInstance()?.show(parentFragmentManager, "giveaway_dialog_fragment")
     }
 
+    private fun onContentClick(content: Content) {
+        viewModel.setCurrentContent(content)
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        if(content.postType == Content.TYPE.EVENT) {
+            findNavController().navigate(R.id.action_nav_home_to_eventFragment)
+        } else {
+            findNavController().navigate(R.id.action_nav_home_to_postFragment)
+        }
     }
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
 }

@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_nav_home_to_nav_login"
             app:destination="@id/nav_login" />
+        <action
+            android:id="@+id/action_nav_home_to_eventFragment"
+            app:destination="@id/eventFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_postFragment"
+            app:destination="@id/postFragment" />
     </fragment>
 
     <fragment
@@ -130,6 +136,24 @@
         android:label="Uitloggen">
         <action
             android:id="@+id/action_nav_logout_page_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventFragment"
+        android:name="com.example.danshal.ui.home.EventFragment"
+        android:label="fragment_event"
+        tools:layout="@layout/fragment_event" >
+        <action
+            android:id="@+id/action_eventFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="com.example.danshal.ui.home.PostFragment"
+        android:label="fragment_post"
+        tools:layout="@layout/fragment_post" >
+        <action
+            android:id="@+id/action_postFragment_to_nav_home"
             app:destination="@id/nav_home" />
     </fragment>
 

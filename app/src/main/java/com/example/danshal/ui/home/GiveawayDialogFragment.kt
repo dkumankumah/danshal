@@ -1,20 +1,17 @@
 package com.example.danshal.ui.home
 
-import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.danshal.R
 import com.example.danshal.databinding.FragmentBottomSheetBinding
-import com.example.danshal.models.Content
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import java.text.DateFormat
@@ -24,9 +21,8 @@ import java.util.*
 class GiveawayDialogFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentBottomSheetBinding? = null
     private val binding get() = _binding!!
-    private lateinit var auth: FirebaseAuth
+    private var user: FirebaseUser? = null
     private val viewModel: HomeViewModel by activityViewModels()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,51 +30,57 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentBottomSheetBinding.inflate(inflater, container, false)
-        auth = Firebase.auth
         return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
+        user = Firebase.auth.currentUser
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeGiveAway()
-
-        binding.btnParticipate.setOnClickListener {
-            viewModel.addUserToGiveAway()
-        }
     }
 
+    // Bind the layout items to the current giveaway.
     private fun observeGiveAway() {
-        viewModel.currentGiveAway.observe(viewLifecycleOwner, Observer {
-            binding.tvCurrentGiveAwayTitle.text = it.title
-            binding.tvGiveAwayDate.text = convertDate(it.endDate)
+        viewModel.currentGiveAway.observe(viewLifecycleOwner, { giveAway ->
 
-            if (it.imageUrl != null && it.imageUrl != "") {
-                Glide.with(this).load(it.imageUrl).into(binding.ivCurrentGiveAway)
+            binding.tvCurrentGiveAwayTitle.text = giveAway.title
+            binding.tvGiveAwayDate.text = convertDate(giveAway.endDate)
+
+            if (giveAway.imageUrl != null && giveAway.imageUrl != "") {
+                Glide.with(this).load(giveAway.imageUrl).into(binding.ivCurrentGiveAway)
             } else {
                 binding.ivCurrentGiveAway.setImageResource(R.drawable.event1)
             }
 
+            viewModel.checkUser()
 
-        })
+            viewModel.isSubscribed.observe(viewLifecycleOwner, {
+                binding.btnParticipate.text =
+                    if (it) getString(R.string.title_btn_unsubscribe) else getString(
+                        R.string.title_btn_subscribe
+                    )
+            })
 
-        viewModel.userLoggedIn.observe(viewLifecycleOwner, {
             binding.btnParticipate.setOnClickListener {
-                if(it != null) {
-                    viewModel.addUserToGiveAway()
-                    Toast.makeText(activity, "U neemt nu deel aan de giveaway!", Toast.LENGTH_SHORT).show() //idk werkt nog niet
+                if(viewModel.isLoggedIn()) {
+                    if(viewModel.isSubscribed.value == true) viewModel.removeUserFromGiveAway() else viewModel.addUserToGiveAway()
                 } else {
-                    Toast.makeText(activity, "Log in om mee te doen aan een giveaway", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, getString(R.string.msg_login_giveaway), Toast.LENGTH_SHORT).show()
                 }
             }
         })
+
+        viewModel.errorText.observe(viewLifecycleOwner, {
+            Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+        })
     }
 
-    fun convertDate(date: Date): String {
+    private fun convertDate(date: Date): String {
         val df: DateFormat = SimpleDateFormat("dd/MM/yyy")
         return df.format(date.getTime())
     }

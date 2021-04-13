@@ -119,7 +119,6 @@ class PostRepository {
 
             val data = postRef
                 .orderBy("timestamp", Query.Direction.ASCENDING)
-                .whereGreaterThanOrEqualTo("timestamp", Timestamp.now().toDate())
                 .get()
                 .await()
 
@@ -190,8 +189,5 @@ class PostRepository {
         }
     }
 
-     fun clearPosts() {
-        _posts.value = emptyList()
-    }
     class PostRetrievalError(message: String) : Exception(message)
 }

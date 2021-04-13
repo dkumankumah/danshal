@@ -27,7 +27,6 @@
     <string name="logout">Uitloggen</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="dashboard">User logged in! Welcome to dashboard</string>
     <string name="adres">Adres</string>
     <string name="postcode">Postcode</string>
@@ -35,12 +34,12 @@
     <string name="validatie_wachtwoord">Wachtwoord nogmaals invoeren</string>
     <string name="wachtwoord_ongelijk">Wachtwoord komt niet overeen!</string>
     <string name="menu_admin">Admin</string>
-    
-<!--    These are String values for the events overview page-->
+
+    <!--    These are String values for the events overview page-->
     <string name="title_giveaway">Giveaway</string>
     <string name="title_content">Berichten</string>
 
-<!--    Dialog filter event-->
+    <!--    Dialog filter event-->
     <string name="title_event">Events</string>
     <string name="title_up_event">Upcoming Events</string>
     <string name="title_post">Posts</string>
@@ -48,9 +47,18 @@
     <string name="action_filter">Toepassen</string>
     <string name="action_cancel_filter">Annuleren</string>
 
-<!--    Dialog/Bottom sheet GiveAway-->
-    <string name="title_btn_giveaway">Meedoen</string>
+    <!--    Dialog/Bottom sheet GiveAway-->
+    <string name="title_btn_subscribe">Inschrijven</string>
+    <string name="title_btn_unsubscribe">Uitschrijven</string>
+    <string name="msg_update_succes">U neemt nu deel aan deze Giveaway!</string>
+    <string name="msg_update_fail">U neemt  al deel aan deze Giveaway</string>
+    <string name="msg_update_unsub">U neemt geen deel meer aan deze Giveaway</string>
+    <string name="msg_login_giveaway">Log in om mee te doen aan een giveaway</string>
     <string name="title_btn_inlog">Inloggen</string>
+
+<!--    Event fragment-->
+    <string name="title_share_event">Refer to a friend</string>
+    <string name="title_address_event">%s %d, %s</string>
 
     <!--admin-->
     <string name="menu_admin_dashboard">Admin Dashboard</string>
@@ -82,7 +90,7 @@
     <string name="admin_add_address_postcode">Postcode</string>
     <string name="admin_add_address_place">Plaats</string>
 
-  <!-- login/register -->
+    <!-- login/register -->
     <string name="waarschuwing_uitloggen">Weet u zeker dat u wilt uitloggen?</string>
     <string name="msg_ja">Ja</string>
     <string name="msg_nee">Nee</string>
@@ -95,11 +103,12 @@
     <string name="housenumber">nr.</string>
     <string name="gewijzigd">Gegevens zijn gewijzigd</string>
     <string name="title_participate">Meedoen</string>
+    <string name="btn_ticket">Buy Ticket</string>
     <string name="verwijderen">Account verwijderen</string>
     <string name="waarschuwing">Waarschuwing</string>
     <string name="waarschuwing_message">Weet u zeker dat u uw account wilt verwijderen?</string>
     <string name="email">Email</string>
     <string name="wachtwoord">Wachtwoord</string>
-    <string name="authtenticatie">Voor uw email en wachtwoord in</string>
+    <string name="authtenticatie">Voer uw email en wachtwoord in</string>
 
 </resources>

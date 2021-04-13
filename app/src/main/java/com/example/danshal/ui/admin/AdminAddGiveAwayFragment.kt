@@ -17,7 +17,6 @@ import com.example.danshal.R
 import com.example.danshal.databinding.AdminAddGiveAwayFragmentBinding
 import com.example.danshal.models.GiveAway
 import com.example.danshal.models.Notification
-import com.example.danshal.models.User
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage

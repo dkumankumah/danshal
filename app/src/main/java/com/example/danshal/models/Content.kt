@@ -12,8 +12,16 @@ abstract class Content(
     var imageUrl: String? = null,
     var timestamp: Timestamp? = Timestamp.now()
 ) {
-
     fun getSeconds() = timestamp?.seconds
+
+    companion object {
+        fun getDate(date: Date, type: Boolean): Int {
+            val cal: Calendar = Calendar.getInstance()
+            cal.time = date
+            //return the month (starts at 0) or day
+            return if(type) cal.get(Calendar.MONTH) else cal.get(Calendar.DAY_OF_MONTH)
+        }
+    }
 
     class TYPE {
         companion object {

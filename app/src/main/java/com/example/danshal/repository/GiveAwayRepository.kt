@@ -1,9 +1,7 @@
 package com.example.danshal.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.danshal.R
 import com.example.danshal.models.GiveAway
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldPath
@@ -42,10 +40,24 @@ class GiveAwayRepository {
                 giveAway.content = result.content
                 giveAway.imageUrl = result.imageUrl
                 giveAway.timestamp = result.timestamp
+                giveAway.id = result.id
 
                 tempList.add(giveAway)
             }
             _giveaways.value = tempList
+        } catch (e: Exception) {
+            throw GiveAwayRetrievalError("Volgende ging mis: ${e}")
+        }
+    }
+
+    fun removeGiveaway(doc: String) {
+        try {
+            if (doc.isNotEmpty()) {
+                giveawayRef.document(doc)
+                    .delete()
+            } else {
+                throw GiveAwayRetrievalError("Id is niet gevonden")
+            }
         } catch (e: Exception) {
             throw GiveAwayRetrievalError("Volgende ging mis: ${e}")
         }
@@ -64,8 +76,8 @@ class GiveAwayRepository {
             for (result in data.toObjects(GiveAway::class.java)) {
                 val tempUserList = arrayListOf<String>()
                 // Add user if exists to list
-                if (result.participants.isNotEmpty()) {
-                    for (user in result.participants) {
+                if (result.participants?.isNotEmpty() == true) {
+                    for (user in result.participants!!) {
                         tempUserList.add(user)
                     }
                 }

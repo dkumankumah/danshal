@@ -84,9 +84,10 @@
         android:name="com.example.danshal.ui.admin.AdminDashboardFragment"
         android:label="@string/menu_admin_dashboard"
         tools:layout="@layout/admin_dashboard_fragment" >
+
         <action
-            android:id="@+id/action_nav_admin_dashboard_self"
-            app:destination="@id/nav_admin_dashboard" />
+            android:id="@+id/action_nav_admin_dashboard_to_adminDashboardDetailsFragment"
+            app:destination="@id/adminDashboardDetailsFragment" />
     </fragment>
 
     <fragment
@@ -150,6 +151,16 @@
         <action
             android:id="@+id/action_postFragment_to_nav_home"
             app:destination="@id/nav_home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/adminDashboardDetailsFragment"
+        android:name="com.example.danshal.ui.admin.AdminDashboardDetailsFragment"
+        android:label="Admin Details" >
+
+        <action
+            android:id="@+id/action_adminDashboardDetailsFragment_to_nav_admin_dashboard"
+            app:destination="@id/nav_admin_dashboard" />
     </fragment>
 
 

@@ -92,6 +92,9 @@ class AdminAddGiveAwayFragment : Fragment() {
             .addOnSuccessListener { documentReference ->
                 addImageToStorage(documentReference.id)
 
+                db.collection("giveaways").document(documentReference.id)
+                    .update("id", documentReference.id)
+
                 db.collection("notifications")
                     .add(Notification("Give away toegevoegd: ${giveAway.title}"))
 

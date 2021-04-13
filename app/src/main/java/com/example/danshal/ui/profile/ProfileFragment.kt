@@ -1,26 +1,30 @@
 package com.example.danshal.ui.profile
 
 import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
 import android.content.ContentResolver
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.EditText
 import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.danshal.R
 import com.example.danshal.databinding.FragmentProfileBinding
 import com.example.danshal.models.Address
 import com.example.danshal.models.User
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -65,13 +69,14 @@ class ProfileFragment : Fragment() {
         var currentUser = auth.currentUser
         currentUser?.let { dataFetch(it.uid) }
 
+        // let the app know that this fragment is expecting menu related callbacks
+        setHasOptionsMenu(true)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        var currentUser = auth.currentUser
-//        currentUser?.let { dataFetch(it.uid) }
 
         binding.ivProfile.setOnClickListener {
             imagePicker()
@@ -86,6 +91,81 @@ class ProfileFragment : Fragment() {
                 updateUser()
             }
         }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val itemToHide = menu.findItem(R.id.action_settings)
+        itemToHide.isVisible = false
+
+        menu.findItem(R.id.action_delete).isVisible = true
+        super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_delete -> {
+                showDeleteDialog()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun showDeleteDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+//        builder.setTitle(getString(R.string.waarschuwing))
+        val dialogLayout = layoutInflater.inflate(R.layout.delete_user_dialog, null)
+
+        builder.setView(dialogLayout)
+        builder.setNegativeButton(R.string.ja) { _: DialogInterface, _: Int ->
+            showEmailForm()
+
+        }
+        builder.setPositiveButton(R.string.nee) { _: DialogInterface, _: Int ->
+
+        }
+        builder.show()
+
+    }
+
+    private fun showEmailForm() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(getString(R.string.authtenticatie))
+        val dialogLayout = layoutInflater.inflate(R.layout.user_form_dialog, null)
+
+        builder.setView(dialogLayout)
+
+        val email = dialogLayout.findViewById<EditText>(R.id.et_email)
+        val password = dialogLayout.findViewById<EditText>(R.id.et_wachtwoord)
+        builder.setNegativeButton(R.string.verwijderen) { _: DialogInterface, _: Int ->
+            deleteUser(email, password)
+
+        }
+        builder.show()
+
+    }
+
+    private fun deleteUser(email: EditText, password: EditText) {
+        var user = auth.currentUser!!
+        val email = email.text.toString()
+        val password = password.text.toString()
+
+        Log.d("user", user.toString())
+
+        val credential = EmailAuthProvider
+            .getCredential(email, password )
+
+        // Prompt the user to re-provide their sign-in credentials
+        user.reauthenticate(credential)
+            .addOnCompleteListener { Log.d("auth", "User re-authenticated.") }
+
+        user.delete()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("delete", "User account deleted.")
+                    findNavController().navigate(R.id.action_nav_profile_to_nav_home)
+                }
+            }
     }
 
     private fun updateUser(image: String) {

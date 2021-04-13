@@ -84,7 +84,7 @@ class RegisterFragment : Fragment() {
     private fun validate(): Boolean{
         return if (Patterns.EMAIL_ADDRESS.matcher(binding.etUsername.text.toString()).matches()
             && binding.etPassword.text.toString().isNotBlank()
-            && binding.etPassword.text.length > 4
+            && binding.etPassword.text.length > 5
             && binding.etPasswordVal.text.isNotBlank()
             && binding.etName.text.isNotBlank()){
             passwordChecker()
@@ -123,6 +123,8 @@ class RegisterFragment : Fragment() {
                         .set(it)
                         .addOnSuccessListener { documentReference ->
                             Log.d("Cloud", "DocumentSnapshot added with ID: $documentReference")
+                            Toast.makeText(context, "Account is geregistreed" ,Toast.LENGTH_LONG)
+
                         }
                         .addOnFailureListener { e ->
                             Log.w("Cloud", "Error adding document", e)

@@ -18,7 +18,7 @@
     <string name="welcome">"Welcome!"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="login_failed">"Inloggen is niet gelukt"</string>
     <string name="empty_field">"Graag je email en wachtwoord invullen"</string>
     <string name="register">Geen account? Maak nu een account</string>
     <string name="name">Naam</string>
@@ -85,7 +85,7 @@
   <!-- login/register -->
     <string name="waarschuwing_uitloggen">Weet u zeker dat u wilt uitloggen?</string>
     <string name="ja">Ja</string>
-    <string name="nee">nee</string>
+    <string name="nee">Nee</string>
     <string name="hint_name">Naam</string>
     <string name="hint_adress">Adres</string>
     <string name="hint_postcode">Postcode</string>
@@ -95,5 +95,11 @@
     <string name="housenumber">nr.</string>
     <string name="gewijzigd">Gegevens zijn gewijzigd</string>
     <string name="title_participate">Meedoen</string>
+    <string name="verwijderen">Account verwijderen</string>
+    <string name="waarschuwing">Waarschuwing</string>
+    <string name="waarschuwing_message">Weet u zeker dat u uw account wilt verwijderen?</string>
+    <string name="email">Email</string>
+    <string name="wachtwoord">Wachtwoord</string>
+    <string name="authtenticatie">Voor uw email en wachtwoord in</string>
 
 </resources>

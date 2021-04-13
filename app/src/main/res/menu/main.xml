@@ -14,4 +14,8 @@
         android:title="@string/action_filter"
         android:visible="false"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_delete"
+        android:title="@string/verwijderen"
+        android:visible="false" />
 </menu>

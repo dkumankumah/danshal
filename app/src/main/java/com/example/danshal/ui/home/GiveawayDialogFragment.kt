@@ -47,7 +47,6 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
     // Bind the layout items to the current giveaway.
     private fun observeGiveAway() {
         viewModel.currentGiveAway.observe(viewLifecycleOwner, { giveAway ->
-            Log.d("GDF", giveAway.toString())
 
             binding.tvCurrentGiveAwayTitle.text = giveAway.title
             binding.tvGiveAwayDate.text = convertDate(giveAway.endDate)

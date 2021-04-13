@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.danshal.models.Content
 import com.example.danshal.models.Event
 import com.example.danshal.models.GiveAway
 import com.example.danshal.models.Post
@@ -30,7 +29,7 @@ class AdminDashboardViewModel : ViewModel() {
                 eventRepository.getAllEvents()
             } catch (ex: EventRepository.EventRetrievalError) {
                 val errorMsg = "Something went wrong while retrieving the events."
-                Log.e("HomeViewModel", ex.message ?: errorMsg)
+                Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
             }
         }
     }
@@ -41,7 +40,7 @@ class AdminDashboardViewModel : ViewModel() {
                 giveAwayRepository.getAllGiveAways()
             } catch (ex: GiveAwayRepository.GiveAwayRetrievalError) {
                 val errorMsg = "Something went wrong while retrieving the giveaways."
-                Log.e("HomeViewModel", ex.message ?: errorMsg)
+                Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
             }
         }
     }
@@ -52,9 +51,44 @@ class AdminDashboardViewModel : ViewModel() {
                 postRepository.getAllPosts()
             } catch (ex: PostRepository.PostRetrievalError) {
                 val errorMsg = "Something went wrong while retrieving the exclusive posts."
-                Log.e("HomeViewModel", ex.message ?: errorMsg)
+                Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
             }
         }
     }
+
+    fun removeEvent(doc: String) {
+        viewModelScope.launch {
+            try {
+                eventRepository.removeEvent(doc)
+            } catch (ex: PostRepository.PostRetrievalError) {
+                val errorMsg = "Something went wrong while removing an event."
+                Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
+            }
+        }
+    }
+
+    fun removePost(doc: String) {
+        viewModelScope.launch {
+            try {
+                postRepository.removePost(doc)
+            } catch (ex: PostRepository.PostRetrievalError) {
+                val errorMsg = "Something went wrong while removing a post."
+                Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
+            }
+        }
+    }
+
+    fun removeGiveaway(doc: String) {
+        viewModelScope.launch {
+            try {
+                giveAwayRepository.removeGiveaway(doc)
+            } catch (ex: PostRepository.PostRetrievalError) {
+                val errorMsg = "Something went wrong while removing a giveaway."
+                Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
+            }
+        }
+    }
+    
+    
 
 }

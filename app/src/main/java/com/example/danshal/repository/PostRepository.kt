@@ -9,7 +9,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
-import java.util.*
 
 class PostRepository {
     private val db = Firebase.firestore
@@ -37,15 +36,29 @@ class PostRepository {
                 .await()
 
             for (result in data.toObjects(Post::class.java)) {
-                val post = Post(result.exclusive,)
+                val post = Post(result.exclusive)
                 post.title = result.title
                 post.content = result.content
                 post.imageUrl = result.imageUrl
                 post.timestamp = result.timestamp
+                post.id = result.id
 
                 tempList.add(post)
             }
             _posts.value = tempList
+        } catch (e: Exception) {
+            throw PostRetrievalError("Volgende ging mis: ${e}")
+        }
+    }
+
+    fun removePost(doc: String) {
+        try {
+            if (doc.isNotEmpty()) {
+                postRef.document(doc)
+                    .delete()
+            } else {
+                throw PostRetrievalError("Id is niet gevonden")
+            }
         } catch (e: Exception) {
             throw PostRetrievalError("Volgende ging mis: ${e}")
         }

@@ -3,6 +3,7 @@ package com.example.danshal.ui.admin
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,8 +23,8 @@ class AdminDashboardDetailsFragment : Fragment() {
     private var _binding: AdminDashboardDetailsFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val content = arrayListOf<Content>()
-    private val contentDetailsAdapter = AdminContentAdapter(content)
+    private val contentList = arrayListOf<Content>()
+    private val contentDetailsAdapter = AdminContentAdapter(contentList, ::removeContentItem, ::editContentItem)
 
     private val viewModel: AdminDashboardViewModel by activityViewModels()
 
@@ -47,6 +48,39 @@ class AdminDashboardDetailsFragment : Fragment() {
         initViews()
     }
 
+    private fun editContentItem(content: Content) {
+        when(viewModel.detailContentType){
+            Content.TYPE.EVENT -> {
+                Log.i("DASHBOARD", "Edit event ${content.title}")
+            }
+            Content.TYPE.GIVEAWAY -> {
+                Log.i("DASHBOARD", "Edit give away ${content.title}")
+            }
+            Content.TYPE.POST -> {
+                Log.i("DASHBOARD", "Edit post ${content.title}")
+            }
+        }
+    }
+
+    private fun removeContentItem(content: Content) {
+        when(viewModel.detailContentType){
+            Content.TYPE.EVENT -> {
+                viewModel.removeEvent(content.id)
+            }
+            Content.TYPE.GIVEAWAY -> {
+                Log.i("DASHBOARD", "Remove give away ${content.title}")
+                viewModel.removeGiveaway(content.id)
+            }
+            Content.TYPE.POST -> {
+                Log.i("DASHBOARD", "Remove post ${content.title}")
+                viewModel.removePost(content.id)
+            }
+        }
+        // Remove from content list
+        contentList.remove(content)
+        contentDetailsAdapter.notifyDataSetChanged()
+    }
+
     private fun initViews() {
         binding.rvContent.layoutManager = GridLayoutManager(context, 1)
         binding.rvContent.adapter = contentDetailsAdapter
@@ -66,17 +100,17 @@ class AdminDashboardDetailsFragment : Fragment() {
         when (viewModel.detailContentType) {
             Content.TYPE.EVENT -> {
                 viewModel.eventListData.observe(viewLifecycleOwner, Observer { list ->
-                    content.addAll(list)
+                    contentList.addAll(list)
                 })
             }
             Content.TYPE.POST -> {
                 viewModel.postListData.observe(viewLifecycleOwner, Observer { list ->
-                    content.addAll(list)
+                    contentList.addAll(list)
                 })
             }
             Content.TYPE.GIVEAWAY -> {
                 viewModel.giveawayListData.observe(viewLifecycleOwner, Observer { list ->
-                    content.addAll(list)
+                    contentList.addAll(list)
                 })
             }
         }

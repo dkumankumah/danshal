@@ -5,7 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.danshal.R
@@ -21,13 +22,16 @@ private const val TYPE_EVENT = 0
 private const val TYPE_POST = 1
 private const val TYPE_GIVEAWAY = 2
 
-class AdminContentAdapter(var contentItems: List<Content>) :
+class AdminContentAdapter(var contentItems: List<Content>, val onItemRemoved: (Content) -> Unit, val onItemEdit: (Content) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private lateinit var context: Context
+    lateinit var adminDashboardViewModel: AdminDashboardViewModel
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         context = parent.context
+        adminDashboardViewModel =
+            ViewModelProvider(context as FragmentActivity).get(AdminDashboardViewModel::class.java)
 
         return when (viewType) {
             TYPE_EVENT -> {
@@ -70,17 +74,9 @@ class AdminContentAdapter(var contentItems: List<Content>) :
         }
     }
 
-    class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = ItemAdminEventBinding.bind(itemView)
         val monthName = DateFormatSymbols(Locale.ENGLISH).shortMonths
-
-        init {
-            itemView.setOnClickListener {edit()}
-        }
-
-        private fun edit() {
-            Log.i("DETAILS", "edit event $adapterPosition")
-        }
 
         fun bind(content: Event, context: Context) {
             binding.tvTitle.text = content.title
@@ -100,12 +96,12 @@ class AdminContentAdapter(var contentItems: List<Content>) :
             }
 
             binding.btnDelete.setOnClickListener {
-                remove()
+                onItemRemoved(content)
             }
-        }
 
-        private fun remove() {
-            Log.i("DETAILS", "remove event $adapterPosition")
+            itemView.setOnClickListener {
+                onItemEdit(content)
+            }
         }
 
         private fun getDate(date: Date, type: Boolean): Int {
@@ -116,16 +112,8 @@ class AdminContentAdapter(var contentItems: List<Content>) :
         }
     }
 
-    class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = ItemAdminPostBinding.bind(itemView)
-
-        init {
-            itemView.setOnClickListener {edit()}
-        }
-
-        private fun edit() {
-            Log.i("DETAILS", "edit post $adapterPosition")
-        }
 
         fun bind(content: Post, context: Context) {
             binding.tvTitle.text = content.title
@@ -139,26 +127,18 @@ class AdminContentAdapter(var contentItems: List<Content>) :
             }
 
             binding.btnDelete.setOnClickListener {
-                remove()
+                onItemRemoved(content)
             }
-        }
 
-        private fun remove() {
-            Log.i("DETAILS", "remove post $adapterPosition")
+            itemView.setOnClickListener {
+                onItemEdit(content)
+            }
         }
     }
 
-    class GiveAwayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class GiveAwayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = ItemAdminGiveawayBinding.bind(itemView)
         val monthName = DateFormatSymbols(Locale.ENGLISH).shortMonths
-
-        init {
-            itemView.setOnClickListener {edit()}
-        }
-
-        private fun edit() {
-            Log.i("DETAILS", "edit giveaway $adapterPosition")
-        }
 
         fun bind(content: GiveAway, context: Context) {
             binding.tvTitle.text = content.title
@@ -174,12 +154,12 @@ class AdminContentAdapter(var contentItems: List<Content>) :
             }
 
             binding.btnDelete.setOnClickListener {
-                remove()
+                onItemRemoved(content)
             }
-        }
 
-        private fun remove() {
-            Log.i("DETAILS", "remove giveaway $adapterPosition")
+            itemView.setOnClickListener {
+                onItemEdit(content)
+            }
         }
 
         private fun getDate(date: Date, type: Boolean): Int {

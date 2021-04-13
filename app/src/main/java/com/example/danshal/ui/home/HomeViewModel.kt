@@ -53,7 +53,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // Voor nu zijn de filters hardcoded, moet er later uit
-    // user auth moet hierover heen gedaan worden
     fun loadAllContent() {
         viewModelScope.launch {
             try {
@@ -83,6 +82,15 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 giveAwayRepository.getAllGiveAwaysForUsers()
+
+                // update the currentgiveaway
+                if(currentGiveAway.value != null) {
+                    for (giveaway in giveAwayListData.value!!) {
+                        if(giveaway.id == currentGiveAway.value?.id) {
+                            _currentGiveAway.value = giveaway
+                        }
+                    }
+                }
             } catch (ex: GiveAwayRepository.GiveAwayRetrievalError) {
                 val errorMsg = "Something went wrong while retrieving the giveaway."
                 Log.e("HomeViewModel", ex.message ?: errorMsg)

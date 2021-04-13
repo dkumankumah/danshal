@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.danshal.R
 import com.example.danshal.models.GiveAway
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
@@ -55,9 +56,8 @@ class GiveAwayRepository {
             val tempList = arrayListOf<GiveAway>()
 
             val data = giveawayRef
-                .orderBy("timestamp", Query.Direction.ASCENDING)
-//                .orderBy("endDate", Query.Direction.ASCENDING)
-//                .whereGreaterThanOrEqualTo("timestamp", Timestamp.now().toDate())
+                .orderBy("endDate", Query.Direction.ASCENDING)
+                .whereGreaterThanOrEqualTo("endDate", Timestamp.now().toDate())
                 .get()
                 .await()
 
@@ -85,11 +85,10 @@ class GiveAwayRepository {
     }
 
     fun addUserToGiveAway(userId: String, giveAwayId: String) {
-        Log.d("GiveAwarRepoAdd", giveAwayId + " --- " + userId)
         try {
             // The if statement might be redundant. If the user has already subscribed
             // to this giveaway, this function won't be called. So the else statement kind of never
-            // happens, EXCEPT if a user has also logged in on an other device and tries to do the same...
+            // happens, EXCEPT if a user has also logged in on an other device and tries to do the same at the same time...
             giveawayRef.whereEqualTo(FieldPath.documentId(), giveAwayId)
                 .whereArrayContains("participants", userId)
                 .get()
@@ -109,7 +108,6 @@ class GiveAwayRepository {
     }
 
     fun removeUserFromGiveAway(userId: String, giveAwayId: String) {
-        Log.d("GiveAwarRepoRemove", giveAwayId + " --- " + userId)
         try {
             giveawayRef.document(giveAwayId)
                 .update("participants", FieldValue.arrayRemove(userId))

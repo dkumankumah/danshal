@@ -1,18 +1,15 @@
 package com.example.danshal.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.danshal.R
 import com.example.danshal.databinding.FragmentBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -49,7 +46,7 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
 
     // Bind the layout items to the current giveaway.
     private fun observeGiveAway() {
-        viewModel.currentGiveAway.observe(viewLifecycleOwner, Observer {
+        viewModel.currentGiveAway.observe(viewLifecycleOwner, {
             binding.tvCurrentGiveAwayTitle.text = it.title
             binding.tvGiveAwayDate.text = convertDate(it.endDate)
             giveAwayId = it.id
@@ -87,6 +84,7 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
         binding.btnParticipate.setOnClickListener {
             viewModel.removeUserFromGiveAway(giveAwayId)
             btnSubscribe(giveAwayId)
+            activity?.viewModelStore?.clear()
         }
     }
 
@@ -95,6 +93,7 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
         binding.btnParticipate.setOnClickListener {
             viewModel.addUserToGiveAway(giveAwayId)
             btnUnSubscribe(giveAwayId)
+            activity?.viewModelStore?.clear()
         }
     }
 

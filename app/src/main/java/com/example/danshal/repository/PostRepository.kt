@@ -119,7 +119,6 @@ class PostRepository {
 
             val data = postRef
                 .orderBy("timestamp", Query.Direction.ASCENDING)
-                .whereGreaterThanOrEqualTo("timestamp", Timestamp.now().toDate())
                 .get()
                 .await()
 

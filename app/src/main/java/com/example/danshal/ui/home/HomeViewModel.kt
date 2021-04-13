@@ -66,6 +66,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                             eventRepository.getUpcomingEvents()
                         }
                         else -> {
+                            Log.d("HWVM", isLoaded().toString())
                             eventRepository.getAllEventsForUsers()
                             postRepository.getAllPostsForUsers()
                         }
@@ -86,8 +87,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 giveAwayRepository.getAllGiveAwaysForUsers()
-
-                // update the currentgiveaway
+                // update the current giveaway
                 if (currentGiveAway.value != null) {
                     for (giveaway in giveAwayListData.value!!) {
                         if (giveaway.id == currentGiveAway.value?.id) {
@@ -108,13 +108,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             contentListData.value = emptyList()
 
-            contentListData.removeSource(eventListData)
-            contentListData.addSource(eventListData) { value ->
+            contentListData.removeSource(postListData)
+            contentListData.addSource(postListData) { value ->
                 contentListData.value = value
             }
 
-            contentListData.removeSource(postListData)
-            contentListData.addSource(postListData) { value ->
+            contentListData.removeSource(eventListData)
+            contentListData.addSource(eventListData) { value ->
                 contentListData.value = value
             }
         }

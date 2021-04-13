@@ -122,7 +122,7 @@ class HomeFragment : Fragment() {
 
             homeAdapter.contentItems = content.sortedWith(compareBy(Content::getSeconds))
             homeAdapter.notifyDataSetChanged()
-//            binding.rvEvents.scheduleLayoutAnimation()
+            binding.rvEvents.scheduleLayoutAnimation()
         })
 
         viewModel.getGiveAway().observe(viewLifecycleOwner, {

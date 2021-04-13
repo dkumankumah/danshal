@@ -23,7 +23,6 @@ abstract class Content(
         }
     }
 
-
     class TYPE {
         companion object {
             val EVENT = "EVENT"

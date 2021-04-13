@@ -35,13 +35,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val currentGiveAway: LiveData<GiveAway>
         get() = _currentGiveAway
 
-    private val _currentEvent: MutableLiveData<Event> = MutableLiveData()
-    val currentEvent: LiveData<Event>
-        get() = _currentEvent
-
-    private val _currentPost: MutableLiveData<Post> = MutableLiveData()
-    val currentPost: LiveData<Post>
-        get() = _currentPost
+    private val _currentContent: MutableLiveData<Content> = MutableLiveData()
+    val currentContent: LiveData<Content>
+        get() = _currentContent
 
     val currentContentType: MutableLiveData<String> = MutableLiveData<String>()
 
@@ -169,16 +165,17 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun setCurrentEvent(event: Event) {
-        _currentEvent.value = event
-    }
-
-    fun setCurrentPost(post: Post) {
-        _currentPost.value = post
+    fun setCurrentContent(content: Content) {
+        _currentContent.value = null
+        _currentContent.value = content
     }
 
     fun setCurrentGiveAway(giveAway: GiveAway) {
         _currentGiveAway.value = giveAway
+    }
+
+    fun isLoaded(): Boolean {
+        return contentListData.value != null
     }
 
     fun getContent(): MediatorLiveData<List<Content>> {

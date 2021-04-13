@@ -50,15 +50,19 @@ class HomeAdapter(var contentItems: List<Content>, private val onClick: (Content
         return contentItems.size
     }
 
-    class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+   inner class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+       init {
+           itemView.setOnClickListener { onClick(contentItems[adapterPosition]) }
+       }
+
         val binding = ItemEventBinding.bind(itemView)
         val monthName = DateFormatSymbols(Locale.ENGLISH).shortMonths
 
         fun bind(content: Event, context: Context) {
 
             binding.tvEventTitle.text = content.title
-            binding.tvDay.text = getDate(content.date, false).toString()
-            binding.tvMonth.text = monthName[getDate(content.date, true)]
+            binding.tvDay.text = Content.getDate(content.date, false).toString()
+            binding.tvMonth.text = monthName[Content.getDate(content.date, true)]
 
             if (content.imageUrl != null && content.imageUrl != "") {
                 Glide.with(context).load(content.imageUrl).into(binding.ivEventImage)
@@ -66,16 +70,13 @@ class HomeAdapter(var contentItems: List<Content>, private val onClick: (Content
                 binding.ivEventImage.setImageResource(R.drawable.event2)
             }
         }
-
-        private fun getDate(date: Date, type: Boolean): Int {
-            val cal: Calendar = Calendar.getInstance()
-            cal.time = date
-            //return the month (starts at 0) or day
-            return if(type) cal.get(Calendar.MONTH) else cal.get(Calendar.DAY_OF_MONTH)
-        }
     }
 
-    class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        init {
+            itemView.setOnClickListener {onClick(contentItems[adapterPosition])}
+        }
+
         val binding = ItemPostBinding.bind(itemView)
 
         fun bind(content: Post, context: Context) {

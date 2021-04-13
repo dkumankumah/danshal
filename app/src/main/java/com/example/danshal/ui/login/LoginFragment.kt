@@ -107,7 +107,7 @@ class LoginFragment : Fragment() {
             }
             else{
                 Log.e("Task", "Failed..."+task.exception)
-                Toast.makeText(this.context, getString(R.string.login_failed), Toast.LENGTH_LONG)
+                Toast.makeText(context, getString(R.string.login_failed), Toast.LENGTH_LONG).show()
             }
         }
     }

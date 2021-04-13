@@ -1,10 +1,8 @@
 package com.example.danshal.repository
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.danshal.models.GiveAway
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -31,15 +29,29 @@ class GiveAwayRepository {
                 .await()
 
             for (result in data.toObjects(GiveAway::class.java)) {
-                val giveAway = GiveAway( result.participants, result.endDate)
+                val giveAway = GiveAway(result.participants, result.endDate)
                 giveAway.title = result.title
                 giveAway.content = result.content
                 giveAway.imageUrl = result.imageUrl
                 giveAway.timestamp = result.timestamp
+                giveAway.id = result.id
 
                 tempList.add(giveAway)
             }
             _giveaways.value = tempList
+        } catch (e: Exception) {
+            throw GiveAwayRetrievalError("Volgende ging mis: ${e}")
+        }
+    }
+
+    fun removeGiveaway(doc: String) {
+        try {
+            if (doc.isNotEmpty()) {
+                giveawayRef.document(doc)
+                    .delete()
+            } else {
+                throw GiveAwayRetrievalError("Id is niet gevonden")
+            }
         } catch (e: Exception) {
             throw GiveAwayRetrievalError("Volgende ging mis: ${e}")
         }

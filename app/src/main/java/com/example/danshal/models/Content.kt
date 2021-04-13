@@ -6,6 +6,7 @@ import java.util.*
 // Base class
 abstract class Content(
     var postType: String,
+    var id: String,
     var title: String,
     var content: String,
     var imageUrl: String? = null,
@@ -14,15 +15,11 @@ abstract class Content(
 
     fun getSeconds() = timestamp?.seconds
 
-
-
-
-
     class TYPE {
         companion object {
-            val EVENT = "EVENT"
-            val POST = "POST"
-            val GIVEAWAY = "GIVEAWAY"
+            val EVENT = "Event"
+            val POST = "Post"
+            val GIVEAWAY = "Giveaway"
         }
     }
 }
@@ -31,13 +28,13 @@ data class Event(
     var address: Address = Address(0, "", "", "", ""),
     var date: Date = Date(),
     var exclusive: Boolean = false,
-) : Content(TYPE.EVENT, "", "", "")
+) : Content(TYPE.EVENT, "", "", "", "")
 
 data class Post(
     var exclusive: Boolean = false,
-) : Content(TYPE.POST, "", "", "")
+) : Content(TYPE.POST, "", "", "", "")
 
 data class GiveAway(
-    var participants: List<User>? = emptyList(),
+    var participants: List<String>? = emptyList(),
     var endDate: Date = Date(),
-) : Content(TYPE.GIVEAWAY, "", "", "")
+) : Content(TYPE.GIVEAWAY, "", "", "", "")

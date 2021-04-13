@@ -19,8 +19,9 @@ class AdminDashboardViewModel : ViewModel() {
 
     val eventListData: LiveData<List<Event>> = eventRepository.events
     val giveawayListData: LiveData<List<GiveAway>> = giveAwayRepository.giveaways
-    val exclusivePostListData: LiveData<List<Post>> = postRepository.exclusivePosts
-    val nonExclusivePostListData: LiveData<List<Post>> = postRepository.nonExclusivePosts
+    val postListData: LiveData<List<Post>> = postRepository.posts
+
+    lateinit var detailContentType: String
 
     fun getAllEvents() {
         viewModelScope.launch {
@@ -28,7 +29,7 @@ class AdminDashboardViewModel : ViewModel() {
                 eventRepository.getAllEvents()
             } catch (ex: EventRepository.EventRetrievalError) {
                 val errorMsg = "Something went wrong while retrieving the events."
-                Log.e("HomeViewModel", ex.message ?: errorMsg)
+                Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
             }
         }
     }
@@ -39,31 +40,55 @@ class AdminDashboardViewModel : ViewModel() {
                 giveAwayRepository.getAllGiveAways()
             } catch (ex: GiveAwayRepository.GiveAwayRetrievalError) {
                 val errorMsg = "Something went wrong while retrieving the giveaways."
-                Log.e("HomeViewModel", ex.message ?: errorMsg)
+                Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
             }
         }
     }
 
-    fun getAllExclusivePosts() {
+    fun getAllPosts() {
         viewModelScope.launch {
             try {
-                postRepository.getAllExclusivePosts()
+                postRepository.getAllPosts()
             } catch (ex: PostRepository.PostRetrievalError) {
                 val errorMsg = "Something went wrong while retrieving the exclusive posts."
-                Log.e("HomeViewModel", ex.message ?: errorMsg)
+                Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
             }
         }
     }
 
-    fun getAllNonExclusivePosts() {
+    fun removeEvent(doc: String) {
         viewModelScope.launch {
             try {
-                postRepository.getAllNonExclusivePosts()
+                eventRepository.removeEvent(doc)
             } catch (ex: PostRepository.PostRetrievalError) {
-                val errorMsg = "Something went wrong while retrieving the non exclusive posts."
-                Log.e("HomeViewModel", ex.message ?: errorMsg)
+                val errorMsg = "Something went wrong while removing an event."
+                Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
             }
         }
     }
+
+    fun removePost(doc: String) {
+        viewModelScope.launch {
+            try {
+                postRepository.removePost(doc)
+            } catch (ex: PostRepository.PostRetrievalError) {
+                val errorMsg = "Something went wrong while removing a post."
+                Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
+            }
+        }
+    }
+
+    fun removeGiveaway(doc: String) {
+        viewModelScope.launch {
+            try {
+                giveAwayRepository.removeGiveaway(doc)
+            } catch (ex: PostRepository.PostRetrievalError) {
+                val errorMsg = "Something went wrong while removing a giveaway."
+                Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
+            }
+        }
+    }
+    
+    
 
 }

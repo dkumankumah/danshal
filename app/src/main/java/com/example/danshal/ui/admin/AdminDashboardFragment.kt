@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.danshal.R
 import com.example.danshal.databinding.AdminDashboardFragmentBinding
+import com.example.danshal.models.Content
 import com.example.danshal.models.Notification
 import com.example.danshal.ui.home.HomeViewModel
 import com.google.firebase.firestore.Query
@@ -46,16 +49,16 @@ class AdminDashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.cvEvents.setOnClickListener {
-            Log.i("ADMIN DASHBOARD", "clicked event overview")
+            viewModel.detailContentType = Content.TYPE.EVENT
+            findNavController().navigate(R.id.action_nav_admin_dashboard_to_adminDashboardDetailsFragment)
         }
         binding.cvGiveaways.setOnClickListener {
-            Log.i("ADMIN DASHBOARD", "clicked giveaways overview")
+            viewModel.detailContentType = Content.TYPE.GIVEAWAY
+            findNavController().navigate(R.id.action_nav_admin_dashboard_to_adminDashboardDetailsFragment)
         }
         binding.cvPosts.setOnClickListener {
-            Log.i("ADMIN DASHBOARD", "clicked posts overview")
-        }
-        binding.cvPostsExcl.setOnClickListener {
-            Log.i("ADMIN DASHBOARD", "clicked exclusive posts overview")
+            viewModel.detailContentType = Content.TYPE.POST
+            findNavController().navigate(R.id.action_nav_admin_dashboard_to_adminDashboardDetailsFragment)
         }
 
         initViews()
@@ -89,28 +92,20 @@ class AdminDashboardFragment : Fragment() {
     private fun setTotals() {
         viewModel.getAllEvents()
         viewModel.getAllGiveAways()
-        viewModel.getAllExclusivePosts()
-        viewModel.getAllNonExclusivePosts()
+        viewModel.getAllPosts()
 
         viewModel.eventListData.observe(viewLifecycleOwner, {
             binding.tvNumberEvents.text = it.size.toString()
-            binding.tvNumberEvents.visibility = View.VISIBLE
         })
 
         viewModel.giveawayListData.observe(viewLifecycleOwner, {
             binding.tvNumberGiveaways.text = it.size.toString()
-            binding.tvNumberGiveaways.visibility = View.VISIBLE
         })
 
-        viewModel.exclusivePostListData.observe(viewLifecycleOwner, {
+        viewModel.postListData.observe(viewLifecycleOwner, {
             binding.tvNumberPosts.text = it.size.toString()
-            binding.tvNumberPosts.visibility = View.VISIBLE
         })
 
-        viewModel.nonExclusivePostListData.observe(viewLifecycleOwner, {
-            binding.tvNumberExclPosts.text = it.size.toString()
-            binding.tvNumberExclPosts.visibility = View.VISIBLE
-        })
     }
 
     override fun onDestroyView() {

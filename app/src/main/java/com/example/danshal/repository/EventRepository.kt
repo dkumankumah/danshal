@@ -40,7 +40,7 @@ class EventRepository() {
                     ),
                     result.date, result.exclusive
                 )
-
+                event.id = result.id
                 event.postType = Content.TYPE.EVENT
                 event.title = result.title
                 event.content = result.content
@@ -50,6 +50,18 @@ class EventRepository() {
                 tempList.add(event)
             }
             _events.value = tempList
+        } catch (e: Exception) {
+            throw EventRetrievalError("Volgende ging mis: ${e}")
+        }
+    }
+
+    fun removeEvent(doc: String) {
+        try {
+            if (doc.isNotEmpty()) {
+                eventRef.document(doc).delete()
+            } else {
+                throw EventRetrievalError("Id is niet gevonden")
+            }
         } catch (e: Exception) {
             throw EventRetrievalError("Volgende ging mis: ${e}")
         }

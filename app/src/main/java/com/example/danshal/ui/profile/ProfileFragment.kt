@@ -2,18 +2,14 @@ package com.example.danshal.ui.profile
 
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
-import android.content.ContentResolver
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.Toast
-import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -23,7 +19,6 @@ import com.example.danshal.R
 import com.example.danshal.databinding.FragmentProfileBinding
 import com.example.danshal.models.Address
 import com.example.danshal.models.User
-import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -117,11 +112,11 @@ class ProfileFragment : Fragment() {
         val dialogLayout = layoutInflater.inflate(R.layout.delete_user_dialog, null)
 
         builder.setView(dialogLayout)
-        builder.setNegativeButton(R.string.ja) { _: DialogInterface, _: Int ->
+        builder.setNegativeButton(R.string.msg_ja) { _: DialogInterface, _: Int ->
             showEmailForm()
 
         }
-        builder.setPositiveButton(R.string.nee) { _: DialogInterface, _: Int ->
+        builder.setPositiveButton(R.string.msg_nee) { _: DialogInterface, _: Int ->
 
         }
         builder.show()

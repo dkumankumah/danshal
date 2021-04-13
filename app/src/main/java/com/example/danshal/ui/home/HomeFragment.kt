@@ -71,6 +71,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViews() {
+        // idk misschien beetje dirty code dit, maar voorkomt duplicaten van content
+        // wanneer de user weg navigeert en weer terugkomt op deze fragment. (verbeteren?)
+        activity?.viewModelStore?.clear()
+
         binding.rvEvents.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.rvGiveAway.layoutManager =

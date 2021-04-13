@@ -36,14 +36,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="@string/ja" />
+            android:text="@string/msg_ja" />
 
         <Button
             android:id="@+id/btn_nee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="@string/nee" />
+            android:text="@string/msg_nee" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

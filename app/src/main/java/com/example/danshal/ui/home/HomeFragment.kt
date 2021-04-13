@@ -157,7 +157,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun onGiveAwayClick(giveAway: GiveAway) {
-        viewModel.currentGiveAway.value = giveAway
+        viewModel.setCurrentGiveAway(giveAway)
         GiveawayDialogFragment().newInstance()?.show(parentFragmentManager, "giveaway_dialog_fragment")
     }
 

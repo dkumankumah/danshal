@@ -49,7 +49,6 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
         viewModel.currentGiveAway.observe(viewLifecycleOwner, {
             binding.tvCurrentGiveAwayTitle.text = it.title
             binding.tvGiveAwayDate.text = convertDate(it.endDate)
-            giveAwayId = it.id
 
             if (it.imageUrl != null && it.imageUrl != "") {
                 Glide.with(this).load(it.imageUrl).into(binding.ivCurrentGiveAway)
@@ -57,18 +56,18 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
                 binding.ivCurrentGiveAway.setImageResource(R.drawable.event1)
             }
 
-            // User is logged in, check if they are subscribed to this giveaway
-            if (user != null) {
-                // change button functionality if user has already subscribed or not
-                if (it.participants.contains(user!!.uid)) btnUnSubscribe(giveAwayId) else btnSubscribe(giveAwayId)
-                observeEnterGiveAway()
-            } else {
-                binding.btnParticipate.setOnClickListener {
-                    Toast.makeText(
-                        activity,
-                        getString(R.string.msg_login_giveaway),
-                        Toast.LENGTH_SHORT
-                    ).show()
+            viewModel.checkUser()
+            binding.btnParticipate.text =
+                if (viewModel.isSubscribed.value == true) getString(R.string.title_btn_unsubscribe) else getString(
+                    R.string.title_btn_subscribe
+                )
+
+            binding.btnParticipate.setOnClickListener {
+                if(viewModel.isLoggedIn()) {
+                    if(viewModel.isSubscribed.value == true) viewModel.removeUserFromGiveAway() else viewModel.addUserToGiveAway()
+                    observeEnterGiveAway()
+                } else {
+                    Toast.makeText(activity, getString(R.string.msg_login_giveaway), Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -76,25 +75,6 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
         viewModel.errorText.observe(viewLifecycleOwner, {
             Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
         })
-    }
-
-    // Change the button and tis clicklistener when subscribing/unsubscribing from a giveaway
-    private fun btnUnSubscribe(giveAwayId: String) {
-        binding.btnParticipate.text = getString(R.string.title_btn_unsubscribe)
-        binding.btnParticipate.setOnClickListener {
-            viewModel.removeUserFromGiveAway(giveAwayId)
-            btnSubscribe(giveAwayId)
-            activity?.viewModelStore?.clear()
-        }
-    }
-
-    private fun btnSubscribe(giveAwayId: String) {
-        binding.btnParticipate.text = getString(R.string.title_btn_subscribe)
-        binding.btnParticipate.setOnClickListener {
-            viewModel.addUserToGiveAway(giveAwayId)
-            btnUnSubscribe(giveAwayId)
-            activity?.viewModelStore?.clear()
-        }
     }
 
     // Return feedback to the user when (un)subscribing to a giveaway

@@ -177,8 +177,5 @@ class PostRepository {
         }
     }
 
-     fun clearPosts() {
-        _posts.value = emptyList()
-    }
     class PostRetrievalError(message: String) : Exception(message)
 }

@@ -85,6 +85,7 @@ class GiveAwayRepository {
     }
 
     fun addUserToGiveAway(userId: String, giveAwayId: String) {
+        Log.d("GiveAwarRepoAdd", giveAwayId + " --- " + userId)
         try {
             // The if statement might be redundant. If the user has already subscribed
             // to this giveaway, this function won't be called. So the else statement kind of never
@@ -108,6 +109,7 @@ class GiveAwayRepository {
     }
 
     fun removeUserFromGiveAway(userId: String, giveAwayId: String) {
+        Log.d("GiveAwarRepoRemove", giveAwayId + " --- " + userId)
         try {
             giveawayRef.document(giveAwayId)
                 .update("participants", FieldValue.arrayRemove(userId))

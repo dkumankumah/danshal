@@ -134,9 +134,5 @@ class EventRepository() {
         }
     }
 
-    fun clearEvents() {
-        _events.value = arrayListOf<Event>()
-    }
-
     class EventRetrievalError(message: String): Exception(message)
 }

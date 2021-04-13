@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.danshal.R
@@ -97,7 +99,7 @@ class HomeFragment : Fragment() {
 
         loadData()
         giveAwayAdapter = GiveAwayAdapter(giveAway, ::onGiveAwayClick)
-        homeAdapter = HomeAdapter(content)
+        homeAdapter = HomeAdapter(content, ::onContentClick)
         binding.rvEvents.layoutAnimation = controller
         binding.rvGiveAway.layoutAnimation = controller
         binding.rvEvents.adapter = homeAdapter
@@ -164,6 +166,18 @@ class HomeFragment : Fragment() {
         viewModel.setCurrentGiveAway(giveAway)
         GiveawayDialogFragment().newInstance()?.show(parentFragmentManager, "giveaway_dialog_fragment")
     }
+
+    private fun onContentClick(content: Content) {
+        if(content.postType == Content.TYPE.EVENT) {
+            viewModel.setCurrentEvent(content as Event)
+            findNavController().navigate(R.id.action_nav_home_to_eventFragment)
+        } else {
+            Log.d("HF", content.title)
+            viewModel.setCurrentPost(content as Post)
+            findNavController().navigate(R.id.action_nav_home_to_postFragment)
+        }
+    }
+
 
 
     override fun onDestroyView() {

@@ -12,7 +12,6 @@ abstract class Content(
     var imageUrl: String? = null,
     var timestamp: Timestamp? = Timestamp.now()
 ) {
-
     fun getSeconds() = timestamp?.seconds
 
     class TYPE {

@@ -35,12 +35,12 @@
     <string name="validatie_wachtwoord">Wachtwoord nogmaals invoeren</string>
     <string name="wachtwoord_ongelijk">Wachtwoord komt niet overeen!</string>
     <string name="menu_admin">Admin</string>
-    
-<!--    These are String values for the events overview page-->
+
+    <!--    These are String values for the events overview page-->
     <string name="title_giveaway">Giveaway</string>
     <string name="title_content">Berichten</string>
 
-<!--    Dialog filter event-->
+    <!--    Dialog filter event-->
     <string name="title_event">Events</string>
     <string name="title_up_event">Upcoming Events</string>
     <string name="title_post">Posts</string>
@@ -48,7 +48,7 @@
     <string name="action_filter">Toepassen</string>
     <string name="action_cancel_filter">Annuleren</string>
 
-<!--    Dialog/Bottom sheet GiveAway-->
+    <!--    Dialog/Bottom sheet GiveAway-->
     <string name="title_btn_subscribe">Inschrijven</string>
     <string name="title_btn_unsubscribe">Uitschrijven</string>
     <string name="msg_update_succes">U neemt nu deel aan deze Giveaway!</string>
@@ -87,7 +87,7 @@
     <string name="admin_add_address_postcode">Postcode</string>
     <string name="admin_add_address_place">Plaats</string>
 
-  <!-- login/register -->
+    <!-- login/register -->
     <string name="waarschuwing_uitloggen">Weet u zeker dat u wilt uitloggen?</string>
     <string name="ja">Ja</string>
     <string name="nee">nee</string>
@@ -100,5 +100,6 @@
     <string name="housenumber">nr.</string>
     <string name="gewijzigd">Gegevens zijn gewijzigd</string>
     <string name="title_participate">Meedoen</string>
+    <string name="btn_ticket">Buy Ticket</string>
 
 </resources>

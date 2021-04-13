@@ -35,6 +35,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val currentGiveAway: LiveData<GiveAway>
         get() = _currentGiveAway
 
+    private val _currentEvent: MutableLiveData<Event> = MutableLiveData()
+    val currentEvent: LiveData<Event>
+        get() = _currentEvent
+
+    private val _currentPost: MutableLiveData<Post> = MutableLiveData()
+    val currentPost: LiveData<Post>
+        get() = _currentPost
+
     val currentContentType: MutableLiveData<String> = MutableLiveData<String>()
 
     private val _isSubscribed: MutableLiveData<Boolean> = MutableLiveData()
@@ -56,7 +64,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     fun loadAllContent() {
         viewModelScope.launch {
             try {
-                if(isLoggedIn()) {
+                if (isLoggedIn()) {
                     when (currentContentType.value.toString()) {
                         "Upcoming Events" -> {
                             eventRepository.getUpcomingEvents()
@@ -84,9 +92,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 giveAwayRepository.getAllGiveAwaysForUsers()
 
                 // update the currentgiveaway
-                if(currentGiveAway.value != null) {
+                if (currentGiveAway.value != null) {
                     for (giveaway in giveAwayListData.value!!) {
-                        if(giveaway.id == currentGiveAway.value?.id) {
+                        if (giveaway.id == currentGiveAway.value?.id) {
                             _currentGiveAway.value = giveaway
                         }
                     }
@@ -143,7 +151,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 _errorText.value = errorMsg
             }
         }
-
     }
 
     fun removeUserFromGiveAway() {
@@ -160,6 +167,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 _errorText.value = errorMsg
             }
         }
+    }
+
+    fun setCurrentEvent(event: Event) {
+        _currentEvent.value = event
+    }
+
+    fun setCurrentPost(post: Post) {
+        _currentPost.value = post
     }
 
     fun setCurrentGiveAway(giveAway: GiveAway) {

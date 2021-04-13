@@ -21,7 +21,7 @@ private const val TYPE_EVENT = 0
 private const val TYPE_POST = 1
 
 
-class HomeAdapter(var contentItems: List<Content>) :
+class HomeAdapter(var contentItems: List<Content>, private val onClick: (Content) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private lateinit var context: Context

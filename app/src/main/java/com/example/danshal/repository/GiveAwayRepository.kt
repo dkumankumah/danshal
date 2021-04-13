@@ -111,7 +111,7 @@ class GiveAwayRepository {
         try {
             giveawayRef.document(giveAwayId)
                 .update("participants", FieldValue.arrayRemove(userId))
-            _giveAwayStatus.value = false
+            _giveAwayStatus.value = true
         } catch (e: Exception) {
             throw GiveAwayRetrievalError("Volgende ging mis: ${e}")
         }

@@ -23,7 +23,6 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
     private var user: FirebaseUser? = null
     private val viewModel: HomeViewModel by activityViewModels()
-    private lateinit var giveAwayId: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,6 +59,7 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
             }
 
             viewModel.checkUser()
+
             viewModel.isSubscribed.observe(viewLifecycleOwner, {
                 binding.btnParticipate.text =
                     if (it) getString(R.string.title_btn_unsubscribe) else getString(

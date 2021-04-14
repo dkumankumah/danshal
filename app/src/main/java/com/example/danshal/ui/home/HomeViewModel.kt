@@ -54,10 +54,12 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         currentContentType.value = R.string.title_content.toString()
         auth = Firebase.auth
         combineAllContent()
+        loadGiveAway()
     }
 
     // Voor nu zijn de filters hardcoded, moet er later uit
     fun loadAllContent() {
+        Log.d("HWM", "Niet hier")
         viewModelScope.launch {
             try {
                 if (isLoggedIn()) {
@@ -66,7 +68,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                             eventRepository.getUpcomingEvents()
                         }
                         else -> {
-                            Log.d("HWVM", isLoaded().toString())
+                            Log.d("HWM", "Niet hier2")
                             eventRepository.getAllEventsForUsers()
                             postRepository.getAllPostsForUsers()
                         }

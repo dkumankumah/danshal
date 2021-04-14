@@ -50,6 +50,7 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
 
             binding.tvCurrentGiveAwayTitle.text = giveAway.title
             binding.tvGiveAwayDate.text = convertDate(giveAway.endDate)
+            binding.tvGiveAwayContent.text = giveAway.content
 
             if (giveAway.imageUrl != null && giveAway.imageUrl != "") {
                 Glide.with(this).load(giveAway.imageUrl).into(binding.ivCurrentGiveAway)

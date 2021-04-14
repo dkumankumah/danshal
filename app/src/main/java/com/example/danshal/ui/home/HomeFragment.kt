@@ -35,7 +35,6 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         currentEventType = getString(R.string.title_event)
-
         // let the app know that this fragment is expecting menu related callbacks
         setHasOptionsMenu(true)
     }
@@ -106,8 +105,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadData() {
-        viewModel.loadGiveAway()
-
         viewModel.currentContentType.observe(viewLifecycleOwner, {
             content.clear()
             viewModel.loadAllContent()
@@ -127,13 +124,11 @@ class HomeFragment : Fragment() {
             giveAway.clear()
 
             if(it.isNotEmpty()) {
-                Log.d("hf", (it == null).toString())
                 giveAway.addAll(it)
                 giveAwayAdapter.giveAway = giveAway
                 giveAwayAdapter.notifyDataSetChanged()
                 binding.rvGiveAway.scheduleLayoutAnimation()
             } else {
-                Log.d("hf2", (it == null).toString())
                 binding.tvGiveaway.visibility = View.GONE
                 binding.rvGiveAway.visibility = View.GONE
             }

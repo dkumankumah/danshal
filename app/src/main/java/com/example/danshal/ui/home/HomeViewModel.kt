@@ -53,13 +53,12 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     init {
         currentContentType.value = R.string.title_content.toString()
         auth = Firebase.auth
-        combineAllContent()
         loadGiveAway()
+        combineAllContent()
     }
 
     // Voor nu zijn de filters hardcoded, moet er later uit
     fun loadAllContent() {
-        Log.d("HWM", "Niet hier")
         viewModelScope.launch {
             try {
                 if (isLoggedIn()) {
@@ -68,9 +67,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                             eventRepository.getUpcomingEvents()
                         }
                         else -> {
-                            Log.d("HWM", "Niet hier2")
-                            eventRepository.getAllEventsForUsers()
                             postRepository.getAllPostsForUsers()
+                            eventRepository.getAllEventsForUsers()
                         }
                     }
                 } else {
@@ -110,13 +108,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             contentListData.value = emptyList()
 
-            contentListData.removeSource(postListData)
-            contentListData.addSource(postListData) { value ->
+            contentListData.removeSource(eventListData)
+            contentListData.addSource(eventListData) { value ->
                 contentListData.value = value
             }
 
-            contentListData.removeSource(eventListData)
-            contentListData.addSource(eventListData) { value ->
+            contentListData.removeSource(postListData)
+            contentListData.addSource(postListData) { value ->
                 contentListData.value = value
             }
         }

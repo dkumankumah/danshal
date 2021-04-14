@@ -69,6 +69,7 @@ class EventRepository() {
 
     // Fetch events from the database for the users
     suspend fun getAllEventsForUsers() {
+        _events.value = emptyList()
         try {
             val tempList = arrayListOf<Event>()
 
@@ -106,6 +107,7 @@ class EventRepository() {
 
     // Only fetch the upcoming events (between today and one week from now)
     suspend fun getUpcomingEvents() {
+        _events.value = emptyList()
         try {
             val tempList = arrayListOf<Event>()
             // get today's date and the date of 7 days from now

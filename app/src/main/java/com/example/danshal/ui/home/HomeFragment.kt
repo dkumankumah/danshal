@@ -112,6 +112,7 @@ class HomeFragment : Fragment() {
 
         viewModel.getContent().observe(viewLifecycleOwner, {
             val tempList = arrayListOf<Content>()
+
             tempList.addAll(it)
             content.addAll(tempList)
 
@@ -133,7 +134,6 @@ class HomeFragment : Fragment() {
                 binding.rvGiveAway.visibility = View.GONE
             }
         })
-
     }
 
     private fun openFilterWindow() {

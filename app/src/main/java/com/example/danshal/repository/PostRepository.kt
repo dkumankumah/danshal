@@ -114,6 +114,7 @@ class PostRepository {
 
     // The following methods are for the users (fetch posts with date from today)
     suspend fun getAllPostsForUsers() {
+        _posts.value = emptyList()
         try {
             val tempList = arrayListOf<Post>()
 
@@ -138,6 +139,7 @@ class PostRepository {
     }
 
     suspend fun getAllExclusivePostsForUsers() {
+        _posts.value = emptyList()
         try {
             val tempList = arrayListOf<Post>()
 
@@ -164,6 +166,7 @@ class PostRepository {
     }
 
     suspend fun getAllNonExclusivePostsForUsers() {
+        _posts.value = emptyList()
         try {
             val tempList = arrayListOf<Post>()
 

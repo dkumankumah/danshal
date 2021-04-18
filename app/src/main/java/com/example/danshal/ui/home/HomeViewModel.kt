@@ -29,7 +29,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val contentListData: MediatorLiveData<List<Content>> = MediatorLiveData()
 
     // Checks for functions
-    val giveAwayStatus: LiveData<Boolean> = giveAwayRepository.giveAwayStatus
 
     private val _currentGiveAway: MutableLiveData<GiveAway> = MutableLiveData()
     val currentGiveAway: LiveData<GiveAway>
@@ -41,14 +40,11 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     val currentContentType: MutableLiveData<String> = MutableLiveData<String>()
 
-    private val _isSubscribed: MutableLiveData<Boolean> = MutableLiveData()
-    val isSubscribed: LiveData<Boolean>
-        get() = _isSubscribed
-
     private val _errorText: MutableLiveData<String> = MutableLiveData()
     val errorText: LiveData<String>
         get() = _errorText
 
+    var initLoad: Boolean = false
 
     init {
         currentContentType.value = R.string.title_content.toString()
@@ -75,6 +71,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     eventRepository.getAllEventsForUsers()
                     postRepository.getAllNonExclusivePostsForUsers()
                 }
+                initLoad = true
             } catch (ex: EventRepository.EventRetrievalError) {
                 val errorMsg = "Something went wrong while retrieving the content."
                 Log.e("HomeViewModel", ex.message ?: errorMsg)
@@ -120,18 +117,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun checkUser() {
-        if (isLoggedIn()) {
-            _isSubscribed.value =
-                currentGiveAway.value?.participants?.contains(auth.currentUser!!.uid)
-        } else {
-            _isSubscribed.value = false
-        }
+    fun checkUserSub(): Boolean? {
+        return currentGiveAway.value?.participants?.contains(auth.currentUser!!.uid)
     }
 
     fun isLoggedIn(): Boolean {
         return auth.currentUser != null
     }
+
 
     fun addUserToGiveAway() {
         viewModelScope.launch {
@@ -140,7 +133,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     auth.currentUser!!.uid,
                     currentGiveAway.value?.id.toString()
                 )
-                loadGiveAway()
             } catch (ex: GiveAwayRepository.GiveAwayRetrievalError) {
                 val errorMsg = "Something went wrong while adding user to a giveaway."
                 Log.e("HomeViewModel", ex.message ?: errorMsg)
@@ -156,7 +148,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     auth.currentUser!!.uid,
                     currentGiveAway.value?.id.toString()
                 )
-                loadGiveAway()
             } catch (ex: GiveAwayRepository.GiveAwayRetrievalError) {
                 val errorMsg = "Something went wrong while adding user to a giveaway."
                 Log.e("HomeViewModel", ex.message ?: errorMsg)
@@ -172,10 +163,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun setCurrentGiveAway(giveAway: GiveAway) {
         _currentGiveAway.value = giveAway
-    }
-
-    fun isLoaded(): Boolean {
-        return contentListData.value != null
     }
 
     fun getContent(): MediatorLiveData<List<Content>> {

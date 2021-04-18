@@ -47,7 +47,6 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
     // Bind the layout items to the current giveaway.
     private fun observeGiveAway() {
         viewModel.currentGiveAway.observe(viewLifecycleOwner, { giveAway ->
-
             binding.tvCurrentGiveAwayTitle.text = giveAway.title
             binding.tvGiveAwayDate.text = convertDate(giveAway.endDate)
             binding.tvGiveAwayContent.text = giveAway.content
@@ -58,20 +57,27 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
                 binding.ivCurrentGiveAway.setImageResource(R.drawable.event1)
             }
 
-            viewModel.checkUser()
-
-            viewModel.isSubscribed.observe(viewLifecycleOwner, {
-                binding.btnParticipate.text =
-                    if (it) getString(R.string.title_btn_unsubscribe) else getString(
-                        R.string.title_btn_subscribe
-                    )
-            })
+            binding.btnParticipate.text =
+                if (viewModel.checkUserSub() == true) getString(R.string.title_btn_unsubscribe) else getString(
+                    R.string.title_btn_subscribe
+                )
 
             binding.btnParticipate.setOnClickListener {
-                if(viewModel.isLoggedIn()) {
-                    if(viewModel.isSubscribed.value == true) viewModel.removeUserFromGiveAway() else viewModel.addUserToGiveAway()
+                if (viewModel.isLoggedIn()) {
+                    if(viewModel.checkUserSub() == true) {
+                        viewModel.removeUserFromGiveAway()
+                        Toast.makeText(activity, R.string.msg_update_unsub, Toast.LENGTH_SHORT).show()
+                    } else {
+                        viewModel.addUserToGiveAway()
+                        Toast.makeText(activity, R.string.msg_update_succes, Toast.LENGTH_SHORT).show()
+                    }
+                    viewModel.loadGiveAway()
                 } else {
-                    Toast.makeText(activity, getString(R.string.msg_login_giveaway), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        activity,
+                        getString(R.string.msg_login_giveaway),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         })

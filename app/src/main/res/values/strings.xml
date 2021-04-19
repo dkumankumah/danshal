@@ -59,6 +59,10 @@
 <!--    Event fragment-->
     <string name="title_share_event">Refer to a friend</string>
     <string name="title_address_event">%s %d, %s</string>
+    <string name="msg_share">
+        De Danshal organiseert de volgende event: %s op %s. Wees erbij!
+        Op de hoogte blijven van de nieuwste content? Download de Danshal app!
+    </string>
 
     <!--admin-->
     <string name="menu_admin_dashboard">Admin Dashboard</string>

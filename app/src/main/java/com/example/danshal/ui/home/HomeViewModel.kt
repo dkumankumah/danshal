@@ -45,6 +45,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         get() = _errorText
 
     var initLoad: Boolean = false
+    var isSub: Boolean = false
+
 
     init {
         currentContentType.value = R.string.title_content.toString()
@@ -118,6 +120,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun checkUserSub(): Boolean? {
+        isSub = currentGiveAway.value?.participants?.contains(auth.currentUser!!.uid) == true
         return currentGiveAway.value?.participants?.contains(auth.currentUser!!.uid)
     }
 
@@ -133,6 +136,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     auth.currentUser!!.uid,
                     currentGiveAway.value?.id.toString()
                 )
+                isSub = true
             } catch (ex: GiveAwayRepository.GiveAwayRetrievalError) {
                 val errorMsg = "Something went wrong while adding user to a giveaway."
                 Log.e("HomeViewModel", ex.message ?: errorMsg)
@@ -148,6 +152,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     auth.currentUser!!.uid,
                     currentGiveAway.value?.id.toString()
                 )
+                isSub = false
             } catch (ex: GiveAwayRepository.GiveAwayRetrievalError) {
                 val errorMsg = "Something went wrong while adding user to a giveaway."
                 Log.e("HomeViewModel", ex.message ?: errorMsg)

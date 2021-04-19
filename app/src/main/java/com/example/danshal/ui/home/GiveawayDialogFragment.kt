@@ -41,6 +41,10 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.btnParticipate.text =
+            if (viewModel.checkUserSub() == true) getString(R.string.title_btn_unsubscribe) else getString(
+                R.string.title_btn_subscribe
+            )
         observeGiveAway()
     }
 
@@ -57,19 +61,16 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
                 binding.ivCurrentGiveAway.setImageResource(R.drawable.event1)
             }
 
-            binding.btnParticipate.text =
-                if (viewModel.checkUserSub() == true) getString(R.string.title_btn_unsubscribe) else getString(
-                    R.string.title_btn_subscribe
-                )
-
             binding.btnParticipate.setOnClickListener {
                 if (viewModel.isLoggedIn()) {
-                    if(viewModel.checkUserSub() == true) {
+                    if(viewModel.isSub) {
                         viewModel.removeUserFromGiveAway()
                         Toast.makeText(activity, R.string.msg_update_unsub, Toast.LENGTH_SHORT).show()
+                        binding.btnParticipate.text = getString(R.string.title_btn_subscribe)
                     } else {
                         viewModel.addUserToGiveAway()
                         Toast.makeText(activity, R.string.msg_update_succes, Toast.LENGTH_SHORT).show()
+                        binding.btnParticipate.text = getString(R.string.title_btn_unsubscribe)
                     }
                     viewModel.loadGiveAway()
                 } else {

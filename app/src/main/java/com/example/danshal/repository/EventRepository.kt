@@ -38,7 +38,7 @@ class EventRepository() {
                         result.address.street,
                         result.address.place
                     ),
-                    result.date, result.exclusive
+                    result.date, result.exclusive, result.ticket
                 )
                 event.id = result.id
                 event.postType = Content.TYPE.EVENT
@@ -88,7 +88,7 @@ class EventRepository() {
                         result.address.street,
                         result.address.place
                     ),
-                    result.date, result.exclusive
+                    result.date, result.exclusive, result.ticket
                 )
 
                 event.postType = Content.TYPE.EVENT
@@ -131,7 +131,7 @@ class EventRepository() {
                         result.address.street,
                         result.address.place
                     ),
-                    result.date, result.exclusive
+                    result.date, result.exclusive, result.ticket
                 )
 
                 event.postType = Content.TYPE.EVENT

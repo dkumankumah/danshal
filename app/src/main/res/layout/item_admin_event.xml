@@ -35,69 +35,69 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/iv_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                card_view:layout_constraintTop_toTopOf="parent"
-                card_view:layout_constraintStart_toStartOf="parent"
-                android:scaleType="centerCrop"
-                card_view:srcCompat="@drawable/event3" />
+                <ImageView
+                    android:id="@+id/iv_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    card_view:srcCompat="@drawable/event3" />
 
-            <View
-                android:id="@+id/v_calendar"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/rectangle_rounded_corner"
-                card_view:layout_constraintHorizontal_bias="0.0"
-                card_view:layout_constraintStart_toStartOf="@+id/iv_image"
-                card_view:layout_constraintTop_toTopOf="@+id/iv_image"
-                card_view:layout_constraintVertical_bias="0.0" />
+                <View
+                    android:id="@+id/v_calendar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/rectangle_rounded_corner"
+                    card_view:layout_constraintHorizontal_bias="0.0"
+                    card_view:layout_constraintStart_toStartOf="@+id/iv_image"
+                    card_view:layout_constraintTop_toTopOf="@+id/iv_image"
+                    card_view:layout_constraintVertical_bias="0.0" />
 
-            <TextView
-                android:id="@+id/tv_day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="8sp"
-                android:text="1"
-                android:textAlignment="center"
-                android:textColor="#1C1B1B"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                card_view:layout_constraintBottom_toBottomOf="@+id/v_calendar"
-                card_view:layout_constraintEnd_toEndOf="@+id/v_calendar"
-                card_view:layout_constraintStart_toStartOf="@+id/v_calendar"
-                card_view:layout_constraintTop_toTopOf="@+id/v_calendar"
-                card_view:layout_constraintVertical_bias="0.0" />
+                <TextView
+                    android:id="@+id/tv_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="8sp"
+                    android:text="1"
+                    android:textAlignment="center"
+                    android:textColor="#1C1B1B"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    card_view:layout_constraintBottom_toBottomOf="@+id/v_calendar"
+                    card_view:layout_constraintEnd_toEndOf="@+id/v_calendar"
+                    card_view:layout_constraintStart_toStartOf="@+id/v_calendar"
+                    card_view:layout_constraintTop_toTopOf="@+id/v_calendar"
+                    card_view:layout_constraintVertical_bias="0.0" />
 
-            <TextView
-                android:id="@+id/tvMonth"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:gravity="center"
-                android:text="Jan"
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textSize="12sp"
-                card_view:layout_constraintBottom_toBottomOf="@+id/v_calendar"
-                card_view:layout_constraintEnd_toEndOf="@+id/v_calendar"
-                card_view:layout_constraintHorizontal_bias="0.0"
-                card_view:layout_constraintStart_toStartOf="@+id/v_calendar"
-                card_view:layout_constraintTop_toBottomOf="@+id/tv_day"
-                card_view:layout_constraintVertical_bias="1.0" />
+                <TextView
+                    android:id="@+id/tvMonth"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="Jan"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textSize="12sp"
+                    card_view:layout_constraintBottom_toBottomOf="@+id/v_calendar"
+                    card_view:layout_constraintEnd_toEndOf="@+id/v_calendar"
+                    card_view:layout_constraintHorizontal_bias="0.0"
+                    card_view:layout_constraintStart_toStartOf="@+id/v_calendar"
+                    card_view:layout_constraintTop_toBottomOf="@+id/tv_day"
+                    card_view:layout_constraintVertical_bias="1.0" />
 
-            <ImageButton
-                android:id="@+id/btn_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:padding="8dp"
-                android:src="@android:drawable/ic_menu_delete"
-                android:background="@drawable/rounded_corner"
-                card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintTop_toTopOf="parent" />
+                <ImageButton
+                    android:id="@+id/btn_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="8dp"
+                    android:src="@android:drawable/ic_menu_delete"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
@@ -121,11 +121,11 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="Timestamp"
             android:gravity="end"
+            android:text="Timestamp"
             android:textSize="14sp"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/cv_image"/>
+            card_view:layout_constraintTop_toBottomOf="@+id/cv_image" />
 
         <TextView
             android:id="@+id/tv_description"
@@ -136,19 +136,19 @@
             android:textSize="14sp"
             card_view:layout_constraintBottom_toTopOf="@id/tv_address"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/tv_title"/>
+            card_view:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
         <TextView
             android:id="@+id/tv_exclusive"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:gravity="end"
             android:text="Exclusive"
             android:textSize="14sp"
-            android:gravity="end"
             card_view:layout_constraintBottom_toTopOf="@id/tv_address"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/tv_title"/>
+            card_view:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
         <TextView
             android:id="@+id/tv_address"
@@ -159,7 +159,21 @@
             android:textSize="14sp"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/tv_description"/>
+            card_view:layout_constraintTop_toBottomOf="@+id/tv_description" />
+
+        <TextView
+            android:id="@+id/tv_ticket"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/admin_add_ticket"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/tv_address" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

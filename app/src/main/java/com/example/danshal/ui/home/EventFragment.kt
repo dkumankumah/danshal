@@ -1,7 +1,9 @@
 package com.example.danshal.ui.home
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,13 +60,36 @@ class EventFragment : Fragment() {
 
             // Share event by calling a Intent
             binding.btnShare.setOnClickListener {
-                val date = "${Content.getDate(event.date, false)} ${monthName[Content.getDate(event.date, true)]}"
+                val date = "${Content.getDate(event.date, false)} ${
+                    monthName[Content.getDate(
+                        event.date,
+                        true
+                    )]
+                }"
                 val shareIntent = Intent()
                 shareIntent.action = Intent.ACTION_SEND
                 shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Danshal")
-                shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.msg_share, event.title, date))
+                shareIntent.putExtra(
+                    Intent.EXTRA_TEXT,
+                    getString(R.string.msg_share, event.title, date)
+                )
                 shareIntent.type = "text/plain"
                 startActivity(shareIntent)
+            }
+
+            binding.btnTicket.setOnClickListener {
+                var url = event.ticket
+
+                // Browser intent url MUST contain https:// or else it crashes
+                if(!url.contains("https://")) {
+                    Log.d("EF", url)
+                    url = "https://${url}"
+                    Log.d("EF", url)
+                }
+
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(url)
+                startActivity(intent)
             }
         })
     }

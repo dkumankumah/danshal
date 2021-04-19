@@ -85,6 +85,7 @@ class AdminContentAdapter(var contentItems: List<Content>, val onItemRemoved: (C
             binding.tvMonth.text = monthName[getDate(content.date, true)]
             binding.tvExclusive.text = "Exlusive: ${content.exclusive}"
             binding.tvTimestamp.text = content.timestamp?.toDate()?.toLocaleString()
+            binding.tvTicket.text = content.ticket
 
             binding.tvAddress.text = "${content.address.street} ${content.address.housenumber} " +
                     "${content.address.housenumberExtension}\n" +

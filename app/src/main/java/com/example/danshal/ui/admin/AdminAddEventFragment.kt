@@ -142,9 +142,11 @@ class AdminAddEventFragment : Fragment() {
         val title = binding.etAddTitle.text?.toString()
         val description = binding.etAddDescription.text?.toString()
 
-        if (validate(housenumber) && validate(postcode) && validate(street) && validate(place) && validate(title) && validate(description)) {
+        val ticket = binding.etAddTicket.text?.toString()
+
+        if (validate(housenumber) && validate(postcode) && validate(street) && validate(place) && validate(title) && validate(description) && validate(ticket)) {
             val address = Address(housenumber!!.toInt(), housenumberExtension, postcode!!, street!!, place!!)
-            val event = Event(address, this.date, binding.switchAddExclusive.isChecked)
+            val event = Event(address, this.date, binding.switchAddExclusive.isChecked, ticket.toString())
             event.title = title!!
             event.content = description!!
 

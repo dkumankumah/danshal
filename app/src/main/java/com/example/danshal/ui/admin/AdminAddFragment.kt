@@ -15,9 +15,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 class AdminAddFragment : Fragment() {
-
-    private lateinit var adminAddViewModel: AdminAddViewModel
-
     private var _binding: AdminAddFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -27,9 +24,6 @@ class AdminAddFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        adminAddViewModel =
-            ViewModelProvider(this).get(AdminAddViewModel::class.java)
-
         auth = Firebase.auth
 
         _binding = AdminAddFragmentBinding.inflate(inflater, container, false)

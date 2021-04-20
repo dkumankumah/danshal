@@ -25,8 +25,6 @@ import java.io.ByteArrayOutputStream
 class AdminAddPostFragment : Fragment() {
     private val REQUEST_CODE = 100
 
-    private lateinit var adminAddPostViewModel: AdminAddPostViewModel
-
     private var _binding: AdminAddPostFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -38,9 +36,6 @@ class AdminAddPostFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        adminAddPostViewModel =
-            ViewModelProvider(this).get(AdminAddPostViewModel::class.java)
-
         _binding = AdminAddPostFragmentBinding.inflate(inflater, container, false)
 
         return binding.root

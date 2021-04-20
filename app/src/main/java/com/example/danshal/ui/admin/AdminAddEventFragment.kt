@@ -29,8 +29,6 @@ import java.util.*
 class AdminAddEventFragment : Fragment() {
     private val REQUEST_CODE = 100
 
-    private lateinit var adminAddEventViewModel: AdminAddEventViewModel
-
     private var _binding: AdminAddEventFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -45,9 +43,6 @@ class AdminAddEventFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        adminAddEventViewModel =
-            ViewModelProvider(this).get(AdminAddEventViewModel::class.java)
-
         auth = Firebase.auth
 
         _binding = AdminAddEventFragmentBinding.inflate(inflater, container, false)

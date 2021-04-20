@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.danshal.MainActivity
 import com.example.danshal.databinding.AdminDashboardDetailsFragmentBinding
 import com.example.danshal.models.Content
+import com.example.danshal.models.GiveAway
 
 class AdminDashboardDetailsFragment : Fragment() {
     private lateinit var adminDashboardDetailsViewModel: AdminDashboardViewModel
@@ -24,7 +25,7 @@ class AdminDashboardDetailsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val contentList = arrayListOf<Content>()
-    private val contentDetailsAdapter = AdminContentAdapter(contentList, ::removeContentItem, ::editContentItem)
+    private val contentDetailsAdapter = AdminContentAdapter(contentList, ::removeContentItem, ::editContentItem, ::attendeesGiveaway)
 
     private val viewModel: AdminDashboardViewModel by activityViewModels()
 
@@ -79,6 +80,11 @@ class AdminDashboardDetailsFragment : Fragment() {
         // Remove from content list
         contentList.remove(content)
         contentDetailsAdapter.notifyDataSetChanged()
+    }
+
+    private fun attendeesGiveaway(giveaway: GiveAway) {
+        viewModel.setCurrentGiveAway(giveaway)
+        AdminGiveawayAttendeesFragment().newInstance()?.show(parentFragmentManager, "admin_giveaway_attendees_fragment")
     }
 
     private fun initViews() {

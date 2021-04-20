@@ -3,11 +3,13 @@ package com.example.danshal.ui.home
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.MediaController
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
@@ -50,8 +52,20 @@ class PostDialogFragment : DialogFragment() {
 
     private fun observePost() {
         viewModel.currentContent.observe(viewLifecycleOwner, {
-            val post = it as Post
-            Glide.with(this).load(post.imageUrl).into(binding.ivPost)
+            if(it.imageUrl.toString().contains("content_videos")) {
+                binding.vvPost.setVideoURI(Uri.parse(it.imageUrl))
+                binding.ivPost.visibility = View.GONE
+                binding.vvPost.visibility = View.VISIBLE
+                val vidControl: MediaController = MediaController(context)
+                vidControl.setAnchorView(binding.vvPost)
+                binding.vvPost.setMediaController(vidControl)
+                binding.vvPost.start()
+            } else {
+                binding.ivPost.visibility = View.VISIBLE
+                binding.vvPost.visibility = View.GONE
+                Glide.with(this).load(it.imageUrl).into(binding.ivPost)
+            }
+
         })
     }
 

@@ -220,8 +220,7 @@ class AdminAddPostFragment : Fragment() {
             if (taskSnapshot.metadata != null) {
                 if (taskSnapshot.metadata!!.reference != null) {
                     val result = taskSnapshot.storage.downloadUrl
-                    result.addOnSuccessListener { uri ->
-                        val videoUploadUrl = uri.toString()
+                    result.addOnSuccessListener {
                         val eventsRef = db.collection("posts").document(document)
 
                         eventsRef

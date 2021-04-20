@@ -1,10 +1,12 @@
 package com.example.danshal.ui.home
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.MediaController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.danshal.R
@@ -82,7 +84,19 @@ class HomeAdapter(var contentItems: List<Content>, private val onClick: (Content
         fun bind(content: Post, context: Context) {
             binding.tvPostImageTitle.text = content.title
             if (content.imageUrl != null && content.imageUrl != "") {
-                Glide.with(context).load(content.imageUrl).into(binding.ivPostImage)
+                if(content.imageUrl.toString().contains("content_videos")) {
+                    binding.vvPostItem.setVideoURI(Uri.parse(content.imageUrl))
+                    binding.ivPostImage.visibility = View.GONE
+                    binding.vvPostItem.visibility = View.VISIBLE
+                    val vidControl: MediaController = MediaController(context)
+                    vidControl.setAnchorView(binding.vvPostItem)
+                    binding.vvPostItem.setMediaController(vidControl)
+                    binding.vvPostItem.start()
+                } else {
+                    binding.ivPostImage.visibility = View.VISIBLE
+                    binding.vvPostItem.visibility = View.GONE
+                    Glide.with(context).load(content.imageUrl).into(binding.ivPostImage)
+                }
             } else {
                 binding.ivPostImage.setImageResource(R.drawable.event2)
             }

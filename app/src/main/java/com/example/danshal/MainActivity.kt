@@ -1,9 +1,11 @@
 package com.example.danshal
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -15,6 +17,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.Group
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -23,6 +28,7 @@ import com.google.firebase.ktx.Firebase
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+    lateinit var viewModel: MainViewModel
     private lateinit var auth: FirebaseAuth
 
 
@@ -36,8 +42,10 @@ class MainActivity : AppCompatActivity() {
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
 
-        auth = Firebase.auth
-        var currentuser = auth.currentUser
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+//        auth = Firebase.auth
+        auth = viewModel.auth
+//        var currentuser = auth.currentUser
 
 
         // Passing each menu ID as a set of Ids because each
@@ -46,6 +54,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_admin_dashboard, R.id.nav_admin_add, R.id.nav_admin_users, R.id.nav_login, R.id.nav_logout, R.id.nav_profile, R.id.nav_register), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        viewModel.checkLoggedIn()
+
+        viewModel.isLoggedIn.observe(this, Observer {
+            toggleMenu(it)
+            Log.d("main_check", it.toString())
+
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

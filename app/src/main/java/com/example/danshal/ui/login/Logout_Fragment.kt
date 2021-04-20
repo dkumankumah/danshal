@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.danshal.MainViewModel
 import com.example.danshal.R
 import com.example.danshal.databinding.FragmentLogoutBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -14,6 +16,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 class Logout_Fragment : Fragment() {
+
+    private val viewModel: MainViewModel by activityViewModels()
 
     private lateinit var auth: FirebaseAuth
     private lateinit var _binding: FragmentLogoutBinding
@@ -35,6 +39,7 @@ class Logout_Fragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.btnJa.setOnClickListener {
             auth.signOut()
+            viewModel.checkLoggedIn()
             findNavController().navigate(R.id.action_nav_logout_page_to_nav_home)
         }
 

@@ -6,6 +6,4 @@ data class Address (
     var postcode: String = "",
     var street: String = "",
     var place: String = ""
-) {
-    constructor() : this(0, "", "", "", "")
-}
+)

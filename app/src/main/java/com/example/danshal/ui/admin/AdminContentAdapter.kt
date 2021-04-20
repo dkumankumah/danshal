@@ -15,6 +15,7 @@ import com.example.danshal.models.Content
 import com.example.danshal.models.Event
 import com.example.danshal.models.GiveAway
 import com.example.danshal.models.Post
+import com.example.danshal.ui.home.GiveawayDialogFragment
 import java.text.DateFormatSymbols
 import java.util.*
 
@@ -22,7 +23,7 @@ private const val TYPE_EVENT = 0
 private const val TYPE_POST = 1
 private const val TYPE_GIVEAWAY = 2
 
-class AdminContentAdapter(var contentItems: List<Content>, val onItemRemoved: (Content) -> Unit, val onItemEdit: (Content) -> Unit) :
+class AdminContentAdapter(var contentItems: List<Content>, val onItemRemoved: (Content) -> Unit, val onItemEdit: (Content) -> Unit, val onGiveawayClick: (GiveAway) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private lateinit var context: Context
@@ -160,6 +161,10 @@ class AdminContentAdapter(var contentItems: List<Content>, val onItemRemoved: (C
 
             itemView.setOnClickListener {
                 onItemEdit(content)
+            }
+
+            binding.btnAttendees.setOnClickListener {
+                onGiveawayClick(content)
             }
         }
 

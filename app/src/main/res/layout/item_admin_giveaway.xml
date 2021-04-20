@@ -93,10 +93,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
+                    android:background="@drawable/rounded_corner"
                     android:padding="8dp"
                     android:src="@android:drawable/ic_menu_delete"
-                    android:background="@drawable/rounded_corner"
                     card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/btn_attendees"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_baseline_groups_32"
+                    android:background="@drawable/rounded_corner"
+                    card_view:layout_constraintEnd_toStartOf="@id/btn_delete"
                     card_view:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

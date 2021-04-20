@@ -26,8 +26,6 @@ import java.util.*
 class AdminAddGiveAwayFragment : Fragment() {
     private val REQUEST_CODE = 100
 
-    private lateinit var adminAddGiveAwayViewModel: AdminAddGiveAwayViewModel
-
     private var _binding: AdminAddGiveAwayFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -41,9 +39,6 @@ class AdminAddGiveAwayFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        adminAddGiveAwayViewModel =
-            ViewModelProvider(this).get(AdminAddGiveAwayViewModel::class.java)
-
         _binding = AdminAddGiveAwayFragmentBinding.inflate(inflater, container, false)
 
         return binding.root

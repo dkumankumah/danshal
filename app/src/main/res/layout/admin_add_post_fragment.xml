@@ -69,16 +69,18 @@
         android:layout_width="130dp"
         android:layout_height="130dp"
         app:layout_constraintBottom_toTopOf="@id/tv_add_exclusive"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_add_upload"/>
+        app:layout_constraintTop_toBottomOf="@id/btn_add_upload" />
 
-    <!--        <VideoView-->
-    <!--            android:id="@+id/video_view"-->
-    <!--            android:layout_width="130dp"-->
-    <!--            android:layout_height="130dp"-->
-    <!--            app:layout_constraintBottom_toTopOf="@id/tv_add_exclusive"
+     <VideoView
+         android:id="@+id/video_view"
+         android:layout_width="130dp"
+         android:layout_height="130dp"
+          app:layout_constraintBottom_toTopOf="@id/tv_add_exclusive"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/btn_add_upload" />-->
+                    app:layout_constraintTop_toBottomOf="@id/btn_add_upload" />
 
     <TextView
         android:id="@+id/tv_add_exclusive"

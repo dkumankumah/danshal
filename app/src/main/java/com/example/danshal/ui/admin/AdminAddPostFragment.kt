@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -11,14 +12,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.MediaController
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
 import com.example.danshal.R
 import com.example.danshal.databinding.AdminAddPostFragmentBinding
 import com.example.danshal.models.Notification
 import com.example.danshal.models.Post
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import java.io.ByteArrayOutputStream
 
@@ -31,10 +37,13 @@ class AdminAddPostFragment : Fragment() {
     private val db = Firebase.firestore
     private val storage = Firebase.storage("gs://danshal-c7e70.appspot.com/")
 
+    private var mediaCheck: Boolean = true // determines if media is image or video
+    private lateinit var videoUrl: Uri
+
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = AdminAddPostFragmentBinding.inflate(inflater, container, false)
 
@@ -64,7 +73,11 @@ class AdminAddPostFragment : Fragment() {
 
             addToDatabase(post)
         } else {
-            Toast.makeText(context, "Er zijn een aantal verplichte velden niet ingevuld", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                "Er zijn een aantal verplichte velden niet ingevuld",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -72,12 +85,15 @@ class AdminAddPostFragment : Fragment() {
         db.collection("posts")
             .add(post)
             .addOnSuccessListener { documentReference ->
-                addImageToStorage(documentReference.id)
+                if (mediaCheck) addImageToStorage(documentReference.id) else addVideoToStorage(
+                    documentReference.id
+                )
 
                 db.collection("posts").document(documentReference.id)
                     .update("id", documentReference.id)
 
-                val notificationText = if (post.exclusive) "Exclusieve post is toegevoegd: ${post.title}" else "Post is toegevoegd: ${post.title}"
+                val notificationText =
+                    if (post.exclusive) "Exclusieve post is toegevoegd: ${post.title}" else "Post is toegevoegd: ${post.title}"
                 db.collection("notifications")
                     .add(Notification(notificationText))
 
@@ -87,22 +103,62 @@ class AdminAddPostFragment : Fragment() {
             }
             .addOnFailureListener { e ->
                 Log.w("Cloud", "Error adding document", e)
-                Toast.makeText(context, "Het is niet gelukt de post toe te voegen", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Het is niet gelukt de post toe te voegen",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
     private fun openGalleryForImage() {
         val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, REQUEST_CODE)
+        intent.type = "image/*,video/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/*", "video/*"))
+        resultLauncher.launch(intent)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
-            binding.imageView.setImageURI(data?.data) // handle chosen image
+    private var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val intent = result.data
+                when {
+                    intent?.data?.toString()?.contains("image") == true -> {
+                        binding.imageView.setImageURI(intent.data) // handle chosen image
+                        binding.imageView.visibility = View.VISIBLE
+                        binding.videoView.visibility = View.GONE
+                        mediaCheck = true
+                    }
+                    intent?.data?.toString()?.contains("video") == true -> {
+                        binding.videoView.setVideoURI(Uri.parse(intent.data.toString()))
+                        binding.videoView.visibility = View.VISIBLE
+                        binding.videoView.setZOrderOnTop(true)
+
+                        // Media controllers
+                        val vidControl: MediaController = MediaController(activity)
+                        vidControl.setAnchorView(binding.videoView)
+                        binding.videoView.setMediaController(vidControl)
+                        binding.videoView.start()
+
+                        videoUrl = Uri.parse(intent.data.toString())
+                        binding.imageView.visibility = View.GONE
+                        mediaCheck = false
+                    }
+                    else -> {
+                        Log.d("AAPF", intent?.data.toString())
+                    }
+                }
+            }
         }
-    }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
+//            binding.imageView.setImageURI(data?.data) // handle chosen image
+//        }
+//    }
 
     private fun addImageToStorage(document: String) {
         if (binding.imageView.drawable != null) {
@@ -122,7 +178,11 @@ class AdminAddPostFragment : Fragment() {
              * Uploading video/photo to storage
              */
             uploadTask.addOnFailureListener {
-                Toast.makeText(context, "Uploaden van foto/video is niet gelukt", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Uploaden van foto/video is niet gelukt",
+                    Toast.LENGTH_SHORT
+                ).show()
             }.addOnSuccessListener {
                 /**
                  * Check if the upload is done
@@ -141,6 +201,31 @@ class AdminAddPostFragment : Fragment() {
 
                         eventsRef
                             .update("imageUrl", task.result.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun addVideoToStorage(document: String) {
+        val storageRef = storage.reference
+        val uploadTask = storageRef.child("content_videos/post-$document.mp4").putFile(videoUrl)
+        /**
+         * Uploading video to storage
+         */
+        uploadTask.addOnFailureListener {
+            Toast.makeText(context, "Uploaden van foto/video is niet gelukt", Toast.LENGTH_SHORT)
+                .show()
+        }.addOnSuccessListener { taskSnapshot ->
+            if (taskSnapshot.metadata != null) {
+                if (taskSnapshot.metadata!!.reference != null) {
+                    val result = taskSnapshot.storage.downloadUrl
+                    result.addOnSuccessListener { uri ->
+                        val videoUploadUrl = uri.toString()
+                        val eventsRef = db.collection("posts").document(document)
+
+                        eventsRef
+                            .update("imageUrl", result.result.toString())
                     }
                 }
             }

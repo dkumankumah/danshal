@@ -36,6 +36,7 @@ data class Event(
     var address: Address = Address(0, "", "", "", ""),
     var date: Date = Date(),
     var exclusive: Boolean = false,
+    var ticket: String = ""
 ) : Content(TYPE.EVENT, "", "", "", "")
 
 data class Post(

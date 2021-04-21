@@ -51,14 +51,18 @@
     <string name="title_btn_subscribe">Inschrijven</string>
     <string name="title_btn_unsubscribe">Uitschrijven</string>
     <string name="msg_update_succes">U neemt nu deel aan deze Giveaway!</string>
-    <string name="msg_update_fail">U neemt  al deel aan deze Giveaway</string>
     <string name="msg_update_unsub">U neemt geen deel meer aan deze Giveaway</string>
+    <string name="msg_update_fail">Er is iets misgegaan, probeer het later opnieuw</string>
     <string name="msg_login_giveaway">Log in om mee te doen aan een giveaway</string>
     <string name="title_btn_inlog">Inloggen</string>
 
 <!--    Event fragment-->
     <string name="title_share_event">Refer to a friend</string>
     <string name="title_address_event">%s %d, %s</string>
+    <string name="msg_share">
+        De Danshal organiseert de volgende event: %s op %s. Wees erbij!
+        Op de hoogte blijven van de nieuwste content? Download de Danshal app!
+    </string>
 
     <!--admin-->
     <string name="menu_admin_dashboard">Admin Dashboard</string>
@@ -80,6 +84,7 @@
     <string name="admin_add_date_btn">Datum kiezen</string>
     <string name="admin_add_post">Plaatsen</string>
     <string name="admin_add_exclusive">Exclusief</string>
+    <string name="admin_add_ticket">Ticket</string>
 
     <string name="admin_add_upload">Upload foto/video</string>
 

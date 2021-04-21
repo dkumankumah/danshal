@@ -149,7 +149,7 @@
     </fragment>
     <fragment
         android:id="@+id/postFragment"
-        android:name="com.example.danshal.ui.home.PostFragment"
+        android:name="com.example.danshal.ui.home.PostDialogFragment"
         android:label="fragment_post"
         tools:layout="@layout/fragment_post" >
         <action

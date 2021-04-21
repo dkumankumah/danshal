@@ -3,11 +3,8 @@ package com.example.danshal.ui.home
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
-import android.widget.Toast
-import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -35,7 +32,6 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         currentEventType = getString(R.string.title_event)
-
         // let the app know that this fragment is expecting menu related callbacks
         setHasOptionsMenu(true)
     }
@@ -106,8 +102,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadData() {
-        viewModel.loadGiveAway()
-
         viewModel.currentContentType.observe(viewLifecycleOwner, {
             content.clear()
             viewModel.loadAllContent()
@@ -115,30 +109,29 @@ class HomeFragment : Fragment() {
 
         viewModel.getContent().observe(viewLifecycleOwner, {
             val tempList = arrayListOf<Content>()
+
             tempList.addAll(it)
             content.addAll(tempList)
 
             homeAdapter.contentItems = content.sortedWith(compareBy(Content::getSeconds))
             homeAdapter.notifyDataSetChanged()
-            binding.rvEvents.scheduleLayoutAnimation()
+            if (!viewModel.initLoad) {
+                binding.rvEvents.scheduleLayoutAnimation()
+            }
         })
 
         viewModel.getGiveAway().observe(viewLifecycleOwner, {
             giveAway.clear()
 
-            if(it.isNotEmpty()) {
-                Log.d("hf", (it == null).toString())
+            if (it.isNotEmpty()) {
                 giveAway.addAll(it)
                 giveAwayAdapter.giveAway = giveAway
                 giveAwayAdapter.notifyDataSetChanged()
-                binding.rvGiveAway.scheduleLayoutAnimation()
             } else {
-                Log.d("hf2", (it == null).toString())
                 binding.tvGiveaway.visibility = View.GONE
                 binding.rvGiveAway.visibility = View.GONE
             }
         })
-
     }
 
     private fun openFilterWindow() {
@@ -170,20 +163,17 @@ class HomeFragment : Fragment() {
 
     private fun onGiveAwayClick(giveAway: GiveAway) {
         viewModel.setCurrentGiveAway(giveAway)
-        GiveawayDialogFragment().newInstance()?.show(parentFragmentManager, "giveaway_dialog_fragment")
+        GiveawayDialogFragment().newInstance()
+            ?.show(parentFragmentManager, "giveaway_dialog_fragment")
     }
 
     private fun onContentClick(content: Content) {
         viewModel.setCurrentContent(content)
 
-        if(content.postType == Content.TYPE.EVENT) {
+        if (content.postType == Content.TYPE.EVENT) {
             findNavController().navigate(R.id.action_nav_home_to_eventFragment)
         } else {
-            findNavController().navigate(R.id.action_nav_home_to_postFragment)
+            PostDialogFragment().newInstance()?.show(parentFragmentManager, "post_fragment")
         }
     }
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _binding = null
-//    }
 }

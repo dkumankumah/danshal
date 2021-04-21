@@ -128,16 +128,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_exclusive"
         android:clickable="false" />
-    
+
     <include
         android:id="@+id/address_layout"
         layout="@layout/address_form_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/btn_add_event"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch_add_exclusive" />
+
+
+    <TextView
+        android:id="@+id/tv_add_ticket"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/admin_add_ticket"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address_layout" />
+
+    <EditText
+        android:id="@+id/et_add_ticket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textUri"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_ticket" />
 
     <Button
         android:id="@+id/btn_add_event"
@@ -145,7 +165,8 @@
         android:layout_height="wrap_content"
         android:text="@string/admin_add_post"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/address_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/et_add_ticket" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

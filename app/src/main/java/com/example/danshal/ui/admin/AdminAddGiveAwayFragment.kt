@@ -51,7 +51,7 @@ class AdminAddGiveAwayFragment : Fragment() {
             postGiveAway()
         }
 
-        binding.btnAddUpload.setOnClickListener {
+        binding.imageView.setOnClickListener {
             openGalleryForImage()
         }
 

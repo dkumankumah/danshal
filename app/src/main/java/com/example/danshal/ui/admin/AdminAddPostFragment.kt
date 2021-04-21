@@ -48,7 +48,7 @@ class AdminAddPostFragment : Fragment() {
             postContent()
         }
 
-        binding.btnAddUpload.setOnClickListener {
+        binding.imageView.setOnClickListener {
             openGalleryForImage()
         }
     }

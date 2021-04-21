@@ -1,12 +1,11 @@
 package com.example.danshal.ui.home
 
 import android.content.Context
-import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.MediaController
+import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.danshal.R
@@ -17,6 +16,7 @@ import com.example.danshal.models.Event
 import com.example.danshal.models.Post
 import java.text.DateFormatSymbols
 import java.util.*
+
 
 // Our data structure types
 private const val TYPE_EVENT = 0
@@ -31,7 +31,7 @@ class HomeAdapter(var contentItems: List<Content>, private val onClick: (Content
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         context = parent.context
 
-        return if(viewType == TYPE_EVENT) {
+        return if (viewType == TYPE_EVENT) {
             val view = LayoutInflater.from(context).inflate(R.layout.item_event, parent, false)
             EventViewHolder(view)
         } else {
@@ -41,7 +41,7 @@ class HomeAdapter(var contentItems: List<Content>, private val onClick: (Content
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(getItemViewType(position) == TYPE_EVENT) {
+        if (getItemViewType(position) == TYPE_EVENT) {
             (holder as EventViewHolder).bind(contentItems[position] as Event, context)
         } else {
             (holder as PostViewHolder).bind(contentItems[position] as Post, context)
@@ -52,10 +52,10 @@ class HomeAdapter(var contentItems: List<Content>, private val onClick: (Content
         return contentItems.size
     }
 
-   inner class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-       init {
-           itemView.setOnClickListener { onClick(contentItems[adapterPosition]) }
-       }
+    inner class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        init {
+            itemView.setOnClickListener { onClick(contentItems[adapterPosition]) }
+        }
 
         val binding = ItemEventBinding.bind(itemView)
         val monthName = DateFormatSymbols(Locale.ENGLISH).shortMonths
@@ -76,7 +76,7 @@ class HomeAdapter(var contentItems: List<Content>, private val onClick: (Content
 
     inner class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init {
-            itemView.setOnClickListener {onClick(contentItems[adapterPosition])}
+            itemView.setOnClickListener { onClick(contentItems[adapterPosition]) }
         }
 
         val binding = ItemPostBinding.bind(itemView)
@@ -84,14 +84,8 @@ class HomeAdapter(var contentItems: List<Content>, private val onClick: (Content
         fun bind(content: Post, context: Context) {
             binding.tvPostImageTitle.text = content.title
             if (content.imageUrl != null && content.imageUrl != "") {
-                if(content.imageUrl.toString().contains("content_videos")) {
-                    binding.vvPostItem.setVideoURI(Uri.parse(content.imageUrl))
-                    binding.ivPostImage.visibility = View.GONE
-                    binding.vvPostItem.visibility = View.VISIBLE
-                    val vidControl: MediaController = MediaController(context)
-                    vidControl.setAnchorView(binding.vvPostItem)
-                    binding.vvPostItem.setMediaController(vidControl)
-                    binding.vvPostItem.start()
+                if (content.imageUrl.toString().contains("content_videos")) {
+                    initVideo(content, binding)
                 } else {
                     binding.ivPostImage.visibility = View.VISIBLE
                     binding.vvPostItem.visibility = View.GONE
@@ -100,6 +94,30 @@ class HomeAdapter(var contentItems: List<Content>, private val onClick: (Content
             } else {
                 binding.ivPostImage.setImageResource(R.drawable.event2)
             }
+        }
+    }
+
+    fun initVideo(content: Post, binding: ItemPostBinding) {
+        binding.ivPostImage.visibility = View.GONE
+        binding.vvPostItem.visibility = View.VISIBLE
+
+        binding.vvPostItem.setVideoPath(content.imageUrl)
+        binding.vvPostItem.setOnPreparedListener { mp ->
+            mp.start()
+
+            val videoRatio = mp.videoWidth.toFloat() / mp.videoHeight.toFloat()
+            val screenRatio = binding.vvPostItem.width.toFloat() / binding.vvPostItem.height.toFloat()
+            val scale = videoRatio / screenRatio
+
+            if (scale >= 1f) {
+                binding.vvPostItem.scaleX = scale
+            } else {
+                binding.vvPostItem.scaleY = 1f / scale
+            }
+        }
+
+        binding.vvPostItem.setOnCompletionListener { mp ->
+            mp.start()
         }
     }
 

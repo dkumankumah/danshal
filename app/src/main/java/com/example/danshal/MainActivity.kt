@@ -1,11 +1,9 @@
 package com.example.danshal
 
-import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
-import androidx.activity.viewModels
+import android.widget.TextView
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -15,12 +13,9 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.constraintlayout.widget.Group
-import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -28,8 +23,10 @@ import com.google.firebase.ktx.Firebase
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    lateinit var viewModel: MainViewModel
+    lateinit var viewModel: SharedUserViewModel
     private lateinit var auth: FirebaseAuth
+    private lateinit var image : de.hdodenhof.circleimageview.CircleImageView
+    private lateinit var navView: NavigationView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,14 +36,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navView: NavigationView = findViewById(R.id.nav_view)
+        navView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
-
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-//        auth = Firebase.auth
-        auth = viewModel.auth
-//        var currentuser = auth.currentUser
-
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -55,12 +46,34 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        viewModel = ViewModelProvider(this).get(SharedUserViewModel::class.java)
+        auth = viewModel.auth
+        updateUI()
+
+    }
+
+    private fun updateUI() {
+
+        var username = navView.getHeaderView(0).findViewById<TextView>(R.id.nav_username)
+        var email = navView.getHeaderView(0).findViewById<TextView>(R.id.nav_email)
+        image = navView.getHeaderView(0).findViewById(R.id.iv_profileimage)
+
         viewModel.checkLoggedIn()
 
         viewModel.isLoggedIn.observe(this, Observer {
             toggleMenu(it)
-            Log.d("main_check", it.toString())
+        })
 
+        viewModel.currentUser.observe(this, Observer {
+            username.text = it.naam
+            email.text = it.email
+            Glide.with(this)
+                .load(it.profileImage)
+                .into(image)
+
+            if (it != null){
+                toggleAdminMenu(it.admin)
+            }
         })
     }
 
@@ -95,17 +108,21 @@ class MainActivity : AppCompatActivity() {
     private fun toggleMenu(boolean: Boolean) {
         val navView: NavigationView = findViewById(R.id.nav_view)
         val menu = navView.menu
-        if(boolean) {
-            menu.findItem(R.id.nav_logout).isVisible = true
-            menu.findItem(R.id.nav_profile).isVisible = true
-            menu.findItem(R.id.nav_login).isVisible = false
-            menu.findItem(R.id.nav_register).isVisible = false
-        } else {
-            menu.findItem(R.id.nav_logout).isVisible = false
-            menu.findItem(R.id.nav_profile).isVisible = false
-            menu.findItem(R.id.nav_login).isVisible = true
-            menu.findItem(R.id.nav_register).isVisible = true
-        }
+
+        menu.findItem(R.id.nav_logout).isVisible = boolean
+        menu.findItem(R.id.nav_profile).isVisible = boolean
+        menu.findItem(R.id.nav_login).isVisible = !boolean
+        menu.findItem(R.id.nav_register).isVisible = !boolean
+
+    }
+
+    private fun toggleAdminMenu(boolean: Boolean) {
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        val menu = navView.menu
+
+        menu.findItem(R.id.nav_admin_dashboard).isVisible = boolean
+        menu.findItem(R.id.nav_admin_add).isVisible = boolean
+        menu.findItem(R.id.nav_admin_users).isVisible = boolean
 
     }
 

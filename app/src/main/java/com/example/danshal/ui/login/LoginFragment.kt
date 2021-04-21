@@ -15,10 +15,9 @@ import android.util.Log
 import android.util.Patterns
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.danshal.MainViewModel
+import com.example.danshal.SharedUserViewModel
 import com.example.danshal.R
 import com.example.danshal.models.User
 import com.google.firebase.auth.FirebaseAuth
@@ -30,7 +29,7 @@ import com.google.firebase.ktx.Firebase
 
 class LoginFragment : Fragment() {
 
-    private val viewModel: MainViewModel by activityViewModels()
+    private val viewModel: SharedUserViewModel by activityViewModels()
 
     lateinit var textView: TextView
     private lateinit var auth: FirebaseAuth

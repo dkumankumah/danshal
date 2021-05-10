@@ -15,14 +15,6 @@ import com.example.danshal.databinding.ItemPostBinding
 import com.example.danshal.models.Content
 import com.example.danshal.models.Event
 import com.example.danshal.models.Post
-import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.source.MediaSource
-import com.google.android.exoplayer2.source.ProgressiveMediaSource
-import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
-import com.google.android.exoplayer2.upstream.DataSource
-import com.google.android.exoplayer2.upstream.DefaultDataSource
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.util.Util
 import java.text.DateFormatSymbols
 import java.util.*
 
@@ -93,68 +85,11 @@ class HomeAdapter(var contentItems: List<Content>, private val onClick: (Content
         fun bind(content: Post, context: Context) {
             binding.tvPostImageTitle.text = content.title
             if (content.imageUrl != null && content.imageUrl != "") {
-                if (content.imageUrl.toString().contains("content_videos")) {
-                    initVideo(content, binding)
-                } else {
-                    binding.ivPostImage.visibility = View.VISIBLE
-                    binding.vvPostItem.visibility = View.GONE
-                    Glide.with(context).load(content.imageUrl).into(binding.ivPostImage)
-                }
+                Glide.with(context).load(content.imageUrl).into(binding.ivPostImage)
             } else {
                 binding.ivPostImage.setImageResource(R.drawable.event2)
             }
         }
-    }
-
-    fun initVideo(content: Post, binding: ItemPostBinding) {
-        binding.ivPostImage.visibility = View.GONE
-        binding.vvPostItem.visibility = View.VISIBLE
-        val exoPlayer = binding.vvPostItem
-        exoPlayer.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
-
-        try {
-            val uri = Uri.parse(content.imageUrl)
-            val player = ExoPlayerFactory.newSimpleInstance(context)
-            exoPlayer.player = player
-
-            // Produces DataSource Instances through which media data is loaded
-            val dataSourceFactory: DataSource.Factory =
-                DefaultDataSourceFactory(
-                    context,
-                    Util.getUserAgent(context, "Danshal")
-                )
-
-            val videoSource: MediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(uri)
-
-            // Prepare the player with the source.
-            player.prepare(videoSource)
-        } catch (E: Exception) {
-            Log.d("Video error", E.toString())
-        }
-
-
-
-
-
-//        binding.vvPostItem.setVideoPath(content.imageUrl)
-//        binding.vvPostItem.setOnPreparedListener { mp ->
-//            mp.start()
-//
-//            val videoRatio = mp.videoWidth.toFloat() / mp.videoHeight.toFloat()
-//            val screenRatio = binding.vvPostItem.width.toFloat() / binding.vvPostItem.height.toFloat()
-//            val scale = videoRatio / screenRatio
-//
-//            if (scale >= 1f) {
-//                binding.vvPostItem.scaleX = scale
-//            } else {
-//                binding.vvPostItem.scaleY = 1f / scale
-//            }
-//        }
-//
-//        binding.vvPostItem.setOnCompletionListener { mp ->
-//            mp.start()
-//        }
     }
 
     override fun getItemViewType(position: Int): Int {

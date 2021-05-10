@@ -50,16 +50,6 @@
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintVertical_bias="0.0">
 
-            <!--            <VideoView-->
-            <!--                android:id="@+id/vvPostItem"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content" />-->
-
-            <com.google.android.exoplayer2.ui.PlayerView
-                android:id="@+id/vvPostItem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
             <ImageView
                 android:id="@+id/ivPostImage"
                 android:layout_width="wrap_content"

@@ -1,5 +1,6 @@
 package com.example.danshal.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.danshal.models.Post
@@ -20,12 +21,6 @@ class PostRepository {
 
     val posts: MutableLiveData<List<Post>>
         get() = _posts
-
-    val exclusivePosts: LiveData<List<Post>>
-        get() = _exclusivePosts
-
-    val nonExclusivePosts: LiveData<List<Post>>
-        get() = _nonExclusivePosts
 
     suspend fun getAllPosts() {
         try {
@@ -64,29 +59,6 @@ class PostRepository {
         }
     }
 
-    suspend fun getAllExclusivePosts() {
-        try {
-            val tempList = arrayListOf<Post>()
-
-            val data = postRef
-                .whereEqualTo("exclusive", true)
-                .get()
-                .await()
-
-            for (result in data.toObjects(Post::class.java)) {
-                val post = Post(result.exclusive,)
-                post.title = result.title
-                post.content = result.content
-                post.imageUrl = result.imageUrl
-                post.timestamp = result.timestamp
-
-                tempList.add(post)
-            }
-            _exclusivePosts.value = tempList
-        } catch (e: Exception) {
-            throw PostRetrievalError("Volgende ging mis: ${e}")
-        }
-    }
 
     suspend fun getAllNonExclusivePosts() {
         try {
@@ -106,7 +78,7 @@ class PostRepository {
 
                 tempList.add(post)
             }
-            _nonExclusivePosts.value = tempList
+            _posts.value = tempList
         } catch (e: Exception) {
             throw PostRetrievalError("Volgende ging mis: ${e}")
         }
@@ -138,33 +110,6 @@ class PostRepository {
         }
     }
 
-    suspend fun getAllExclusivePostsForUsers() {
-        _posts.value = emptyList()
-        try {
-            val tempList = arrayListOf<Post>()
-
-            val data = postRef
-                .orderBy("timestamp", Query.Direction.ASCENDING)
-                .whereGreaterThanOrEqualTo("timestamp", Timestamp.now().toDate())
-                .whereEqualTo("exclusive", true)
-                .get()
-                .await()
-
-            for (result in data.toObjects(Post::class.java)) {
-                val post = Post(result.exclusive,)
-                post.title = result.title
-                post.content = result.content
-                post.imageUrl = result.imageUrl
-                post.timestamp = result.timestamp
-
-                tempList.add(post)
-            }
-            _exclusivePosts.value = tempList
-        } catch (e: Exception) {
-            throw PostRetrievalError("Volgende ging mis: ${e}")
-        }
-    }
-
     suspend fun getAllNonExclusivePostsForUsers() {
         _posts.value = emptyList()
         try {
@@ -186,7 +131,7 @@ class PostRepository {
 
                 tempList.add(post)
             }
-            _nonExclusivePosts.value = tempList
+            _posts.value = tempList
         } catch (e: Exception) {
             throw PostRetrievalError("Volgende ging mis: ${e}")
         }

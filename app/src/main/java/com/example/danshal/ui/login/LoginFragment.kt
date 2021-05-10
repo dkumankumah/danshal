@@ -15,7 +15,9 @@ import android.util.Log
 import android.util.Patterns
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.danshal.SharedUserViewModel
 import com.example.danshal.R
 import com.example.danshal.models.User
 import com.google.firebase.auth.FirebaseAuth
@@ -26,6 +28,8 @@ import com.google.firebase.ktx.Firebase
 
 
 class LoginFragment : Fragment() {
+
+    private val viewModel: SharedUserViewModel by activityViewModels()
 
     lateinit var textView: TextView
     private lateinit var auth: FirebaseAuth
@@ -104,6 +108,7 @@ class LoginFragment : Fragment() {
             if(task.isSuccessful){
                 Log.e("Task", "Succes")
                 auth.currentUser?.let { dataFetch(it.uid) }
+                viewModel.checkLoggedIn()
             }
             else{
                 Log.e("Task", "Failed..."+task.exception)

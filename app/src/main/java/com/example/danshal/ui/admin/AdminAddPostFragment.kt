@@ -12,20 +12,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.MediaController
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
 import com.example.danshal.R
 import com.example.danshal.databinding.AdminAddPostFragmentBinding
 import com.example.danshal.models.Notification
 import com.example.danshal.models.Post
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import java.io.ByteArrayOutputStream
 
 class AdminAddPostFragment : Fragment() {
@@ -37,13 +34,10 @@ class AdminAddPostFragment : Fragment() {
     private val db = Firebase.firestore
     private val storage = Firebase.storage("gs://danshal-c7e70.appspot.com/")
 
-    private var mediaCheck: Boolean = true // determines if media is image or video
-    private lateinit var videoUrl: Uri
-
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         _binding = AdminAddPostFragmentBinding.inflate(inflater, container, false)
 
@@ -57,7 +51,7 @@ class AdminAddPostFragment : Fragment() {
             postContent()
         }
 
-        binding.btnAddUpload.setOnClickListener {
+        binding.imageView.setOnClickListener {
             openGalleryForImage()
         }
     }
@@ -73,11 +67,7 @@ class AdminAddPostFragment : Fragment() {
 
             addToDatabase(post)
         } else {
-            Toast.makeText(
-                context,
-                "Er zijn een aantal verplichte velden niet ingevuld",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(context, "Er zijn een aantal verplichte velden niet ingevuld", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -85,15 +75,12 @@ class AdminAddPostFragment : Fragment() {
         db.collection("posts")
             .add(post)
             .addOnSuccessListener { documentReference ->
-                if (mediaCheck) addImageToStorage(documentReference.id) else addVideoToStorage(
-                    documentReference.id
-                )
+                addImageToStorage(documentReference.id)
 
                 db.collection("posts").document(documentReference.id)
                     .update("id", documentReference.id)
 
-                val notificationText =
-                    if (post.exclusive) "Exclusieve post is toegevoegd: ${post.title}" else "Post is toegevoegd: ${post.title}"
+                val notificationText = if (post.exclusive) "Exclusieve post is toegevoegd: ${post.title}" else "Post is toegevoegd: ${post.title}"
                 db.collection("notifications")
                     .add(Notification(notificationText))
 
@@ -103,62 +90,31 @@ class AdminAddPostFragment : Fragment() {
             }
             .addOnFailureListener { e ->
                 Log.w("Cloud", "Error adding document", e)
-                Toast.makeText(
-                    context,
-                    "Het is niet gelukt de post toe te voegen",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(context, "Het is niet gelukt de post toe te voegen", Toast.LENGTH_SHORT).show()
             }
     }
 
     private fun openGalleryForImage() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*,video/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/*", "video/*"))
-        resultLauncher.launch(intent)
+        context?.let {
+            CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setMinCropResultSize(512, 512)
+                .setAspectRatio(1, 1)
+                .start(it, this)
+        }
     }
 
-    private var resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val intent = result.data
-                when {
-                    intent?.data?.toString()?.contains("image") == true -> {
-                        binding.imageView.setImageURI(intent.data) // handle chosen image
-                        binding.imageView.visibility = View.VISIBLE
-                        binding.videoView.visibility = View.GONE
-                        mediaCheck = true
-                    }
-                    intent?.data?.toString()?.contains("video") == true -> {
-                        binding.videoView.setVideoURI(Uri.parse(intent.data.toString()))
-                        binding.videoView.visibility = View.VISIBLE
-                        binding.videoView.setZOrderOnTop(true)
-
-                        // Media controllers
-                        val vidControl: MediaController = MediaController(activity)
-                        vidControl.setAnchorView(binding.videoView)
-                        binding.videoView.setMediaController(vidControl)
-                        binding.videoView.start()
-
-                        videoUrl = Uri.parse(intent.data.toString())
-                        binding.imageView.visibility = View.GONE
-                        mediaCheck = false
-                    }
-                    else -> {
-                        Log.d("AAPF", intent?.data.toString())
-                    }
-                }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+            if (resultCode == Activity.RESULT_OK) {
+                val resultUri: Uri = result.uri
+                binding.imageView.setImageURI(resultUri)
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                val error = result.error
             }
         }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
-//            binding.imageView.setImageURI(data?.data) // handle chosen image
-//        }
-//    }
+    }
 
     private fun addImageToStorage(document: String) {
         if (binding.imageView.drawable != null) {
@@ -178,11 +134,7 @@ class AdminAddPostFragment : Fragment() {
              * Uploading video/photo to storage
              */
             uploadTask.addOnFailureListener {
-                Toast.makeText(
-                    context,
-                    "Uploaden van foto/video is niet gelukt",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(context, "Uploaden van foto/video is niet gelukt", Toast.LENGTH_SHORT).show()
             }.addOnSuccessListener {
                 /**
                  * Check if the upload is done
@@ -201,30 +153,6 @@ class AdminAddPostFragment : Fragment() {
 
                         eventsRef
                             .update("imageUrl", task.result.toString())
-                    }
-                }
-            }
-        }
-    }
-
-    private fun addVideoToStorage(document: String) {
-        val storageRef = storage.reference
-        val uploadTask = storageRef.child("content_videos/post-$document.mp4").putFile(videoUrl)
-        /**
-         * Uploading video to storage
-         */
-        uploadTask.addOnFailureListener {
-            Toast.makeText(context, "Uploaden van foto/video is niet gelukt", Toast.LENGTH_SHORT)
-                .show()
-        }.addOnSuccessListener { taskSnapshot ->
-            if (taskSnapshot.metadata != null) {
-                if (taskSnapshot.metadata!!.reference != null) {
-                    val result = taskSnapshot.storage.downloadUrl
-                    result.addOnSuccessListener {
-                        val eventsRef = db.collection("posts").document(document)
-
-                        eventsRef
-                            .update("imageUrl", result.result.toString())
                     }
                 }
             }

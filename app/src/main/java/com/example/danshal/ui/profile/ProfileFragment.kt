@@ -86,29 +86,21 @@ class ProfileFragment : Fragment() {
                 updateUser()
             }
         }
+
+        binding.btnVerwijder.setOnClickListener {
+            showDeleteDialog()
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         val itemToHide = menu.findItem(R.id.action_settings)
         itemToHide.isVisible = false
 
-        menu.findItem(R.id.action_delete).isVisible = true
-        super.onPrepareOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_delete -> {
-                showDeleteDialog()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
 
     private fun showDeleteDialog() {
         val builder = AlertDialog.Builder(requireContext())
-//        builder.setTitle(getString(R.string.waarschuwing))
         val dialogLayout = layoutInflater.inflate(R.layout.delete_user_dialog, null)
 
         builder.setView(dialogLayout)
@@ -227,6 +219,7 @@ class ProfileFragment : Fragment() {
 
 
     private fun dataFetch(userId: String) {
+        binding.progressBar.visibility = View.VISIBLE
         val docRef = db.collection("users").document(userId)
         docRef.get()
             .addOnSuccessListener { document ->
@@ -234,6 +227,7 @@ class ProfileFragment : Fragment() {
                     Log.d("clouddata fetching", "DocumentSnapshot data: ${document.data}")
                     var user = document.toObject<User>()
                     binddata(user)
+                    binding.progressBar.visibility = View.INVISIBLE
                 } else {
                     Log.d("clouddata fething", "No such document")
                 }
@@ -264,7 +258,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun imagePicker() {
-        getContext()?.let {
+        context?.let {
             CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setMinCropResultSize(512, 512)

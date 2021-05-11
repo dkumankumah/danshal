@@ -1,10 +1,12 @@
 package com.example.danshal.ui.home
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.danshal.R
@@ -15,6 +17,7 @@ import com.example.danshal.models.Event
 import com.example.danshal.models.Post
 import java.text.DateFormatSymbols
 import java.util.*
+
 
 // Our data structure types
 private const val TYPE_EVENT = 0
@@ -29,7 +32,7 @@ class HomeAdapter(var contentItems: List<Content>, private val onClick: (Content
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         context = parent.context
 
-        return if(viewType == TYPE_EVENT) {
+        return if (viewType == TYPE_EVENT) {
             val view = LayoutInflater.from(context).inflate(R.layout.item_event, parent, false)
             EventViewHolder(view)
         } else {
@@ -39,7 +42,7 @@ class HomeAdapter(var contentItems: List<Content>, private val onClick: (Content
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(getItemViewType(position) == TYPE_EVENT) {
+        if (getItemViewType(position) == TYPE_EVENT) {
             (holder as EventViewHolder).bind(contentItems[position] as Event, context)
         } else {
             (holder as PostViewHolder).bind(contentItems[position] as Post, context)
@@ -50,10 +53,10 @@ class HomeAdapter(var contentItems: List<Content>, private val onClick: (Content
         return contentItems.size
     }
 
-   inner class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-       init {
-           itemView.setOnClickListener { onClick(contentItems[adapterPosition]) }
-       }
+    inner class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        init {
+            itemView.setOnClickListener { onClick(contentItems[adapterPosition]) }
+        }
 
         val binding = ItemEventBinding.bind(itemView)
         val monthName = DateFormatSymbols(Locale.ENGLISH).shortMonths
@@ -74,7 +77,7 @@ class HomeAdapter(var contentItems: List<Content>, private val onClick: (Content
 
     inner class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init {
-            itemView.setOnClickListener {onClick(contentItems[adapterPosition])}
+            itemView.setOnClickListener { onClick(contentItems[adapterPosition]) }
         }
 
         val binding = ItemPostBinding.bind(itemView)

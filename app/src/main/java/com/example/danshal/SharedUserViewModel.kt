@@ -35,12 +35,12 @@ class SharedUserViewModel(application: Application): AndroidViewModel(applicatio
     }
 
     private fun retrieveUser(userId: String) {
-        val docRef = db.collection("users").document(userId)
+        val docRef = db.collection("users").whereEqualTo("userId", userId)
         docRef.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
-                    Log.d("clouddata fetching", "DocumentSnapshot data: ${document.data}")
-                    _currentUser.value = document.toObject<User>()
+                    Log.d("clouddata fetching", "DocumentSnapshot data: ${document.toObjects(User::class.java)}")
+                    _currentUser.value = document.toObjects(User::class.java)[0]
                 } else {
                     Log.d("clouddata fething", "No such document")
                 }

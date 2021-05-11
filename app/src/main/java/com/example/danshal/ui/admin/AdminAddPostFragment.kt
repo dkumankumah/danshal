@@ -54,6 +54,7 @@ class AdminAddPostFragment : Fragment() {
         binding.btnAddUpload.setOnClickListener {
             openGalleryForImage()
         }
+
     }
 
     private fun postContent() {
@@ -95,15 +96,24 @@ class AdminAddPostFragment : Fragment() {
     }
 
     private fun openGalleryForImage() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, REQUEST_CODE)
+        context?.let {
+            CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setMinCropResultSize(512, 512)
+                .setAspectRatio(1, 1)
+                .start(it, this)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
-            binding.imageView.setImageURI(data?.data) // handle chosen image
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+            if (resultCode == Activity.RESULT_OK) {
+                val resultUri: Uri = result.uri
+                binding.imageView.setImageURI(resultUri)
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                val error = result.error
+            }
         }
     }
 

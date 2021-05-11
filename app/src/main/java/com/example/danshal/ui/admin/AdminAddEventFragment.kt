@@ -14,6 +14,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.canhub.cropper.CropImage
+import com.canhub.cropper.CropImageView
 import com.example.danshal.R
 import com.example.danshal.databinding.AdminAddEventFragmentBinding
 import com.example.danshal.models.Address
@@ -24,8 +26,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.theartofdev.edmodo.cropper.CropImage
-import com.theartofdev.edmodo.cropper.CropImageView
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -70,10 +70,9 @@ class AdminAddEventFragment : Fragment() {
 
     private fun openGalleryForImage() {
         context?.let {
-            CropImage.activity()
+            CropImage
+                .activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
-                .setMinCropResultSize(512, 512)
-                .setAspectRatio(1, 1)
                 .start(it, this)
         }
     }
@@ -82,10 +81,10 @@ class AdminAddEventFragment : Fragment() {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
             if (resultCode == Activity.RESULT_OK) {
-                val resultUri: Uri = result.uri
+                val resultUri: Uri? = result?.uriContent
                 binding.imageView.setImageURI(resultUri)
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                val error = result.error
+                val error = result!!.error
             }
         }
     }

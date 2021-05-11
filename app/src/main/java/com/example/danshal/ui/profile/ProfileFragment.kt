@@ -1,5 +1,6 @@
 package com.example.danshal.ui.profile
 
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.DialogInterface
@@ -15,6 +16,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.canhub.cropper.CropImage
+import com.canhub.cropper.CropImageView
 import com.example.danshal.R
 import com.example.danshal.databinding.FragmentProfileBinding
 import com.example.danshal.models.Address
@@ -27,8 +30,6 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.theartofdev.edmodo.cropper.CropImage
-import com.theartofdev.edmodo.cropper.CropImageView
 import java.util.*
 
 
@@ -46,7 +47,6 @@ class ProfileFragment : Fragment() {
     private var fileUri: Uri? = null
 
     private var imageReference: StorageReference? = null
-
 
 
     override fun onCreateView(
@@ -75,7 +75,6 @@ class ProfileFragment : Fragment() {
 
         binding.ivProfile.setOnClickListener {
             imagePicker()
-
         }
 
         binding.btnUpdate.setOnClickListener {
@@ -259,23 +258,22 @@ class ProfileFragment : Fragment() {
 
     private fun imagePicker() {
         context?.let {
-            CropImage.activity()
+            CropImage
+                .activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
-                .setMinCropResultSize(512, 512)
-                .setAspectRatio(1, 1)
                 .start(it, this)
-        };
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
             if (resultCode == RESULT_OK) {
-                val resultUri: Uri = result.uri
+                val resultUri: Uri? = result?.uriContent
                 fileUri = resultUri
                 binding.ivProfile.setImageURI(resultUri)
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                val error = result.error
+                val error = result!!.error
             }
         }
     }

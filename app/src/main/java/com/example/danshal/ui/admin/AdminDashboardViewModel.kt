@@ -33,6 +33,9 @@ class AdminDashboardViewModel : ViewModel() {
         val currentContent: LiveData<Content>
         get() = _currentContent
 
+    private val _isUpdated: MutableLiveData<Boolean> = MutableLiveData()
+    val isUpdated: LiveData<Boolean>
+        get() = _isUpdated
 
     fun getAllEvents() {
         viewModelScope.launch {
@@ -105,9 +108,39 @@ class AdminDashboardViewModel : ViewModel() {
             try {
                 event.id = currentContent.value!!.id
                 eventRepository.updateEvent(event)
+                _isUpdated.value = true
             } catch (ex: PostRepository.PostRetrievalError) {
                 val errorMsg = "Something went wrong while updating a event."
                 Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
+                _isUpdated.value = false
+            }
+        }
+    }
+
+    fun updatePost(post: Post) {
+        viewModelScope.launch {
+            try {
+                post.id = currentContent.value!!.id
+                postRepository.updatePost(post)
+                _isUpdated.value = true
+            } catch (ex: PostRepository.PostRetrievalError) {
+                val errorMsg = "Something went wrong while updating a post."
+                Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
+                _isUpdated.value = false
+            }
+        }
+    }
+
+    fun updateGiveAway(giveAway: GiveAway) {
+        viewModelScope.launch {
+            try {
+                giveAway.id = currentContent.value!!.id
+                giveAwayRepository.updateGiveAway(giveAway)
+                _isUpdated.value = true
+            } catch (ex: PostRepository.PostRetrievalError) {
+                val errorMsg = "Something went wrong while updating a giveAway."
+                Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
+                _isUpdated.value = false
             }
         }
     }
@@ -123,6 +156,10 @@ class AdminDashboardViewModel : ViewModel() {
 
     fun checkCurrentContent(): Boolean {
         return _currentContent.value != null
+    }
+
+    fun checkIsUpdated(): Boolean? {
+        return _isUpdated.value
     }
 
     fun userById(id: String) {

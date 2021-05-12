@@ -168,6 +168,12 @@
         <action
             android:id="@+id/action_adminDashboardDetailsFragment_to_adminAddEventFragment"
             app:destination="@id/adminAddEventFragment" />
+        <action
+            android:id="@+id/action_adminDashboardDetailsFragment_to_adminAddGiveAwayFragment"
+            app:destination="@id/adminAddGiveAwayFragment" />
+        <action
+            android:id="@+id/action_adminDashboardDetailsFragment_to_adminAddPostFragment"
+            app:destination="@id/adminAddPostFragment" />
     </fragment>
 
 

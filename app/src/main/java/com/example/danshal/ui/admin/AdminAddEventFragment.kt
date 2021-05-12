@@ -41,6 +41,7 @@ class AdminAddEventFragment : Fragment() {
     private lateinit var date: Date
 
     private var idContent : String = ""
+    private var image: String = ""
 
     private val db = Firebase.firestore
     private val storage = Firebase.storage("gs://danshal-c7e70.appspot.com/")
@@ -62,13 +63,11 @@ class AdminAddEventFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnAddUpload.setOnClickListener { openGalleryForImage() }
-
         binding.btnAddEvent.setOnClickListener { postEvent() }
 
         setDate()
         addDatePicker()
         observeCurrentContent()
-
     }
 
     private fun observeCurrentContent() {
@@ -86,9 +85,32 @@ class AdminAddEventFragment : Fragment() {
                 binding.etAddTicket.setText(event.ticket)
 
                 binding.btnAddEvent.text = getString(R.string.admin_update_post)
+                image = event.imageUrl.toString()
                 idContent = event.id
             }
         })
+    }
+
+    private fun setDate() {
+        val cal: Calendar = Calendar.getInstance()
+
+        binding.tvAddDate.text =
+            "Datum: ${cal.get(Calendar.DAY_OF_MONTH)}-${cal.get(Calendar.MONTH) + 1}-${cal.get(Calendar.YEAR)}"
+        this.date = Date(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
+
+        // For updating an Event
+        if (adminDashboardDetailsViewModel.checkCurrentContent()) {
+            adminDashboardDetailsViewModel.currentContent.observe(viewLifecycleOwner, {
+                if(it != null){
+                    val event = it as Event
+                    cal.time = event.date
+
+                    binding.tvAddDate.text =
+                        "Datum: ${cal.get(Calendar.DAY_OF_MONTH)}-${cal.get(Calendar.MONTH) + 1}-${cal.get(Calendar.YEAR)}"
+                    this.date = Date(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
+                }
+            })
+        }
     }
 
     private fun openGalleryForImage() {
@@ -109,6 +131,42 @@ class AdminAddEventFragment : Fragment() {
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 val error = result!!.error
             }
+        }
+    }
+
+    private fun postEvent() {
+        val housenumber = binding.addressLayout.etHousenumber.text?.toString()
+        val housenumberExtension = binding.addressLayout.etHousenumberExt.text?.toString()
+        val postcode = binding.addressLayout.etPostcode.text?.toString()
+        val street = binding.addressLayout.etStreet.text?.toString()
+        val place = binding.addressLayout.etPlace.text?.toString()
+
+        val title = binding.etAddTitle.text?.toString()
+        val description = binding.etAddDescription.text?.toString()
+
+        val ticket = binding.etAddTicket.text?.toString()
+
+        if (validate(housenumber) && validate(postcode) && validate(street) && validate(place) && validate(title)
+            && validate(description) && validate(ticket)) {
+            val address = Address(housenumber!!.toInt(), housenumberExtension, postcode!!, street!!, place!!)
+            val event = Event(address, this.date, binding.switchAddExclusive.isChecked, ticket.toString())
+            event.title = title!!
+            event.content = description!!
+
+            if (adminDashboardDetailsViewModel.checkCurrentContent()) {
+                event.imageUrl = image
+
+                adminDashboardDetailsViewModel.updateEvent(event)
+                addImageToStorage(idContent)
+            } else {
+                addToDatabase(event)
+            }
+        } else {
+            Toast.makeText(
+                context,
+                "Er zijn een aantal verplichte velden niet ingevuld",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -156,67 +214,6 @@ class AdminAddEventFragment : Fragment() {
                     }
                 }
             }
-        }
-    }
-
-    private fun setDate() {
-        val cal: Calendar = Calendar.getInstance()
-
-        binding.tvAddDate.text =
-            "Datum: ${cal.get(Calendar.DAY_OF_MONTH)}-${cal.get(Calendar.MONTH) + 1}-${cal.get(Calendar.YEAR)}"
-        this.date = Date(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
-
-        // For updating an Event
-        if (adminDashboardDetailsViewModel.checkCurrentContent()) {
-            adminDashboardDetailsViewModel.currentContent.observe(viewLifecycleOwner, {
-                if(it != null){
-                    val event = it as Event
-                    cal.time = event.date
-
-                    binding.tvAddDate.text =
-                        "Datum: ${cal.get(Calendar.DAY_OF_MONTH)}-${cal.get(Calendar.MONTH) + 1}-${cal.get(Calendar.YEAR)}"
-                    this.date = Date(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
-                }
-            })
-        }
-
-    }
-
-    private fun postEvent() {
-        val housenumber = binding.addressLayout.etHousenumber.text?.toString()
-        val housenumberExtension = binding.addressLayout.etHousenumberExt.text?.toString()
-        val postcode = binding.addressLayout.etPostcode.text?.toString()
-        val street = binding.addressLayout.etStreet.text?.toString()
-        val place = binding.addressLayout.etPlace.text?.toString()
-
-        val title = binding.etAddTitle.text?.toString()
-        val description = binding.etAddDescription.text?.toString()
-
-        val ticket = binding.etAddTicket.text?.toString()
-
-        if (validate(housenumber) && validate(postcode) && validate(street) && validate(place) && validate(
-                title
-            ) && validate(description) && validate(ticket)
-        ) {
-            val address =
-                Address(housenumber!!.toInt(), housenumberExtension, postcode!!, street!!, place!!)
-            val event =
-                Event(address, this.date, binding.switchAddExclusive.isChecked, ticket.toString())
-            event.title = title!!
-            event.content = description!!
-
-            if (adminDashboardDetailsViewModel.checkCurrentContent()) {
-                adminDashboardDetailsViewModel.updateEvent(event)
-                addImageToStorage(idContent)
-            } else {
-                addToDatabase(event)
-            }
-        } else {
-            Toast.makeText(
-                context,
-                "Er zijn een aantal verplichte velden niet ingevuld",
-                Toast.LENGTH_SHORT
-            ).show()
         }
     }
 

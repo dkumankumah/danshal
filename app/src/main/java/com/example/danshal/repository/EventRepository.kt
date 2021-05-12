@@ -1,10 +1,14 @@
 package com.example.danshal.repository
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.fragment.findNavController
+import com.example.danshal.R
 import com.example.danshal.models.Address
 import com.example.danshal.models.Content
 import com.example.danshal.models.Event
+import com.example.danshal.models.Notification
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -79,7 +83,6 @@ class EventRepository() {
                         "date" to event.date,
                         "exclusive" to event.exclusive,
                         "imageUrl" to event.imageUrl,
-                        "postType" to event.postType,
                         "ticket" to event.ticket,
                         "title" to event.title
                     )
@@ -170,5 +173,5 @@ class EventRepository() {
         }
     }
 
-    class EventRetrievalError(message: String): Exception(message)
+    class EventRetrievalError(message: String) : Exception(message)
 }

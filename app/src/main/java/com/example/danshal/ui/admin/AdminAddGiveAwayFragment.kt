@@ -13,11 +13,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageView
 import com.example.danshal.R
 import com.example.danshal.databinding.AdminAddGiveAwayFragmentBinding
+import com.example.danshal.models.Event
 import com.example.danshal.models.GiveAway
 import com.example.danshal.models.Notification
 import com.google.firebase.firestore.ktx.firestore
@@ -28,11 +30,14 @@ import java.util.*
 
 class AdminAddGiveAwayFragment : Fragment() {
     private val REQUEST_CODE = 100
+    private val adminDashboardDetailsViewModel: AdminDashboardViewModel by activityViewModels()
 
     private var _binding: AdminAddGiveAwayFragmentBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var date: Date
+    private var idContent: String = ""
+    private var image: String = ""
 
     private val storage = Firebase.storage("gs://danshal-c7e70.appspot.com/")
     private val db = Firebase.firestore
@@ -50,22 +55,44 @@ class AdminAddGiveAwayFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnAddGiveAway.setOnClickListener {
-            postGiveAway()
-        }
-
-        binding.imageView.setOnClickListener {
-            openGalleryForImage()
-        }
+        binding.btnAddGiveAway.setOnClickListener { postGiveAway() }
+        binding.imageView.setOnClickListener { openGalleryForImage() }
 
         setDate()
         addDatePicker()
+        observeCurrentGiveAway()
+    }
+
+    private fun observeCurrentGiveAway() {
+        adminDashboardDetailsViewModel.currentContent.observe(viewLifecycleOwner, {
+            if (it != null) {
+                val giveAway = it as GiveAway
+
+                binding.etAddDescription.setText(giveAway.content)
+                binding.etAddTitle.setText(giveAway.title)
+                image = giveAway.imageUrl.toString()
+                idContent = giveAway.id
+            }
+        })
     }
 
     private fun setDate() {
-        this.date = Calendar.getInstance().time
-        // TODO: Year is not showing up right in view, but is right added to this.date
-        binding.tvAddDate.text = "Datum: ${this.date.date}-${this.date.month + 1}-${this.date.year}"
+        val cal: Calendar = Calendar.getInstance()
+
+        binding.tvAddDate.text =
+            "Datum: ${cal.get(Calendar.DAY_OF_MONTH)}-${cal.get(Calendar.MONTH) + 1}-${cal.get(Calendar.YEAR)}"
+        this.date = Date(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
+
+        // For updating an Event
+        if (adminDashboardDetailsViewModel.checkCurrentContent()) {
+            adminDashboardDetailsViewModel.currentContent.observe(viewLifecycleOwner, {
+                val giveAway = it as GiveAway
+                cal.time = giveAway.endDate
+
+                binding.tvAddDate.text = "Datum: ${cal.get(Calendar.DAY_OF_MONTH)}-${cal.get(Calendar.MONTH) + 1}-${cal.get(Calendar.YEAR)}"
+                this.date = Date(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
+            })
+        }
     }
 
     private fun postGiveAway() {
@@ -77,10 +104,20 @@ class AdminAddGiveAwayFragment : Fragment() {
             giveAway.title = title!!
             giveAway.content = description!!
 
-            addToDatabase(giveAway)
+            if(adminDashboardDetailsViewModel.checkCurrentContent()) {
+                giveAway.imageUrl = image
+                adminDashboardDetailsViewModel.updateGiveAway(giveAway)
+                addImageToStorage(idContent)
+            } else {
+                addToDatabase(giveAway)
+            }
         } else {
             // TODO: Toast is not showing up
-            Toast.makeText(context, "Er zijn een aantal verplichte velden niet ingevuld", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                "Er zijn een aantal verplichte velden niet ingevuld",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -100,7 +137,11 @@ class AdminAddGiveAwayFragment : Fragment() {
                 Toast.makeText(context, "Give away is toegevoegd", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
-                Toast.makeText(context, "Het is niet gelukt de give away toe te voegen", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Het is niet gelukt de give away toe te voegen",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
@@ -143,7 +184,11 @@ class AdminAddGiveAwayFragment : Fragment() {
              * Uploading video/photo to storage
              */
             uploadTask.addOnFailureListener {
-                Toast.makeText(context, "Uploaden van foto/video is niet gelukt", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Uploaden van foto/video is niet gelukt",
+                    Toast.LENGTH_SHORT
+                ).show()
             }.addOnSuccessListener {
                 /**
                  * Check if the upload is done
@@ -183,11 +228,17 @@ class AdminAddGiveAwayFragment : Fragment() {
 
         binding.btnAddDate.setOnClickListener {
             context?.let {
-                val dpd = DatePickerDialog(it, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                    // Display Selected date in TextView
-                    this.date = Date(year, monthOfYear, dayOfMonth)
-                    binding.tvAddDate.text = "Datum: $dayOfMonth-${monthOfYear + 1}-$year"
-                }, year, month, day)
+                val dpd = DatePickerDialog(
+                    it,
+                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                        // Display Selected date in TextView
+                        this.date = Date(year, monthOfYear, dayOfMonth)
+                        binding.tvAddDate.text = "Datum: $dayOfMonth-${monthOfYear + 1}-$year"
+                    },
+                    year,
+                    month,
+                    day
+                )
                 dpd.show()
             }
         }

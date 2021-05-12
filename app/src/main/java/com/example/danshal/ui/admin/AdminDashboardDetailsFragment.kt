@@ -49,17 +49,17 @@ class AdminDashboardDetailsFragment : Fragment() {
     }
 
     private fun editContentItem(content: Content) {
+        adminDashboardDetailsViewModel.setCurrentContent(content)
+
         when(viewModel.detailContentType){
             Content.TYPE.EVENT -> {
-                adminDashboardDetailsViewModel.setCurrentContent(content)
                 findNavController().navigate(R.id.action_adminDashboardDetailsFragment_to_adminAddEventFragment)
-                Log.i("DASHBOARD", "Edit event ${content.title}")
             }
             Content.TYPE.GIVEAWAY -> {
-                Log.i("DASHBOARD", "Edit give away ${content.title}")
+                findNavController().navigate(R.id.action_adminDashboardDetailsFragment_to_adminAddGiveAwayFragment)
             }
             Content.TYPE.POST -> {
-                Log.i("DASHBOARD", "Edit post ${content.title}")
+                findNavController().navigate(R.id.action_adminDashboardDetailsFragment_to_adminAddPostFragment)
             }
         }
     }
@@ -70,11 +70,9 @@ class AdminDashboardDetailsFragment : Fragment() {
                 viewModel.removeEvent(content.id)
             }
             Content.TYPE.GIVEAWAY -> {
-                Log.i("DASHBOARD", "Remove give away ${content.title}")
                 viewModel.removeGiveaway(content.id)
             }
             Content.TYPE.POST -> {
-                Log.i("DASHBOARD", "Remove post ${content.title}")
                 viewModel.removePost(content.id)
             }
         }
@@ -85,7 +83,7 @@ class AdminDashboardDetailsFragment : Fragment() {
 
     private fun attendeesGiveaway(giveaway: GiveAway) {
         viewModel.setCurrentGiveAway(giveaway)
-        AdminGiveawayAttendeesFragment().newInstance()?.show(parentFragmentManager, "admin_giveaway_attendees_fragment")
+        AdminGiveawayAttendeesFragment().newInstance().show(parentFragmentManager, "admin_giveaway_attendees_fragment")
     }
 
     private fun initViews() {

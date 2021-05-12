@@ -11,15 +11,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.danshal.MainActivity
+import com.example.danshal.R
 import com.example.danshal.databinding.AdminDashboardDetailsFragmentBinding
 import com.example.danshal.models.Content
 import com.example.danshal.models.GiveAway
 
 class AdminDashboardDetailsFragment : Fragment() {
-    private lateinit var adminDashboardDetailsViewModel: AdminDashboardViewModel
+    private val adminDashboardDetailsViewModel: AdminDashboardViewModel by activityViewModels()
 
     private var _binding: AdminDashboardDetailsFragmentBinding? = null
     private val binding get() = _binding!!
@@ -33,9 +35,6 @@ class AdminDashboardDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        adminDashboardDetailsViewModel =
-            ViewModelProvider(this).get(AdminDashboardViewModel::class.java)
-
         _binding = AdminDashboardDetailsFragmentBinding.inflate(inflater, container, false)
 
         (activity as MainActivity).supportActionBar?.title = "Admin ${viewModel.detailContentType}s"
@@ -52,6 +51,8 @@ class AdminDashboardDetailsFragment : Fragment() {
     private fun editContentItem(content: Content) {
         when(viewModel.detailContentType){
             Content.TYPE.EVENT -> {
+                adminDashboardDetailsViewModel.setCurrentContent(content)
+                findNavController().navigate(R.id.action_adminDashboardDetailsFragment_to_adminAddEventFragment)
                 Log.i("DASHBOARD", "Edit event ${content.title}")
             }
             Content.TYPE.GIVEAWAY -> {

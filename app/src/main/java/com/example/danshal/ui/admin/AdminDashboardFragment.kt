@@ -20,9 +20,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class AdminDashboardFragment : Fragment() {
-
-    private lateinit var adminDashboardViewModel: AdminDashboardViewModel
-
     private var _binding: AdminDashboardFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -36,9 +33,6 @@ class AdminDashboardFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        adminDashboardViewModel =
-            ViewModelProvider(this).get(AdminDashboardViewModel::class.java)
-
         _binding = AdminDashboardFragmentBinding.inflate(inflater, container, false)
         setTotals()
 

@@ -165,6 +165,9 @@
         <action
             android:id="@+id/action_adminDashboardDetailsFragment_to_nav_admin_dashboard"
             app:destination="@id/nav_admin_dashboard" />
+        <action
+            android:id="@+id/action_adminDashboardDetailsFragment_to_adminAddEventFragment"
+            app:destination="@id/adminAddEventFragment" />
     </fragment>
 
 

@@ -5,10 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.danshal.models.Event
-import com.example.danshal.models.GiveAway
-import com.example.danshal.models.Post
-import com.example.danshal.models.User
+import com.example.danshal.models.*
 import com.example.danshal.repository.EventRepository
 import com.example.danshal.repository.GiveAwayRepository
 import com.example.danshal.repository.PostRepository
@@ -31,6 +28,11 @@ class AdminDashboardViewModel : ViewModel() {
     private val _currentGiveAway: MutableLiveData<GiveAway> = MutableLiveData()
     val currentGiveAway: LiveData<GiveAway>
         get() = _currentGiveAway
+
+    private val _currentContent: MutableLiveData<Content> = MutableLiveData()
+        val currentContent: LiveData<Content>
+        get() = _currentContent
+
 
     fun getAllEvents() {
         viewModelScope.launch {
@@ -96,6 +98,26 @@ class AdminDashboardViewModel : ViewModel() {
                 Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
             }
         }
+    }
+
+    fun updateEvent(event: Event) {
+        viewModelScope.launch {
+            try {
+                Log.d("AdminDashboardViewModel", "${event.id} --- ${event.title}")
+            } catch (ex: PostRepository.PostRetrievalError) {
+                val errorMsg = "Something went wrong while updating a event."
+                Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
+            }
+        }
+    }
+
+    fun setCurrentContent(content: Content) {
+        _currentContent.value = null
+        _currentContent.value = content
+    }
+
+    fun checkCurrentContent(): Boolean {
+        return _currentContent.value != null
     }
 
     fun userById(id: String) {

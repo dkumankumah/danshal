@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageView
@@ -31,6 +32,7 @@ import java.util.*
 
 class AdminAddEventFragment : Fragment() {
     private val REQUEST_CODE = 100
+    private val adminDashboardDetailsViewModel: AdminDashboardViewModel by activityViewModels()
 
     private var _binding: AdminAddEventFragmentBinding? = null
     private val binding get() = _binding!!
@@ -56,16 +58,27 @@ class AdminAddEventFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnAddUpload.setOnClickListener {
-            openGalleryForImage()
-        }
+        binding.btnAddUpload.setOnClickListener { openGalleryForImage() }
 
-        binding.btnAddEvent.setOnClickListener {
-            postEvent()
-        }
+        binding.btnAddEvent.setOnClickListener { postEvent() }
 
         setDate()
         addDatePicker()
+
+        adminDashboardDetailsViewModel.currentContent.observe(viewLifecycleOwner, {
+            val event = it as Event
+            binding.addressLayout.etHousenumber.setText(event.address.housenumber.toString())
+            binding.addressLayout.etHousenumberExt.setText(event.address.housenumberExtension.toString())
+            binding.addressLayout.etPostcode.setText(event.address.postcode)
+            binding.addressLayout.etStreet.setText(event.address.street)
+            binding.addressLayout.etPlace.setText(event.address.place)
+
+            binding.etAddTitle.setText(event.title)
+            binding.etAddDescription.setText(event.content)
+            binding.etAddTicket.setText(event.ticket)
+
+            binding.btnAddEvent.text = getString(R.string.admin_update_post)
+        })
     }
 
     private fun openGalleryForImage() {
@@ -107,7 +120,11 @@ class AdminAddEventFragment : Fragment() {
              * Uploading video/photo to storage
              */
             uploadTask.addOnFailureListener {
-                Toast.makeText(context, "Uploaden van foto/video is niet gelukt", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Uploaden van foto/video is niet gelukt",
+                    Toast.LENGTH_SHORT
+                ).show()
             }.addOnSuccessListener {
                 /**
                  * Check if the upload is done
@@ -134,8 +151,16 @@ class AdminAddEventFragment : Fragment() {
 
     private fun setDate() {
         this.date = Calendar.getInstance().time
-        // TODO: Year is not showing up right in view, but is right added to this.date
-        binding.tvAddDate.text = "Datum: ${this.date.date}-${this.date.month + 1}-${this.date.year}"
+        val cal: Calendar = Calendar.getInstance()
+
+        if (adminDashboardDetailsViewModel.checkCurrentContent()) {
+            adminDashboardDetailsViewModel.currentContent.observe(viewLifecycleOwner, {
+                val event = it as Event
+                cal.time = event.date
+            })
+        }
+        binding.tvAddDate.text =
+            "Datum: ${cal.get(Calendar.DAY_OF_MONTH)}-${cal.get(Calendar.MONTH + 1)}-${cal.get(Calendar.YEAR)}"
     }
 
     private fun postEvent() {
@@ -150,15 +175,28 @@ class AdminAddEventFragment : Fragment() {
 
         val ticket = binding.etAddTicket.text?.toString()
 
-        if (validate(housenumber) && validate(postcode) && validate(street) && validate(place) && validate(title) && validate(description) && validate(ticket)) {
-            val address = Address(housenumber!!.toInt(), housenumberExtension, postcode!!, street!!, place!!)
-            val event = Event(address, this.date, binding.switchAddExclusive.isChecked, ticket.toString())
+        if (validate(housenumber) && validate(postcode) && validate(street) && validate(place) && validate(
+                title
+            ) && validate(description) && validate(ticket)
+        ) {
+            val address =
+                Address(housenumber!!.toInt(), housenumberExtension, postcode!!, street!!, place!!)
+            val event =
+                Event(address, this.date, binding.switchAddExclusive.isChecked, ticket.toString())
             event.title = title!!
             event.content = description!!
 
-            addToDatabase(event)
+            if (adminDashboardDetailsViewModel.checkCurrentContent()) {
+                adminDashboardDetailsViewModel.updateEvent(event)
+            } else {
+                addToDatabase(event)
+            }
         } else {
-            Toast.makeText(context, "Er zijn een aantal verplichte velden niet ingevuld", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                "Er zijn een aantal verplichte velden niet ingevuld",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -178,7 +216,11 @@ class AdminAddEventFragment : Fragment() {
                 Toast.makeText(context, "Event is toegevoegd", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
-                Toast.makeText(context, "Het is niet gelukt het event toe te voegen", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Het is niet gelukt het event toe te voegen",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
@@ -197,11 +239,17 @@ class AdminAddEventFragment : Fragment() {
 
         binding.btnAddDate.setOnClickListener {
             context?.let {
-                val dpd = DatePickerDialog(it, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                    // Display Selected date in TextView
-                    this.date = Date(year, monthOfYear, dayOfMonth)
-                    binding.tvAddDate.text = "Datum: $dayOfMonth-${monthOfYear + 1}-$year"
-                }, year, month, day)
+                val dpd = DatePickerDialog(
+                    it,
+                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                        // Display Selected date in TextView
+                        this.date = Date(year, monthOfYear, dayOfMonth)
+                        binding.tvAddDate.text = "Datum: $dayOfMonth-${monthOfYear + 1}-$year"
+                    },
+                    year,
+                    month,
+                    day
+                )
                 dpd.show()
             }
         }

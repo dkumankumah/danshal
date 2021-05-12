@@ -53,9 +53,7 @@ class AdminAddEventFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         auth = Firebase.auth
-
         _binding = AdminAddEventFragmentBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -155,9 +153,11 @@ class AdminAddEventFragment : Fragment() {
 
             if (adminDashboardDetailsViewModel.checkCurrentContent()) {
                 event.imageUrl = image
-
                 adminDashboardDetailsViewModel.updateEvent(event)
                 addImageToStorage(idContent)
+
+                findNavController().navigate(R.id.action_adminAddEventFragment_to_nav_admin_dashboard)
+                Toast.makeText(context, "Event is bijgewerkt", Toast.LENGTH_SHORT).show()
             } else {
                 addToDatabase(event)
             }

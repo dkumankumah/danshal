@@ -108,6 +108,8 @@ class AdminAddGiveAwayFragment : Fragment() {
                 giveAway.imageUrl = image
                 adminDashboardDetailsViewModel.updateGiveAway(giveAway)
                 addImageToStorage(idContent)
+                findNavController().navigate(R.id.action_adminAddGiveAwayFragment_to_nav_admin_dashboard)
+                Toast.makeText(context, "Give away is bijgewerkt", Toast.LENGTH_SHORT).show()
             } else {
                 addToDatabase(giveAway)
             }

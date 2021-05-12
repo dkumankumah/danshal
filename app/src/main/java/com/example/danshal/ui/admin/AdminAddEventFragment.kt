@@ -40,6 +40,8 @@ class AdminAddEventFragment : Fragment() {
 
     private lateinit var date: Date
 
+    private var idContent : String = ""
+
     private val db = Firebase.firestore
     private val storage = Firebase.storage("gs://danshal-c7e70.appspot.com/")
     private lateinit var auth: FirebaseAuth
@@ -65,7 +67,11 @@ class AdminAddEventFragment : Fragment() {
 
         setDate()
         addDatePicker()
+        observeCurrentContent()
 
+    }
+
+    private fun observeCurrentContent() {
         adminDashboardDetailsViewModel.currentContent.observe(viewLifecycleOwner, {
             if(it != null){
                 val event = it as Event
@@ -80,6 +86,7 @@ class AdminAddEventFragment : Fragment() {
                 binding.etAddTicket.setText(event.ticket)
 
                 binding.btnAddEvent.text = getString(R.string.admin_update_post)
+                idContent = event.id
             }
         })
     }
@@ -200,6 +207,7 @@ class AdminAddEventFragment : Fragment() {
 
             if (adminDashboardDetailsViewModel.checkCurrentContent()) {
                 adminDashboardDetailsViewModel.updateEvent(event)
+                addImageToStorage(idContent)
             } else {
                 addToDatabase(event)
             }

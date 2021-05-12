@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -66,18 +67,20 @@ class AdminAddEventFragment : Fragment() {
         addDatePicker()
 
         adminDashboardDetailsViewModel.currentContent.observe(viewLifecycleOwner, {
-            val event = it as Event
-            binding.addressLayout.etHousenumber.setText(event.address.housenumber.toString())
-            binding.addressLayout.etHousenumberExt.setText(event.address.housenumberExtension.toString())
-            binding.addressLayout.etPostcode.setText(event.address.postcode)
-            binding.addressLayout.etStreet.setText(event.address.street)
-            binding.addressLayout.etPlace.setText(event.address.place)
+            if(it != null){
+                val event = it as Event
+                binding.addressLayout.etHousenumber.setText(event.address.housenumber.toString())
+                binding.addressLayout.etHousenumberExt.setText(event.address.housenumberExtension.toString())
+                binding.addressLayout.etPostcode.setText(event.address.postcode)
+                binding.addressLayout.etStreet.setText(event.address.street)
+                binding.addressLayout.etPlace.setText(event.address.place)
 
-            binding.etAddTitle.setText(event.title)
-            binding.etAddDescription.setText(event.content)
-            binding.etAddTicket.setText(event.ticket)
+                binding.etAddTitle.setText(event.title)
+                binding.etAddDescription.setText(event.content)
+                binding.etAddTicket.setText(event.ticket)
 
-            binding.btnAddEvent.text = getString(R.string.admin_update_post)
+                binding.btnAddEvent.text = getString(R.string.admin_update_post)
+            }
         })
     }
 
@@ -150,17 +153,26 @@ class AdminAddEventFragment : Fragment() {
     }
 
     private fun setDate() {
-        this.date = Calendar.getInstance().time
         val cal: Calendar = Calendar.getInstance()
 
+        binding.tvAddDate.text =
+            "Datum: ${cal.get(Calendar.DAY_OF_MONTH)}-${cal.get(Calendar.MONTH) + 1}-${cal.get(Calendar.YEAR)}"
+        this.date = Date(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
+
+        // For updating an Event
         if (adminDashboardDetailsViewModel.checkCurrentContent()) {
             adminDashboardDetailsViewModel.currentContent.observe(viewLifecycleOwner, {
-                val event = it as Event
-                cal.time = event.date
+                if(it != null){
+                    val event = it as Event
+                    cal.time = event.date
+
+                    binding.tvAddDate.text =
+                        "Datum: ${cal.get(Calendar.DAY_OF_MONTH)}-${cal.get(Calendar.MONTH) + 1}-${cal.get(Calendar.YEAR)}"
+                    this.date = Date(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
+                }
             })
         }
-        binding.tvAddDate.text =
-            "Datum: ${cal.get(Calendar.DAY_OF_MONTH)}-${cal.get(Calendar.MONTH + 1)}-${cal.get(Calendar.YEAR)}"
+
     }
 
     private fun postEvent() {

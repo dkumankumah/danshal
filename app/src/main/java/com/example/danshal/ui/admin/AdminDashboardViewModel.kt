@@ -103,7 +103,8 @@ class AdminDashboardViewModel : ViewModel() {
     fun updateEvent(event: Event) {
         viewModelScope.launch {
             try {
-                Log.d("AdminDashboardViewModel", "${event.id} --- ${event.title}")
+                event.id = currentContent.value!!.id
+                eventRepository.updateEvent(event)
             } catch (ex: PostRepository.PostRetrievalError) {
                 val errorMsg = "Something went wrong while updating a event."
                 Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
@@ -114,6 +115,10 @@ class AdminDashboardViewModel : ViewModel() {
     fun setCurrentContent(content: Content) {
         _currentContent.value = null
         _currentContent.value = content
+    }
+
+    fun clearCurrentContent() {
+        _currentContent.value = null
     }
 
     fun checkCurrentContent(): Boolean {

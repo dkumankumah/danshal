@@ -1,5 +1,6 @@
 package com.example.danshal.repository
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.danshal.models.Address
 import com.example.danshal.models.Content
@@ -62,6 +63,27 @@ class EventRepository() {
             } else {
                 throw EventRetrievalError("Id is niet gevonden")
             }
+        } catch (e: Exception) {
+            throw EventRetrievalError("Volgende ging mis: ${e}")
+        }
+    }
+
+    fun updateEvent(event: Event) {
+        try {
+            eventRef
+                .document(event.id)
+                .update(
+                    mapOf(
+                        "address" to event.address,
+                        "content" to event.content,
+                        "date" to event.date,
+                        "exclusive" to event.exclusive,
+                        "imageUrl" to event.imageUrl,
+                        "postType" to event.postType,
+                        "ticket" to event.ticket,
+                        "title" to event.title
+                    )
+                )
         } catch (e: Exception) {
             throw EventRetrievalError("Volgende ging mis: ${e}")
         }

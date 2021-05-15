@@ -58,7 +58,8 @@ class AdminAddGiveAwayFragment : Fragment() {
         binding.btnAddGiveAway.setOnClickListener { postGiveAway() }
         binding.imageView.setOnClickListener { openGalleryForImage() }
 
-        setDate()
+        val cal: Calendar = Calendar.getInstance()
+        setDate(cal)
         addDatePicker()
         observeCurrentGiveAway()
     }
@@ -72,27 +73,49 @@ class AdminAddGiveAwayFragment : Fragment() {
                 binding.etAddTitle.setText(giveAway.title)
                 image = giveAway.imageUrl.toString()
                 idContent = giveAway.id
+
+                val cal: Calendar = Calendar.getInstance()
+                cal.time = giveAway.endDate
+                setDate(cal)
             }
         })
     }
 
-    private fun setDate() {
-        val cal: Calendar = Calendar.getInstance()
+    private fun setDate(calendar: Calendar) {
+        binding.tvAddDate.text = "Datum: ${calendar.get(Calendar.DAY_OF_MONTH)}-${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.YEAR)}"
+        this.date = convertDate(calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR))
+    }
 
-        binding.tvAddDate.text =
-            "Datum: ${cal.get(Calendar.DAY_OF_MONTH)}-${cal.get(Calendar.MONTH) + 1}-${cal.get(Calendar.YEAR)}"
-        this.date = Date(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
+    private fun addDatePicker() {
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
 
-        // For updating an Event
-        if (adminDashboardDetailsViewModel.checkCurrentContent()) {
-            adminDashboardDetailsViewModel.currentContent.observe(viewLifecycleOwner, {
-                val giveAway = it as GiveAway
-                cal.time = giveAway.endDate
-
-                binding.tvAddDate.text = "Datum: ${cal.get(Calendar.DAY_OF_MONTH)}-${cal.get(Calendar.MONTH) + 1}-${cal.get(Calendar.YEAR)}"
-                this.date = Date(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR))
-            })
+        binding.btnAddDate.setOnClickListener {
+            context?.let {
+                val dpd = DatePickerDialog(
+                    it,
+                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                        // Display Selected date in TextView
+                        this.date = convertDate(dayOfMonth, monthOfYear, year)
+                        binding.tvAddDate.text = "Datum: $dayOfMonth-${monthOfYear + 1}-$year"
+                    },
+                    year,
+                    month,
+                    day
+                )
+                dpd.show()
+            }
         }
+    }
+
+    private fun convertDate(day: Int, month: Int, year: Int): Date {
+        val cal: Calendar = Calendar.getInstance()
+        cal.set(Calendar.YEAR, year)
+        cal.set(Calendar.MONTH, month)
+        cal.set(Calendar.DATE, day)
+        return cal.time
     }
 
     private fun postGiveAway() {
@@ -220,30 +243,6 @@ class AdminAddGiveAwayFragment : Fragment() {
      */
     private fun validate(value: String?): Boolean {
         return value != null && value != ""
-    }
-
-    private fun addDatePicker() {
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-
-        binding.btnAddDate.setOnClickListener {
-            context?.let {
-                val dpd = DatePickerDialog(
-                    it,
-                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                        // Display Selected date in TextView
-                        this.date = Date(year, monthOfYear, dayOfMonth)
-                        binding.tvAddDate.text = "Datum: $dayOfMonth-${monthOfYear + 1}-$year"
-                    },
-                    year,
-                    month,
-                    day
-                )
-                dpd.show()
-            }
-        }
     }
 
     override fun onDestroyView() {

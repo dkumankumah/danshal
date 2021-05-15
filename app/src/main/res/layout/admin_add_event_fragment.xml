@@ -98,16 +98,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btn_add_upload"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <!--        <VideoView-->
-        <!--            android:id="@+id/video_view"-->
-        <!--            android:layout_width="130dp"-->
-        <!--            android:layout_height="130dp"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toEndOf="@id/btn_add_upload"-->
-        <!--            app:layout_constraintTop_toTopOf="parent" />-->
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

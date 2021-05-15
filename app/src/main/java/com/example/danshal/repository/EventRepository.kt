@@ -10,6 +10,7 @@ import com.example.danshal.models.Content
 import com.example.danshal.models.Event
 import com.example.danshal.models.Notification
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -84,7 +85,8 @@ class EventRepository() {
                         "exclusive" to event.exclusive,
                         "imageUrl" to event.imageUrl,
                         "ticket" to event.ticket,
-                        "title" to event.title
+                        "title" to event.title,
+                        "timestamp" to FieldValue.serverTimestamp()
                     )
                 )
         } catch (e: Exception) {

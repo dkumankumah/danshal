@@ -32,6 +32,7 @@ class EventRepository() {
             val tempList = arrayListOf<Event>()
 
             val data = eventRef
+                .orderBy("timestamp", Query.Direction.ASCENDING)
                 .get()
                 .await()
 

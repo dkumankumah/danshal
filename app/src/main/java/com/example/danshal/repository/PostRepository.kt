@@ -28,6 +28,7 @@ class PostRepository {
             val tempList = arrayListOf<Post>()
 
             val data = postRef
+                .orderBy("timestamp", Query.Direction.ASCENDING)
                 .get()
                 .await()
 

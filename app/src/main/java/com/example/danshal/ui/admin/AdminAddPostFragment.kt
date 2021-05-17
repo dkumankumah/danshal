@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageView
@@ -27,9 +28,13 @@ import java.io.ByteArrayOutputStream
 
 class AdminAddPostFragment : Fragment() {
     private val REQUEST_CODE = 100
+    private val adminDashboardDetailsViewModel: AdminDashboardViewModel by activityViewModels()
 
     private var _binding: AdminAddPostFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private var idContent : String = ""
+    private var image: String = ""
 
     private val db = Firebase.firestore
     private val storage = Firebase.storage("gs://danshal-c7e70.appspot.com/")
@@ -47,14 +52,23 @@ class AdminAddPostFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnAddPost.setOnClickListener {
-            postContent()
-        }
+        binding.btnAddPost.setOnClickListener { postContent() }
+        binding.btnAddUpload.setOnClickListener { openGalleryForImage() }
+        observerCurrentPost()
+    }
 
-        binding.btnAddUpload.setOnClickListener {
-            openGalleryForImage()
-        }
+    private fun observerCurrentPost() {
+        adminDashboardDetailsViewModel.currentContent.observe(viewLifecycleOwner,  {
+            if(it != null) {
+                val post = it as Post
+                binding.etAddTitle.setText(post.title)
+                binding.etAddDescription.setText(post.content)
+                image = post.imageUrl.toString()
 
+                idContent = post.id
+                binding.btnAddPost.text = getString(R.string.admin_update_post)
+            }
+        })
     }
 
     private fun postContent() {
@@ -66,7 +80,15 @@ class AdminAddPostFragment : Fragment() {
             post.title = title!!
             post.content = description!!
 
-            addToDatabase(post)
+            if(adminDashboardDetailsViewModel.checkCurrentContent()) {
+                post.imageUrl = image
+                adminDashboardDetailsViewModel.updatePost(post)
+                addImageToStorage(idContent)
+                findNavController().navigate(R.id.action_adminAddPostFragment_to_nav_admin_dashboard)
+                Toast.makeText(context, "Post is bijgewerkt", Toast.LENGTH_SHORT).show()
+            } else {
+                addToDatabase(post)
+            }
         } else {
             Toast.makeText(context, "Er zijn een aantal verplichte velden niet ingevuld", Toast.LENGTH_SHORT).show()
         }
@@ -86,7 +108,6 @@ class AdminAddPostFragment : Fragment() {
                     .add(Notification(notificationText))
 
                 findNavController().navigate(R.id.action_adminAddPostFragment_to_nav_admin_dashboard)
-
                 Toast.makeText(context, "De post is toegevoegd", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->

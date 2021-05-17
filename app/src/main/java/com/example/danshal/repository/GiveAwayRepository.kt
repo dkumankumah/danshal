@@ -10,7 +10,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
-import java.lang.Exception
+import kotlin.Exception
 
 class GiveAwayRepository {
     private val db = Firebase.firestore
@@ -58,6 +58,24 @@ class GiveAwayRepository {
             } else {
                 throw GiveAwayRetrievalError("Id is niet gevonden")
             }
+        } catch (e: Exception) {
+            throw GiveAwayRetrievalError("Volgende ging mis: ${e}")
+        }
+    }
+
+    fun updateGiveAway(giveAway: GiveAway) {
+        try {
+            giveawayRef
+                .document(giveAway.id)
+                .update(
+                    mapOf(
+                        "title" to giveAway.title,
+                        "content" to giveAway.content,
+                        "endDate" to giveAway.endDate,
+                        "imageUrl" to giveAway.imageUrl,
+                        "timestamp" to FieldValue.serverTimestamp()
+                    )
+                )
         } catch (e: Exception) {
             throw GiveAwayRetrievalError("Volgende ging mis: ${e}")
         }

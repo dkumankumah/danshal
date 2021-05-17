@@ -5,10 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.danshal.models.Event
-import com.example.danshal.models.GiveAway
-import com.example.danshal.models.Post
-import com.example.danshal.models.User
+import com.example.danshal.models.*
 import com.example.danshal.repository.EventRepository
 import com.example.danshal.repository.GiveAwayRepository
 import com.example.danshal.repository.PostRepository
@@ -31,6 +28,14 @@ class AdminDashboardViewModel : ViewModel() {
     private val _currentGiveAway: MutableLiveData<GiveAway> = MutableLiveData()
     val currentGiveAway: LiveData<GiveAway>
         get() = _currentGiveAway
+
+    private val _currentContent: MutableLiveData<Content> = MutableLiveData()
+        val currentContent: LiveData<Content>
+        get() = _currentContent
+
+    private val _isUpdated: MutableLiveData<Boolean> = MutableLiveData()
+    val isUpdated: LiveData<Boolean>
+        get() = _isUpdated
 
     fun getAllEvents() {
         viewModelScope.launch {
@@ -96,6 +101,65 @@ class AdminDashboardViewModel : ViewModel() {
                 Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
             }
         }
+    }
+
+    fun updateEvent(event: Event) {
+        viewModelScope.launch {
+            try {
+                event.id = currentContent.value!!.id
+                eventRepository.updateEvent(event)
+                _isUpdated.value = true
+            } catch (ex: PostRepository.PostRetrievalError) {
+                val errorMsg = "Something went wrong while updating a event."
+                Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
+                _isUpdated.value = false
+            }
+        }
+    }
+
+    fun updatePost(post: Post) {
+        viewModelScope.launch {
+            try {
+                post.id = currentContent.value!!.id
+                postRepository.updatePost(post)
+                _isUpdated.value = true
+            } catch (ex: PostRepository.PostRetrievalError) {
+                val errorMsg = "Something went wrong while updating a post."
+                Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
+                _isUpdated.value = false
+            }
+        }
+    }
+
+    fun updateGiveAway(giveAway: GiveAway) {
+        viewModelScope.launch {
+            try {
+                giveAway.id = currentContent.value!!.id
+                giveAwayRepository.updateGiveAway(giveAway)
+                _isUpdated.value = true
+            } catch (ex: PostRepository.PostRetrievalError) {
+                val errorMsg = "Something went wrong while updating a giveAway."
+                Log.e("ADMIN_DASHBOARD", ex.message ?: errorMsg)
+                _isUpdated.value = false
+            }
+        }
+    }
+
+    fun setCurrentContent(content: Content) {
+        _currentContent.value = null
+        _currentContent.value = content
+    }
+
+    fun clearCurrentContent() {
+        _currentContent.value = null
+    }
+
+    fun checkCurrentContent(): Boolean {
+        return _currentContent.value != null
+    }
+
+    fun checkIsUpdated(): Boolean? {
+        return _isUpdated.value
     }
 
     fun userById(id: String) {

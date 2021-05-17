@@ -16,6 +16,7 @@ import com.example.danshal.databinding.FragmentEventBinding
 import com.example.danshal.models.Content
 import com.example.danshal.models.Event
 import java.text.DateFormatSymbols
+import java.time.Year
 import java.util.*
 
 
@@ -54,10 +55,6 @@ class EventFragment : Fragment() {
             binding.tvMonth.text = monthName[Content.getDate(event.date, true)]
             Glide.with(this).load(event.imageUrl).into(binding.ivEventImage)
 
-            binding.btnTicket.setOnClickListener {
-                Toast.makeText(activity, "I dont work yet", Toast.LENGTH_SHORT).show()
-            }
-
             // Share event by calling a Intent
             binding.btnShare.setOnClickListener {
                 val date = "${Content.getDate(event.date, false)} ${
@@ -82,9 +79,7 @@ class EventFragment : Fragment() {
 
                 // Browser intent url MUST contain https:// or else it crashes
                 if(!url.contains("https://")) {
-                    Log.d("EF", url)
                     url = "https://${url}"
-                    Log.d("EF", url)
                 }
 
                 val intent = Intent(Intent.ACTION_VIEW)

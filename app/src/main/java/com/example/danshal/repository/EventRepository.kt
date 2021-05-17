@@ -1,10 +1,16 @@
 package com.example.danshal.repository
 
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.fragment.findNavController
+import com.example.danshal.R
 import com.example.danshal.models.Address
 import com.example.danshal.models.Content
 import com.example.danshal.models.Event
+import com.example.danshal.models.Notification
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -26,6 +32,7 @@ class EventRepository() {
             val tempList = arrayListOf<Event>()
 
             val data = eventRef
+                .orderBy("timestamp", Query.Direction.ASCENDING)
                 .get()
                 .await()
 
@@ -62,6 +69,27 @@ class EventRepository() {
             } else {
                 throw EventRetrievalError("Id is niet gevonden")
             }
+        } catch (e: Exception) {
+            throw EventRetrievalError("Volgende ging mis: ${e}")
+        }
+    }
+
+    fun updateEvent(event: Event) {
+        try {
+            eventRef
+                .document(event.id)
+                .update(
+                    mapOf(
+                        "address" to event.address,
+                        "content" to event.content,
+                        "date" to event.date,
+                        "exclusive" to event.exclusive,
+                        "imageUrl" to event.imageUrl,
+                        "ticket" to event.ticket,
+                        "title" to event.title,
+                        "timestamp" to FieldValue.serverTimestamp()
+                    )
+                )
         } catch (e: Exception) {
             throw EventRetrievalError("Volgende ging mis: ${e}")
         }
@@ -148,5 +176,5 @@ class EventRepository() {
         }
     }
 
-    class EventRetrievalError(message: String): Exception(message)
+    class EventRetrievalError(message: String) : Exception(message)
 }

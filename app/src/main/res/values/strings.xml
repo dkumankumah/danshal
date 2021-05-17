@@ -83,6 +83,7 @@
     <string name="admin_add_end_date">Einddatum giveaway</string>
     <string name="admin_add_date_btn">Datum kiezen</string>
     <string name="admin_add_post">Plaatsen</string>
+    <string name="admin_update_post">Updaten</string>
     <string name="admin_add_exclusive">Exclusief</string>
     <string name="admin_add_ticket">Ticket</string>
 

@@ -51,12 +51,11 @@ class EventFragment : Fragment() {
                 event.address.housenumber,
                 event.address.place
             )
-            binding.tvDay.text = Content.getDate(event.date, false).toString()
-            binding.tvMonth.text = monthName[Content.getDate(event.date, true)]
+            binding.tvDate.text = "${Content.getDate(event.date, false).toString()} ${ monthName[Content.getDate(event.date, true)]}"
             Glide.with(this).load(event.imageUrl).into(binding.ivEventImage)
 
             // Share event by calling a Intent
-            binding.btnShare.setOnClickListener {
+            binding.shareButton.setOnClickListener {
                 val date = "${Content.getDate(event.date, false)} ${
                     monthName[Content.getDate(
                         event.date,

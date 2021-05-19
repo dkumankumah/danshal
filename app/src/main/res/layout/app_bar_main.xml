@@ -9,7 +9,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/transparent"
+        android:background="@color/theme_black"
         android:theme="@style/Theme.Danshal.AppBarOverlay"
         android:elevation="0dp"
         app:elevation="0dp">
@@ -18,10 +18,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/transparent"
+            android:background="@color/theme_black"
             app:popupTheme="@style/Theme.Danshal.PopupOverlay"
-            app:subtitleTextColor="#000000"
-            app:titleTextColor="#000000" />
+            app:subtitleTextColor="@color/theme_yellow"
+            app:titleTextColor="@color/theme_yellow" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -129,11 +129,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.nav_store) {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(getString(R.string.action_merch_link))
-            startActivity(intent)
+        when (item.itemId) {
+            R.id.nav_store -> {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(getString(R.string.action_merch_link))
+                startActivity(intent)
+            }
+            // R.id.nav_logout?? -> {
+//           TODO DANIEL HIER JOUW DING
+            //}
         }
+
+
 
         val navController = findNavController(R.id.nav_host_fragment)
         NavigationUI.onNavDestinationSelected(item, navController)

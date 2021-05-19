@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -140,7 +141,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             //}
         }
 
-
+        val mDrawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        mDrawerLayout.closeDrawer(Gravity.LEFT, true)
 
         val navController = findNavController(R.id.nav_host_fragment)
         NavigationUI.onNavDestinationSelected(item, navController)

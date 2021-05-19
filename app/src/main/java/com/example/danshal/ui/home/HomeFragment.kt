@@ -7,7 +7,6 @@ import android.view.*
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.danshal.R
@@ -18,14 +17,18 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
+
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var auth: FirebaseAuth
     private val content = arrayListOf<Content>()
     private val giveAway = arrayListOf<GiveAway>()
+
     private lateinit var homeAdapter: HomeAdapter
     private lateinit var giveAwayAdapter: GiveAwayAdapter
+
     private var currentEventType: String? = null
     private val viewModel: HomeViewModel by activityViewModels()
 
@@ -35,6 +38,7 @@ class HomeFragment : Fragment() {
         // let the app know that this fragment is expecting menu related callbacks
         setHasOptionsMenu(true)
     }
+
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         val itemToHide = menu.findItem(R.id.action_settings)
@@ -63,6 +67,7 @@ class HomeFragment : Fragment() {
         auth = Firebase.auth
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -171,7 +176,7 @@ class HomeFragment : Fragment() {
         viewModel.setCurrentContent(content)
 
         if (content.postType == Content.TYPE.EVENT) {
-            findNavController().navigate(R.id.action_nav_home_to_eventFragment)
+            EventDialogFragment().newInstance()?.show(parentFragmentManager, "event_fragment")
         } else {
             PostDialogFragment().newInstance()?.show(parentFragmentManager, "post_fragment")
         }

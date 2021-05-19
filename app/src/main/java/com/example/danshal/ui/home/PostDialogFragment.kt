@@ -14,7 +14,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.example.danshal.databinding.FragmentPostBinding
-import com.example.danshal.models.Post
 
 
 class PostDialogFragment : DialogFragment() {

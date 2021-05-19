@@ -1,8 +1,11 @@
 package com.example.danshal
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -20,7 +23,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     lateinit var viewModel: SharedUserViewModel
@@ -77,6 +80,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
@@ -126,5 +130,15 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        Log.d("Main", "kom hier")
+        Log.d("Main", item.itemId.toString())
 
+        if(item.itemId == R.id.nav_store) {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(getString(R.string.action_merch_link))
+            startActivity(intent)
+        }
+        return true
+    }
 }

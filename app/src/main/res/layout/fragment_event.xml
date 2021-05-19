@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".ui.home.EventFragment">
+    tools:context=".ui.home.EventDialogFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -65,12 +65,12 @@
 
             <ImageButton
                 android:id="@+id/shareButton"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/roundend_corner_dark"
-                android:padding="5dp"
+                android:padding="0dp"
                 android:src="@drawable/ic_share"
                 app:layout_constraintBottom_toTopOf="@+id/tvTitle"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -80,9 +80,9 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/ivBackEvent"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:src="@drawable/ic_arrow_back"
@@ -97,16 +97,15 @@
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivCalendarEvent"
+        android:id="@+id/ivCalendarEvents"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/rectangle_rounded_corner_dark"
         android:src="@drawable/ic_calendar"
         app:contentPadding="1dp"
-        app:layout_constraintEnd_toStartOf="@+id/tvDate"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/cardView"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
@@ -121,7 +120,7 @@
         android:padding="1dp"
         android:src="@drawable/ic_location"
         app:layout_constraintStart_toStartOf="@+id/cardView"
-        app:layout_constraintTop_toBottomOf="@+id/ivCalendarEvent" />
+        app:layout_constraintTop_toBottomOf="@+id/ivCalendarEvents" />
 
     <Button
         android:id="@+id/btnTicket"
@@ -139,18 +138,20 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
+
     <TextView
-        android:id="@+id/tvDate"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvEventDate"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         android:text="TextView"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.102"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="308dp" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/ivCalendarEvents"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     <TextView
         android:id="@+id/tvEventContent"
@@ -169,16 +170,18 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/tvAddress"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvEventAddress"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:text="TextView"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/tvEventContent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/ivLocationEvent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+        app:layout_constraintTop_toBottomOf="@+id/tvEventDate"
+        app:layout_constraintVertical_bias="0.333" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

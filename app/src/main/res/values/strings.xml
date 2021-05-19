@@ -9,8 +9,10 @@
 
     <!--drawer-->
     <string name="menu_home">Home</string>
+    <string name="menu_store">Merchandise Store</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="action_merch_link">https://www.dedanshal.nl/shop</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Wachtwoord</string>

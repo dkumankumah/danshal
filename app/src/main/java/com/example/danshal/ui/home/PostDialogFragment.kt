@@ -12,6 +12,7 @@ import android.view.Window
 import android.widget.MediaController
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.danshal.databinding.FragmentPostBinding
 
@@ -53,6 +54,7 @@ class PostDialogFragment : DialogFragment() {
         observePost()
 
         binding.ivPost.setOnClickListener { toggleContent() }
+        binding.ivBackPost.setOnClickListener { this.dismiss() }
     }
 
     private fun observePost() {

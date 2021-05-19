@@ -9,15 +9,12 @@ import android.view.MenuItem
 import android.widget.TextView
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.ui.*
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -53,6 +50,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         auth = viewModel.auth
         updateUI()
 
+        navView.setNavigationItemSelectedListener(this)
     }
 
     private fun updateUI() {
@@ -131,14 +129,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        Log.d("Main", "kom hier")
-        Log.d("Main", item.itemId.toString())
-
         if(item.itemId == R.id.nav_store) {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(getString(R.string.action_merch_link))
             startActivity(intent)
         }
+
+        val navController = findNavController(R.id.nav_host_fragment)
+        NavigationUI.onNavDestinationSelected(item, navController)
+
         return true
     }
 }

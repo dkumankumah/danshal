@@ -7,12 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.PostDialogFragment" >
 
-    <ImageView
-        android:id="@+id/ivBackEvent"
+    <ImageButton
+        android:id="@+id/ivBackPost"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/roundend_circle_dark"
+        android:padding="0dp"
         android:src="@drawable/ic_arrow_back"
         android:translationZ="90dp"
         app:layout_constraintBottom_toTopOf="@+id/tvTitle"
@@ -50,7 +53,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:text="TextView"
             android:textColor="@color/white"

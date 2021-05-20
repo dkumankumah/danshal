@@ -5,9 +5,9 @@
     android:id="@+id/cv_notification"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    card_view:cardBackgroundColor="@color/theme_grey"
     android:layout_gravity="center"
     card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="4dp"
     card_view:cardUseCompatPadding="true">
 
         <TextView
@@ -15,10 +15,8 @@
             style="@style/TextAppearance.MaterialComponents.Body2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent" />
+            android:padding="8dp"
+            android:text="test"
+            android:textColor="@color/theme_white" />
 
 </androidx.cardview.widget.CardView>

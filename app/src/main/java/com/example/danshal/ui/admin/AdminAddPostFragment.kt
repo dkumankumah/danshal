@@ -27,7 +27,6 @@ import com.google.firebase.storage.ktx.storage
 import java.io.ByteArrayOutputStream
 
 class AdminAddPostFragment : Fragment() {
-    private val REQUEST_CODE = 100
     private val adminDashboardDetailsViewModel: AdminDashboardViewModel by activityViewModels()
 
     private var _binding: AdminAddPostFragmentBinding? = null
@@ -53,7 +52,7 @@ class AdminAddPostFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnAddPost.setOnClickListener { postContent() }
-        binding.btnAddUpload.setOnClickListener { openGalleryForImage() }
+        binding.imageView.setOnClickListener { openGalleryForImage() }
         observerCurrentPost()
     }
 

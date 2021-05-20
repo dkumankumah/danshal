@@ -15,6 +15,8 @@ import com.example.danshal.databinding.AdminDashboardFragmentBinding
 import com.example.danshal.models.Content
 import com.example.danshal.models.Notification
 import com.example.danshal.ui.home.HomeViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -25,34 +27,51 @@ class AdminDashboardFragment : Fragment() {
 
     private val notifications = arrayListOf<Notification>()
     private val adminNotificationAdapter = AdminNotificationAdapter(notifications)
+    private val adminDashboardDetailsViewModel: AdminDashboardViewModel by activityViewModels()
 
     private val db = Firebase.firestore
     private val viewModel: AdminDashboardViewModel by activityViewModels()
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = AdminDashboardFragmentBinding.inflate(inflater, container, false)
-        setTotals()
-
+        auth = Firebase.auth
+        viewModel.getAllEvents()
+        viewModel.getAllGiveAways()
+        viewModel.getAllPosts()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        adminDashboardDetailsViewModel.clearCurrentContent()
 
-        binding.cvEvents.setOnClickListener {
+        binding.btnEvent.setOnClickListener {
             viewModel.detailContentType = Content.TYPE.EVENT
             findNavController().navigate(R.id.action_nav_admin_dashboard_to_adminDashboardDetailsFragment)
         }
-        binding.cvGiveaways.setOnClickListener {
+        binding.btnGiveaway.setOnClickListener {
             viewModel.detailContentType = Content.TYPE.GIVEAWAY
             findNavController().navigate(R.id.action_nav_admin_dashboard_to_adminDashboardDetailsFragment)
         }
-        binding.cvPosts.setOnClickListener {
+        binding.btnPost.setOnClickListener {
             viewModel.detailContentType = Content.TYPE.POST
             findNavController().navigate(R.id.action_nav_admin_dashboard_to_adminDashboardDetailsFragment)
+        }
+
+        binding.btnAddEvent.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_admin_dashboard_to_adminAddEventFragment)
+        }
+
+        binding.btnAddGiveaway.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_admin_dashboard_to_adminAddGiveAwayFragment)
+        }
+
+        binding.btnAddPost.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_admin_dashboard_to_adminAddPostFragment)
         }
 
         initViews()
@@ -83,28 +102,21 @@ class AdminDashboardFragment : Fragment() {
         adminNotificationAdapter.notifyDataSetChanged()
     }
 
-    private fun setTotals() {
-        viewModel.getAllEvents()
-        viewModel.getAllGiveAways()
-        viewModel.getAllPosts()
-
-        viewModel.eventListData.observe(viewLifecycleOwner, {
-            binding.tvNumberEvents.text = it.size.toString()
-        })
-
-        viewModel.giveawayListData.observe(viewLifecycleOwner, {
-            binding.tvNumberGiveaways.text = it.size.toString()
-        })
-
-        viewModel.postListData.observe(viewLifecycleOwner, {
-            binding.tvNumberPosts.text = it.size.toString()
-        })
-
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+
+        if (currentUser == null){
+            findNavController().navigate(
+                R.id.action_nav_admin_dashboard_to_nav_login
+            )
+        }
     }
 
 }

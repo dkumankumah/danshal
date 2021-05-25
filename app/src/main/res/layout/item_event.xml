@@ -119,6 +119,7 @@
             android:text="Jan"
             android:textAlignment="center"
             android:textAllCaps="true"
+            android:textColor="@color/black"
             android:textSize="12sp"
             card_view:layout_constraintBottom_toBottomOf="@+id/vCalendar"
             card_view:layout_constraintEnd_toEndOf="@+id/vCalendar"

@@ -86,7 +86,7 @@ class PostRepository {
             val tempList = arrayListOf<Post>()
 
             val data = postRef
-                .orderBy("timestamp", Query.Direction.ASCENDING)
+                .orderBy("timestamp", Query.Direction.DESCENDING)
                 .get()
                 .await()
 
@@ -111,8 +111,7 @@ class PostRepository {
             val tempList = arrayListOf<Post>()
 
             val data = postRef
-                .orderBy("timestamp", Query.Direction.ASCENDING)
-                .whereGreaterThanOrEqualTo("timestamp", Timestamp.now().toDate())
+                .orderBy("timestamp", Query.Direction.DESCENDING)
                 .whereEqualTo("exclusive", false)
                 .get()
                 .await()

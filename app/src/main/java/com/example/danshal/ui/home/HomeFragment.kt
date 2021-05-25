@@ -39,7 +39,6 @@ class HomeFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
-
     override fun onPrepareOptionsMenu(menu: Menu) {
         val itemToHide = menu.findItem(R.id.action_settings)
         itemToHide.isVisible = false

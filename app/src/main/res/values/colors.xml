@@ -15,4 +15,5 @@
 
     <color name="transparent">#00000000</color>
     <color name="faded">#99000000</color>
+    <color name="faded_yellow">#99ffff84</color>
 </resources>

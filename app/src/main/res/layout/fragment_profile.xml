@@ -7,146 +7,240 @@
     android:elevation="4dp"
     tools:context=".ui.gallery.GalleryFragment">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/iv_profile"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:clickable="true"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toStartOf="@+id/tv_email"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/tv_email"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:editable="false"
-        android:hint="@string/profile_email"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/iv_profile"
-        app:layout_constraintTop_toBottomOf="@+id/tv_profile_name" />
-
-    <TextView
-        android:id="@+id/tv_profile_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:editable="false"
-        android:hint="@string/hint_name"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tv_email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/iv_profile"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
+        android:layout_height="0dp"
+        android:background="@color/theme_background"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_profile">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:layout_marginBottom="16dp"
-            android:background="#FFC107" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:foreground="@drawable/rounded_corner_top"
+            android:scaleType="centerCrop"
+            app:civ_border_color="@color/theme_yellow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:hint="@string/hint_name">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_admin_users_24"
-                android:drawablePadding="10dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="299dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:hint="@string/hint_adress">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_adress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_home_24"
-                    android:drawablePadding="10dp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:hint="@string/housenumber">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_number"
-                    android:drawablePadding="10dp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:hint="@string/hint_postcode">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_postcode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_baseline_local_post_office_24"
-                android:drawablePadding="10dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tv_email"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="@string/hint_location">
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/profile_email"
+            android:textColor="@color/theme_danshal"
+            android:textColorHint="@color/theme_danshal"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_profile_name" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_location"
+        <TextView
+            android:id="@+id/tv_profile_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/hint_name"
+            android:textColor="@color/theme_danshal"
+            android:textColorHint="@color/theme_danshal"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tv_email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_profile"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/theme_danshal">
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_city_24"
-                android:drawablePadding="10dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
+                android:orientation="vertical"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:hint="@string/hint_name"
+                    android:textColorHint="@color/theme_danshal"
+                    app:boxStrokeColor="@color/white"
+                    app:hintTextColor="@color/theme_yellow"
+                    app:startIconDrawable="@drawable/ic_admin_users_24"
+                    app:startIconTint="@color/theme_danshal">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/theme_background"
+                        android:inputType="textLongMessage|textPersonName"
+                        android:maxLines="1"
+                        android:textColor="@color/theme_danshal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:hint="@string/hint_adress"
+                    android:textColorHint="@color/theme_danshal"
+                    app:boxStrokeColor="@color/white"
+                    app:hintTextColor="@color/theme_yellow"
+                    app:startIconDrawable="@drawable/ic_home_24"
+                    app:startIconTint="@color/theme_danshal">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_adress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/theme_background"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textColor="@color/theme_danshal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:hint="@string/housenumber"
+                        android:textColorHint="@color/theme_danshal"
+                        app:boxStrokeColor="@color/white"
+                        app:hintTextColor="@color/theme_yellow"
+                        app:startIconDrawable="@drawable/ic_number"
+                        app:startIconTint="@color/theme_danshal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/theme_background"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:textColor="@color/theme_danshal" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="@string/admin_add_address_housenumber_ext"
+                        android:textColorHint="@color/theme_danshal"
+                        app:boxStrokeColor="@color/white"
+                        app:hintTextColor="@color/theme_yellow">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_extension"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/theme_background"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:textColor="@color/theme_danshal" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:hint="@string/hint_postcode"
+                        android:textColorHint="@color/theme_danshal"
+                        app:boxStrokeColor="@color/white"
+                        app:hintTextColor="@color/theme_yellow"
+                        app:startIconDrawable="@drawable/ic_baseline_local_post_office_24"
+                        app:startIconTint="@color/theme_danshal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_postcode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/theme_background"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:textColor="@color/theme_danshal" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:hint="@string/hint_location"
+                        android:textColorHint="@color/theme_danshal"
+                        app:boxStrokeColor="@color/white"
+                        app:hintTextColor="@color/theme_yellow"
+                        app:startIconDrawable="@drawable/ic_city_24"
+                        app:startIconTint="@color/theme_danshal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_location"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/theme_background"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:textColor="@color/theme_danshal" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </LinearLayout>
 
     <Button
         android:id="@+id/btn_update"
@@ -154,6 +248,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/ic_user_background"
         android:elevation="4dp"
         android:text="@string/update_profile"
         app:layout_constraintEnd_toEndOf="parent"
@@ -171,17 +266,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
 
-    <Button
-        android:id="@+id/btn_verwijder"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@android:color/holo_red_light"
-        android:text="@string/verwijderen"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_update" />
+            <Button
+                android:id="@+id/btn_verwijder"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="@android:color/holo_red_light"
+                android:text="@string/verwijderen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_update" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

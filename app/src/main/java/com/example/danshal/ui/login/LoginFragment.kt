@@ -21,6 +21,8 @@ import com.example.danshal.SharedUserViewModel
 import com.example.danshal.R
 import com.example.danshal.models.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -111,8 +113,13 @@ class LoginFragment : Fragment() {
                 viewModel.checkLoggedIn()
             }
             else{
+                if (task.exception is FirebaseAuthInvalidCredentialsException) {
+                    Toast.makeText(context, getString(R.string.invalid_password), Toast.LENGTH_LONG).show()
+                }
+                if (task.exception is FirebaseAuthInvalidUserException) {
+                    Toast.makeText(context, getString(R.string.invalid_username), Toast.LENGTH_LONG).show()
+                }
                 Log.e("Task", "Failed..."+task.exception)
-                Toast.makeText(context, getString(R.string.login_failed), Toast.LENGTH_LONG).show()
             }
         }
     }

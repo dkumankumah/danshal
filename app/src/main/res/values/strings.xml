@@ -16,8 +16,8 @@
     <string name="prompt_password">Wachtwoord</string>
     <string name="action_sign_in_short">Inloggen</string>
     <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="invalid_username">Gebruikersnaam is onbekend</string>
+    <string name="invalid_password">Wachtwoord is incorrect</string>
     <string name="login_failed">"Inloggen is niet gelukt"</string>
     <string name="empty_field">"Graag je email en wachtwoord invullen"</string>
     <string name="register">Geen account? Maak nu een account</string>
@@ -116,5 +116,6 @@
     <string name="email">Email</string>
     <string name="wachtwoord">Wachtwoord</string>
     <string name="authtenticatie">Voer uw email en wachtwoord in</string>
+    <string name="wachtwoord_vergeten">Wachtwoord vergeten?</string>
 
 </resources>

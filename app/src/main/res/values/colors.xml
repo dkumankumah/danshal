@@ -10,7 +10,6 @@
 
     <color name="theme_grey">#343434</color>
     <color name="theme_black">#1C1C1C</color>
-    <color name="theme_yellow">#FFBD4A</color>
+    <color name="theme_yellow">#F7E060</color>
     <color name="theme_white">#D5D5D5</color>
-
 </resources>

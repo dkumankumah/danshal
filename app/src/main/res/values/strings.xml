@@ -40,6 +40,7 @@
     <!--    These are String values for the events overview page-->
     <string name="title_giveaway">Giveaway</string>
     <string name="title_content">Berichten</string>
+    <string name="msg_user_login">Registreer of login om exclusieve content te bekijken</string>
 
     <!--    Dialog filter event-->
     <string name="title_event">Events</string>

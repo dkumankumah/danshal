@@ -40,10 +40,13 @@ class GiveawayDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnParticipate.text =
-            if (viewModel.checkUserSub() == true) getString(R.string.title_btn_unsubscribe) else getString(
-                R.string.title_btn_subscribe
-            )
+        if(viewModel.isLoggedIn()) {
+            binding.btnParticipate.text =
+                if (viewModel.checkUserSub() == true) getString(R.string.title_btn_unsubscribe) else getString(
+                    R.string.title_btn_subscribe
+                )
+        }
+
         observeGiveAway()
     }
 

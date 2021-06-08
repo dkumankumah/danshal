@@ -3,7 +3,6 @@ package com.example.danshal.ui.home
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
@@ -142,6 +141,12 @@ class HomeFragment : Fragment() {
                 binding.rvGiveAway.visibility = View.GONE
             }
         })
+
+        if(viewModel.isLoggedIn()) {
+            binding.tvUserLogIn.visibility = View.GONE
+        } else {
+            binding.tvUserLogIn.visibility = View.VISIBLE
+        }
     }
 
     private fun openFilterWindow() {

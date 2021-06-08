@@ -40,9 +40,11 @@ class HomeFragment : Fragment() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
+        // Hide the settings in the toolbar
         val itemToHide = menu.findItem(R.id.action_settings)
         itemToHide.isVisible = false
 
+        // And show the filter icon if the user is logged in
         if(viewModel.isLoggedIn()) {
             menu.findItem(R.id.action_filter).isVisible = true
         }
@@ -50,7 +52,6 @@ class HomeFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         return when (item.itemId) {
             R.id.action_filter -> {
                 openFilterWindow()
@@ -77,8 +78,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViews() {
-//        activity?.viewModelStore?.clear()
-
         binding.rvEvents.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.rvGiveAway.layoutManager =
@@ -109,11 +108,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadData() {
+        // Observe the currentContentType, clear the current list and load the new data
         viewModel.currentContentType.observe(viewLifecycleOwner, {
             content.clear()
             viewModel.loadAllContent()
         })
 
+        // Observe the content, add it to a temporarily list and sort it by the seconds
         viewModel.getContent().observe(viewLifecycleOwner, {
             val tempList = arrayListOf<Content>()
 
@@ -122,6 +123,7 @@ class HomeFragment : Fragment() {
 
             homeAdapter.contentItems = content.sortedWith(compareBy(Content::getSeconds))
 
+            // If the data has been loaded, notify adapter en set the animation
             if (viewModel.initLoad) {
                 viewModel.initLoad = false
                 homeAdapter.notifyDataSetChanged()
@@ -131,7 +133,6 @@ class HomeFragment : Fragment() {
 
         viewModel.getGiveAway().observe(viewLifecycleOwner, {
             giveAway.clear()
-
             if (it.isNotEmpty()) {
                 giveAway.addAll(it)
                 giveAwayAdapter.giveAway = giveAway

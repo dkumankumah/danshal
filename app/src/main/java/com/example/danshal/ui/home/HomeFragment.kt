@@ -3,6 +3,7 @@ package com.example.danshal.ui.home
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
@@ -43,11 +44,14 @@ class HomeFragment : Fragment() {
         val itemToHide = menu.findItem(R.id.action_settings)
         itemToHide.isVisible = false
 
-        menu.findItem(R.id.action_filter).isVisible = true
+        if(viewModel.isLoggedIn()) {
+            menu.findItem(R.id.action_filter).isVisible = true
+        }
         super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
         return when (item.itemId) {
             R.id.action_filter -> {
                 openFilterWindow()
@@ -118,8 +122,10 @@ class HomeFragment : Fragment() {
             content.addAll(tempList)
 
             homeAdapter.contentItems = content.sortedWith(compareBy(Content::getSeconds))
-            homeAdapter.notifyDataSetChanged()
-            if (!viewModel.initLoad) {
+
+            if (viewModel.initLoad) {
+                viewModel.initLoad = false
+                homeAdapter.notifyDataSetChanged()
                 binding.rvEvents.scheduleLayoutAnimation()
             }
         })
@@ -141,7 +147,8 @@ class HomeFragment : Fragment() {
     private fun openFilterWindow() {
         val dialogItems =
             arrayOf(
-                getString(R.string.title_up_event),
+                getString(R.string.title_event),
+                getString(R.string.title_post),
                 getString(R.string.title_content)
             )
         val checkedItem = dialogItems.indexOf(viewModel.currentContentType.value.toString())

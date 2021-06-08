@@ -43,7 +43,6 @@
 
     <!--    Dialog filter event-->
     <string name="title_event">Events</string>
-    <string name="title_up_event">Upcoming Events</string>
     <string name="title_post">Posts</string>
     <string name="title_filter">Filter events</string>
     <string name="action_filter">Toepassen</string>

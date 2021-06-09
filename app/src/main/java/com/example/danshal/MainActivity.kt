@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun signOutAlert() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle(getString(R.string.authtenticatie))
+        builder.setTitle(getString(R.string.logout))
         builder.setMessage(R.string.waarschuwing_uitloggen)
         builder.setPositiveButton(R.string.msg_ja) { dialogInterface, _ ->
             auth.signOut()

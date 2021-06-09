@@ -1,24 +1,26 @@
 package com.example.danshal.ui.login
 
-import androidx.lifecycle.ViewModelProvider
+import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.example.danshal.databinding.LoginFragmentBinding
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.Log
 import android.util.Patterns
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.danshal.SharedUserViewModel
 import com.example.danshal.R
+import com.example.danshal.SharedUserViewModel
+import com.example.danshal.databinding.LoginFragmentBinding
 import com.example.danshal.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -34,6 +36,8 @@ class LoginFragment : Fragment() {
     private val viewModel: SharedUserViewModel by activityViewModels()
 
     lateinit var textView: TextView
+    lateinit var wachtwoord: TextView
+
     private lateinit var auth: FirebaseAuth
 
     private lateinit var loginViewModel: LoginViewModel
@@ -59,13 +63,14 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        createRegisterSpan()
+        createPasswordSpan()
         binding.btnLogin.setOnClickListener {
             if (validate()){
                 logIn(binding.etUsername.text.toString(), binding.etPassword.text.toString())
             }
         }
 
-        createRegisterSpan()
     }
 
     override fun onStart() {
@@ -119,7 +124,7 @@ class LoginFragment : Fragment() {
                 if (task.exception is FirebaseAuthInvalidUserException) {
                     Toast.makeText(context, getString(R.string.invalid_username), Toast.LENGTH_LONG).show()
                 }
-                Log.e("Task", "Failed..."+task.exception)
+                Log.e("Task", "Failed..." + task.exception)
             }
         }
     }
@@ -152,6 +157,61 @@ class LoginFragment : Fragment() {
             .addOnFailureListener { exception ->
                 Log.d("clouddata fething", "get failed with ", exception)
             }
+    }
+
+    //Creating clickable span
+    private fun createPasswordSpan() {
+        wachtwoord = binding.tvWachtwoord
+        val text = binding.tvWachtwoord.text.toString()
+        val spannableString = SpannableString(text)
+        val clickableSpan: ClickableSpan = object : ClickableSpan() {
+            override fun onClick(view: View) {
+                showForm()
+            }
+        }
+        spannableString.setSpan(clickableSpan, 0, 19, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        wachtwoord.setText(spannableString, TextView.BufferType.SPANNABLE)
+        wachtwoord.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+    private fun showForm() {
+        val builder = AlertDialog.Builder(requireContext())
+        val alertDialog: AlertDialog = builder.create()
+        val dialogLayout = layoutInflater.inflate(R.layout.reset_form_dialog, null)
+
+        builder.setView(dialogLayout)
+
+        val email = dialogLayout.findViewById<EditText>(R.id.et_dialog_email)
+        val btnSend = dialogLayout.findViewById<TextView>(R.id.tv_versturen)
+        val btnCancel = dialogLayout.findViewById<TextView>(R.id.tv_annuleren)
+
+        btnSend.setOnClickListener {
+            if (email.text.isNotBlank()){
+                Firebase.auth.sendPasswordResetEmail(email.text.toString())
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d("Firebase", "Email sent.")
+                            Toast.makeText(
+                                context, R.string.verificatie,
+                                Toast.LENGTH_LONG
+                            ).show()
+
+                            alertDialog.dismiss()
+                        }
+                    }
+            }
+            else {
+                Toast.makeText(
+                    context,
+                    R.string.email_invoeren,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+        btnCancel.setOnClickListener { alertDialog.dismiss() }
+
+        builder.show()
     }
 
 }

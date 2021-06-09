@@ -120,5 +120,9 @@
     <string name="users">Users</string>
     <string name="admin">Admin</string>
     <string name="toevoegen">Gebruiker toevoegen</string>
+    <string name="versturen">Versturen</string>
+    <string name="annuleren">Annuleren</string>
+    <string name="email_invoeren">Vul uw email in</string>
+    <string name="verificatie">Verificatie email verstuurd!</string>
 
 </resources>

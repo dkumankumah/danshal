@@ -2,6 +2,8 @@ package com.example.danshal.ui.login
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -9,13 +11,11 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.Log
 import android.util.Patterns
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
@@ -177,15 +177,58 @@ class LoginFragment : Fragment() {
     }
 
     private fun showForm() {
-        val builder = AlertDialog.Builder(requireContext())
-        val dialogLayout = layoutInflater.inflate(R.layout.reset_form_dialog, null, false)
+//        val builder = AlertDialog.Builder(requireContext())
+//        val dialogLayout = layoutInflater.inflate(R.layout.reset_form_dialog, null, false)
+//
+//        builder.setView(dialogLayout)
+//        builder.setCancelable(false)
+//
+//        val email = dialogLayout.findViewById<EditText>(R.id.et_dialog_email)
+//
+//        builder.setPositiveButton("Verzenden") { dialog, _ ->
+//            if (email.text.isNotBlank()){
+//                Firebase.auth.sendPasswordResetEmail(email.text.toString())
+//                    .addOnCompleteListener { task ->
+//                        if (task.isSuccessful) {
+//                            Log.d("Firebase", "Email sent.")
+//                            Toast.makeText(
+//                                context, R.string.verificatie,
+//                                Toast.LENGTH_LONG
+//                            ).show()
+//
+//                            dialog.dismiss()
+//                        }
+//                    }
+//            }
+//            else {
+//                Toast.makeText(
+//                    context,
+//                    R.string.email_invoeren,
+//                    Toast.LENGTH_LONG
+//                ).show()
+//            }
+//        }
+//
+//        builder.setNegativeButton("Annuleren") { dialog, _ ->
+//            dialog.cancel()
+//        }
+//
+//
+//        builder.show()
 
-        builder.setView(dialogLayout)
-        builder.setCancelable(false)
+        val popup = PopupWindow(context)
+        val view = layoutInflater.inflate(R.layout.reset_form_dialog, null)
 
-        val email = dialogLayout.findViewById<EditText>(R.id.et_dialog_email)
+        popup.contentView = view
+        popup.isOutsideTouchable = true
+        popup.width = ViewGroup.LayoutParams.MATCH_PARENT
+        popup.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        builder.setPositiveButton("Verzenden") { dialog, _ ->
+        val email = view.findViewById<EditText>(R.id.et_dialog_email)
+        val annuleren = view.findViewById<TextView>(R.id.tv_annuleren)
+        val versturen = view.findViewById<TextView>(R.id.tv_versturen)
+
+        versturen.setOnClickListener {
             if (email.text.isNotBlank()){
                 Firebase.auth.sendPasswordResetEmail(email.text.toString())
                     .addOnCompleteListener { task ->
@@ -196,7 +239,7 @@ class LoginFragment : Fragment() {
                                 Toast.LENGTH_LONG
                             ).show()
 
-                            dialog.dismiss()
+                            popup.dismiss()
                         }
                     }
             }
@@ -207,14 +250,14 @@ class LoginFragment : Fragment() {
                     Toast.LENGTH_LONG
                 ).show()
             }
+
         }
 
-        builder.setNegativeButton("Annuleren") { dialog, _ ->
-            dialog.cancel()
+        annuleren.setOnClickListener {
+            popup.dismiss()
         }
 
-
-        builder.show()
+        popup.showAtLocation(this.view, Gravity.CENTER, 0,0)
     }
 
 }

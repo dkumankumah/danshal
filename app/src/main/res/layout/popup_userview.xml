@@ -42,6 +42,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/theme_black"
+            android:enabled="false"
+            android:focusable="false"
             android:inputType="textPersonName"
             android:maxLines="1"
             android:textColor="@color/theme_yellow" />
@@ -67,6 +69,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/theme_black"
+            android:enabled="false"
+            android:focusable="false"
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:textColor="@color/theme_yellow" />

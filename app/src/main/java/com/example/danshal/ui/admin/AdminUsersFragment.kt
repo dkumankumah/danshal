@@ -78,7 +78,7 @@ class AdminUsersFragment : Fragment() {
         val popup = PopupWindow(context)
         val view = layoutInflater.inflate(R.layout.popup_userview, null)
         popup.contentView = view
-        popup.isOutsideTouchable = true
+        popup.isOutsideTouchable = false
         popup.width = ViewGroup.LayoutParams.MATCH_PARENT
         popup.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
@@ -95,8 +95,6 @@ class AdminUsersFragment : Fragment() {
             bool = isChecked
         }
 
-        Log.d("SWICH", "value: " + admin.showText)
-
         val btnUpdate = view.findViewById<Button>(R.id.btn_update_popup)
         btnUpdate.setOnClickListener {
             adminUsersViewModel.updateUser(user, bool)
@@ -110,8 +108,10 @@ class AdminUsersFragment : Fragment() {
             popup.dismiss()
         }
 
-        popup.showAsDropDown(binding.rvUser, resources.displayMetrics.widthPixels / 4,
-            0, Gravity.CENTER )
+//        popup.showAsDropDown(binding.rvUser, resources.displayMetrics.widthPixels / 4,
+//            0, Gravity.CENTER )
+        popup.showAtLocation(this.view, Gravity.CENTER, 0,0)
+
     }
 
 }

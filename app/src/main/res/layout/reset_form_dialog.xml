@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="wrap_content"
     android:background="@drawable/dialog_shape">
 
     <TextView
@@ -26,13 +26,11 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="38dp"
         android:background="@drawable/dialog_shape"
         android:hint="@string/prompt_email"
         android:textColorHint="@color/theme_yellow"
         app:boxStrokeColor="@color/white"
         app:hintTextColor="@color/theme_orange"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_dialog_title"
@@ -50,32 +48,32 @@
             android:textColorHint="@color/theme_yellow" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/tv_versturen"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="8dp"-->
-    <!--        android:layout_marginEnd="16dp"-->
-    <!--        android:text="@string/versturen"-->
-    <!--        android:textColor="@color/theme_yellow"-->
-    <!--        android:textSize="18sp"-->
-    <!--        android:textStyle="bold"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/til_email" />-->
+    <TextView
+        android:id="@+id/tv_versturen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/versturen"
+        android:textColor="@color/theme_yellow"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/til_email" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/tv_annuleren"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="8dp"-->
-    <!--        android:layout_marginEnd="16dp"-->
-    <!--        android:layout_marginBottom="32dp"-->
-    <!--        android:text="@string/annuleren"-->
-    <!--        android:textColor="@color/theme_yellow"-->
-    <!--        android:textSize="18sp"-->
-    <!--        android:textStyle="bold"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toStartOf="@+id/tv_versturen"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/til_email" />-->
+    <TextView
+        android:id="@+id/tv_annuleren"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/annuleren"
+        android:textColor="@color/theme_yellow"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_versturen"
+        app:layout_constraintTop_toBottomOf="@+id/til_email" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

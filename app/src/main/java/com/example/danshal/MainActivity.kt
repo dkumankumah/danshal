@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_admin_dashboard, R.id.nav_admin_add, R.id.nav_admin_users, R.id.nav_login, R.id.nav_logout, R.id.nav_profile, R.id.nav_register), drawerLayout)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_admin_dashboard, R.id.nav_admin_users, R.id.nav_login, R.id.nav_logout, R.id.nav_profile, R.id.nav_register), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
@@ -124,9 +124,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val menu = navView.menu
 
         menu.findItem(R.id.nav_admin_dashboard).isVisible = boolean
-        menu.findItem(R.id.nav_admin_add).isVisible = boolean
         menu.findItem(R.id.nav_admin_users).isVisible = boolean
-
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

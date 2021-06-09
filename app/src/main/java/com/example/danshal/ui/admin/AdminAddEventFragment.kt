@@ -31,7 +31,6 @@ import java.io.ByteArrayOutputStream
 import java.util.*
 
 class AdminAddEventFragment : Fragment() {
-    private val REQUEST_CODE = 100
     private val adminDashboardDetailsViewModel: AdminDashboardViewModel by activityViewModels()
 
     private var _binding: AdminAddEventFragmentBinding? = null
@@ -58,7 +57,7 @@ class AdminAddEventFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnAddUpload.setOnClickListener { openGalleryForImage() }
+        binding.imageView.setOnClickListener { openGalleryForImage() }
         binding.btnAddEvent.setOnClickListener { postEvent() }
 
         val cal: Calendar = Calendar.getInstance()

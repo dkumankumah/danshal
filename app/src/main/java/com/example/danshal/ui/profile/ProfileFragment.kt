@@ -91,12 +91,6 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        val itemToHide = menu.findItem(R.id.action_settings)
-        itemToHide.isVisible = false
-
-    }
-
 
     private fun showDeleteDialog() {
         val builder = AlertDialog.Builder(requireContext())

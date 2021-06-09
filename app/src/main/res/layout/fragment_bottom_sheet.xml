@@ -23,6 +23,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/theme_black"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
@@ -33,7 +34,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                app:cardCornerRadius="10dp">
+                app:cardCornerRadius="15dp">
 
                 <ImageView
                     android:id="@+id/ivCurrentGiveAway"
@@ -47,7 +48,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp">
+                android:layout_marginEnd="20dp"
+                android:background="@color/theme_black">
 
                 <TextView
                     android:id="@+id/tvCurrentGiveAwayTitle"
@@ -56,25 +58,28 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="16dp"
-                    android:fontFamily="sans-serif-thin"
+                    android:fontFamily="@font/bebas"
                     android:text="TextView"
                     android:textAlignment="viewStart"
-                    android:textColor="#2F3030"
-                    android:textSize="24sp"
+                    android:textColor="@color/theme_yellow"
+                    android:textSize="30sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvGiveAwayDate" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/ivCalendar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:background="@drawable/roundend_rectangle_dark"
+                    android:padding="2dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_calendar"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_calendar" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvGiveAwayDate"
@@ -83,6 +88,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="20dp"
                     android:text="TextView"
+                    android:textColor="@color/theme_yellow"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/ivCalendar"
@@ -96,7 +102,8 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
                     android:text="@string/title_btn_subscribe"
-                    app:backgroundTint="@color/purple_700"
+                    android:textColor="@color/theme_black"
+                    app:backgroundTint="@color/theme_yellow"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCurrentGiveAwayTitle"
@@ -111,6 +118,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="32dp"
                     android:text="TextView"
+                    android:textColor="@color/white"
                     app:layout_constraintBottom_toTopOf="@+id/btnParticipate"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

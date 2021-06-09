@@ -81,12 +81,12 @@ class PostRepository {
 
     // The following methods are for the users (fetch posts with date from today)
     suspend fun getAllPostsForUsers() {
-        _posts.value = emptyList()
+        setEmptyList()
         try {
             val tempList = arrayListOf<Post>()
 
             val data = postRef
-                .orderBy("timestamp", Query.Direction.ASCENDING)
+                .orderBy("timestamp", Query.Direction.DESCENDING)
                 .get()
                 .await()
 
@@ -106,13 +106,12 @@ class PostRepository {
     }
 
     suspend fun getAllNonExclusivePostsForUsers() {
-        _posts.value = emptyList()
+        setEmptyList()
         try {
             val tempList = arrayListOf<Post>()
 
             val data = postRef
-                .orderBy("timestamp", Query.Direction.ASCENDING)
-                .whereGreaterThanOrEqualTo("timestamp", Timestamp.now().toDate())
+                .orderBy("timestamp", Query.Direction.DESCENDING)
                 .whereEqualTo("exclusive", false)
                 .get()
                 .await()
@@ -130,6 +129,10 @@ class PostRepository {
         } catch (e: Exception) {
             throw PostRetrievalError("Volgende ging mis: ${e}")
         }
+    }
+
+    fun setEmptyList() {
+        _posts.value = emptyList()
     }
 
     class PostRetrievalError(message: String) : Exception(message)

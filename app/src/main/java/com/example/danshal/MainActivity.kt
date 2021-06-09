@@ -1,26 +1,27 @@
 package com.example.danshal
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.ui.*
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     lateinit var viewModel: SharedUserViewModel
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         auth = viewModel.auth
         updateUI()
 
+        navView.setNavigationItemSelectedListener(this)
     }
 
     private fun updateUI() {
@@ -76,6 +78,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -124,5 +127,24 @@ class MainActivity : AppCompatActivity() {
         menu.findItem(R.id.nav_admin_users).isVisible = boolean
     }
 
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_store -> {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(getString(R.string.action_merch_link))
+                startActivity(intent)
+            }
+            // R.id.nav_logout?? -> {
+//           TODO DANIEL HIER JOUW DING
+            //}
+        }
 
+        val mDrawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        mDrawerLayout.closeDrawer(Gravity.LEFT, true)
+
+        val navController = findNavController(R.id.nav_host_fragment)
+        NavigationUI.onNavDestinationSelected(item, navController)
+
+        return true
+    }
 }

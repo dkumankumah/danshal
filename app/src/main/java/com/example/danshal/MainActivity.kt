@@ -152,9 +152,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_logout -> {
                 signOutAlert()
             }
-            else -> {
-                Toast.makeText(this, R.string.msg_ja, Toast.LENGTH_LONG).show()
-            }
         }
         val mDrawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         mDrawerLayout.closeDrawer(Gravity.LEFT, true)

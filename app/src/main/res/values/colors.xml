@@ -8,7 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="theme_grey">#343434</color>
-    <color name="theme_background">#1C1C1C</color>
-    <color name="theme_yellow">#FFBD4A</color>
-    <color name="theme_danshal">#F7E060</color>
+    <color name="theme_black">#1C1C1C</color>
+    <color name="theme_orange">#FFBD4A</color>
+    <color name="theme_yellow">#F7E060</color>
 </resources>

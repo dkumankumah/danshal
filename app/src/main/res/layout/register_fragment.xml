@@ -13,7 +13,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/theme_background"
+        android:background="@color/theme_black"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:cardBackgroundColor="@color/theme_danshal"
+        app:cardBackgroundColor="@color/theme_yellow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,23 +58,23 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
                 android:hint="@string/hint_name"
-                android:textColorHint="@color/theme_danshal"
+                android:textColorHint="@color/theme_yellow"
                 app:boxStrokeColor="@color/white"
-                app:hintTextColor="@color/theme_yellow"
+                app:hintTextColor="@color/theme_orange"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:startIconDrawable="@drawable/ic_admin_users_24"
-                app:startIconTint="@color/theme_danshal">
+                app:startIconTint="@color/theme_yellow">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/theme_background"
+                    android:backgroundTint="@color/theme_black"
                     android:inputType="textPersonName"
                     android:maxLines="1"
-                    android:textColor="@color/theme_danshal" />
+                    android:textColor="@color/theme_yellow" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -85,23 +85,23 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
                 android:hint="@string/prompt_email"
-                android:textColorHint="@color/theme_danshal"
+                android:textColorHint="@color/theme_yellow"
                 app:boxStrokeColor="@color/white"
-                app:hintTextColor="@color/theme_yellow"
+                app:hintTextColor="@color/theme_orange"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_name"
                 app:startIconDrawable="@drawable/ic_email"
-                app:startIconTint="@color/theme_danshal">
+                app:startIconTint="@color/theme_yellow">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/theme_background"
+                    android:backgroundTint="@color/theme_black"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:textColor="@color/theme_danshal" />
+                    android:textColor="@color/theme_yellow" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -112,23 +112,23 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
                 android:hint="@string/prompt_password"
-                android:textColorHint="@color/theme_danshal"
+                android:textColorHint="@color/theme_yellow"
                 app:boxStrokeColor="@color/white"
-                app:hintTextColor="@color/theme_yellow"
+                app:hintTextColor="@color/theme_orange"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_username"
                 app:startIconDrawable="@drawable/ic_key"
-                app:startIconTint="@color/theme_danshal">
+                app:startIconTint="@color/theme_yellow">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/theme_background"
+                    android:backgroundTint="@color/theme_black"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:textColor="@color/theme_danshal" />
+                    android:textColor="@color/theme_yellow" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -139,9 +139,9 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
                 android:hint="@string/validatie_wachtwoord"
-                android:textColorHint="@color/theme_danshal"
+                android:textColorHint="@color/theme_yellow"
                 app:boxStrokeColor="@color/white"
-                app:hintTextColor="@color/theme_yellow"
+                app:hintTextColor="@color/theme_orange"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_password">
@@ -150,10 +150,10 @@
                     android:id="@+id/et_passwordVal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/theme_background"
+                    android:backgroundTint="@color/theme_black"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:textColor="@color/theme_danshal" />
+                    android:textColor="@color/theme_yellow" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -164,7 +164,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:backgroundTint="@color/theme_background"
+                android:backgroundTint="@color/theme_black"
                 android:elevation="10dp"
                 android:enabled="true"
                 android:text="@string/action_register"
@@ -180,8 +180,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/tv_login"
-                android:textColor="@color/theme_background"
-                android:textColorLink="@color/theme_background"
+                android:textColor="@color/theme_black"
+                android:textColorLink="@color/theme_black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -117,5 +117,8 @@
     <string name="wachtwoord">Wachtwoord</string>
     <string name="authtenticatie">Voer uw email en wachtwoord in</string>
     <string name="wachtwoord_vergeten">Wachtwoord vergeten?</string>
+    <string name="users">Users</string>
+    <string name="admin">Admin</string>
+    <string name="toevoegen">Gebruiker toevoegen</string>
 
 </resources>

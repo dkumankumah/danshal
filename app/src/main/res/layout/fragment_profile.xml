@@ -11,7 +11,7 @@
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/theme_background"
+        android:background="@color/theme_black"
         app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
             android:clickable="true"
             android:foreground="@drawable/rounded_corner_top"
             android:scaleType="centerCrop"
-            app:civ_border_color="@color/theme_yellow"
+            app:civ_border_color="@color/theme_orange"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -41,8 +41,8 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:hint="@string/profile_email"
-            android:textColor="@color/theme_danshal"
-            android:textColorHint="@color/theme_danshal"
+            android:textColor="@color/theme_yellow"
+            android:textColorHint="@color/theme_yellow"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -57,8 +57,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:hint="@string/hint_name"
-            android:textColor="@color/theme_danshal"
-            android:textColorHint="@color/theme_danshal"
+            android:textColor="@color/theme_yellow"
+            android:textColorHint="@color/theme_yellow"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/tv_email"
@@ -89,7 +89,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/theme_danshal">
+            android:background="@color/theme_yellow">
 
             <LinearLayout
                 android:id="@+id/linearLayout2"
@@ -106,20 +106,20 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
                     android:hint="@string/hint_name"
-                    android:textColorHint="@color/theme_danshal"
+                    android:textColorHint="@color/theme_yellow"
                     app:boxStrokeColor="@color/white"
-                    app:hintTextColor="@color/theme_yellow"
+                    app:hintTextColor="@color/theme_orange"
                     app:startIconDrawable="@drawable/ic_admin_users_24"
-                    app:startIconTint="@color/theme_danshal">
+                    app:startIconTint="@color/theme_yellow">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/theme_background"
+                        android:backgroundTint="@color/theme_black"
                         android:inputType="textLongMessage|textPersonName"
                         android:maxLines="1"
-                        android:textColor="@color/theme_danshal" />
+                        android:textColor="@color/theme_yellow" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -127,20 +127,20 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
                     android:hint="@string/hint_adress"
-                    android:textColorHint="@color/theme_danshal"
+                    android:textColorHint="@color/theme_yellow"
                     app:boxStrokeColor="@color/white"
-                    app:hintTextColor="@color/theme_yellow"
+                    app:hintTextColor="@color/theme_orange"
                     app:startIconDrawable="@drawable/ic_home_24"
-                    app:startIconTint="@color/theme_danshal">
+                    app:startIconTint="@color/theme_yellow">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_adress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/theme_background"
+                        android:backgroundTint="@color/theme_black"
                         android:inputType="text"
                         android:maxLines="1"
-                        android:textColor="@color/theme_danshal" />
+                        android:textColor="@color/theme_yellow" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -154,20 +154,20 @@
                         android:layout_marginBottom="10dp"
                         android:layout_weight="1"
                         android:hint="@string/housenumber"
-                        android:textColorHint="@color/theme_danshal"
+                        android:textColorHint="@color/theme_yellow"
                         app:boxStrokeColor="@color/white"
-                        app:hintTextColor="@color/theme_yellow"
+                        app:hintTextColor="@color/theme_orange"
                         app:startIconDrawable="@drawable/ic_number"
-                        app:startIconTint="@color/theme_danshal">
+                        app:startIconTint="@color/theme_yellow">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="@color/theme_background"
+                            android:backgroundTint="@color/theme_black"
                             android:inputType="number"
                             android:maxLines="1"
-                            android:textColor="@color/theme_danshal" />
+                            android:textColor="@color/theme_yellow" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -175,18 +175,18 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:hint="@string/admin_add_address_housenumber_ext"
-                        android:textColorHint="@color/theme_danshal"
+                        android:textColorHint="@color/theme_yellow"
                         app:boxStrokeColor="@color/white"
-                        app:hintTextColor="@color/theme_yellow">
+                        app:hintTextColor="@color/theme_orange">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_extension"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="@color/theme_background"
+                            android:backgroundTint="@color/theme_black"
                             android:inputType="text"
                             android:maxLines="1"
-                            android:textColor="@color/theme_danshal" />
+                            android:textColor="@color/theme_yellow" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
@@ -202,20 +202,20 @@
                         android:layout_marginBottom="10dp"
                         android:layout_weight="1"
                         android:hint="@string/hint_postcode"
-                        android:textColorHint="@color/theme_danshal"
+                        android:textColorHint="@color/theme_yellow"
                         app:boxStrokeColor="@color/white"
-                        app:hintTextColor="@color/theme_yellow"
+                        app:hintTextColor="@color/theme_orange"
                         app:startIconDrawable="@drawable/ic_baseline_local_post_office_24"
-                        app:startIconTint="@color/theme_danshal">
+                        app:startIconTint="@color/theme_yellow">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_postcode"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="@color/theme_background"
+                            android:backgroundTint="@color/theme_black"
                             android:inputType="text"
                             android:maxLines="1"
-                            android:textColor="@color/theme_danshal" />
+                            android:textColor="@color/theme_yellow" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -224,20 +224,20 @@
                         android:layout_marginBottom="10dp"
                         android:layout_weight="1"
                         android:hint="@string/hint_location"
-                        android:textColorHint="@color/theme_danshal"
+                        android:textColorHint="@color/theme_yellow"
                         app:boxStrokeColor="@color/white"
-                        app:hintTextColor="@color/theme_yellow"
+                        app:hintTextColor="@color/theme_orange"
                         app:startIconDrawable="@drawable/ic_city_24"
-                        app:startIconTint="@color/theme_danshal">
+                        app:startIconTint="@color/theme_yellow">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_location"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="@color/theme_background"
+                            android:backgroundTint="@color/theme_black"
                             android:inputType="text"
                             android:maxLines="1"
-                            android:textColor="@color/theme_danshal" />
+                            android:textColor="@color/theme_yellow" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </LinearLayout>

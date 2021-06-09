@@ -9,5 +9,5 @@ android:useLevel="false" >
 
 <stroke
     android:width="5dp"
-    android:color="@color/theme_danshal" />
+    android:color="@color/theme_yellow" />
 </shape>

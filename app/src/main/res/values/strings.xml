@@ -124,5 +124,6 @@
     <string name="annuleren">Annuleren</string>
     <string name="email_invoeren">Vul uw email in</string>
     <string name="verificatie">Verificatie email verstuurd!</string>
+    <string name="update">Update</string>
 
 </resources>

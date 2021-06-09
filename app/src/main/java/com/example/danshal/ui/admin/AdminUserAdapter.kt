@@ -8,8 +8,12 @@ import com.example.danshal.R
 import com.example.danshal.databinding.ItemUserBinding
 import com.example.danshal.models.User
 
-class AdminUserAdapter(private val users: List<User>) : RecyclerView.Adapter<AdminUserAdapter.ViewHolder> () {
+class AdminUserAdapter(private val users: List<User>, private val onClick: (User) -> Unit) : RecyclerView.Adapter<AdminUserAdapter.ViewHolder> () {
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+
+        init {
+            itemView.setOnClickListener { onClick(users[adapterPosition]) }
+        }
 
         val binding = ItemUserBinding.bind(itemView)
 

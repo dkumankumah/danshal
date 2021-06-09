@@ -1,6 +1,7 @@
 package com.example.danshal.ui.login
 
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -11,6 +12,7 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -176,16 +178,14 @@ class LoginFragment : Fragment() {
 
     private fun showForm() {
         val builder = AlertDialog.Builder(requireContext())
-        val alertDialog: AlertDialog = builder.create()
-        val dialogLayout = layoutInflater.inflate(R.layout.reset_form_dialog, null)
+        val dialogLayout = layoutInflater.inflate(R.layout.reset_form_dialog, null, false)
 
         builder.setView(dialogLayout)
+        builder.setCancelable(false)
 
         val email = dialogLayout.findViewById<EditText>(R.id.et_dialog_email)
-        val btnSend = dialogLayout.findViewById<TextView>(R.id.tv_versturen)
-        val btnCancel = dialogLayout.findViewById<TextView>(R.id.tv_annuleren)
 
-        btnSend.setOnClickListener {
+        builder.setPositiveButton("Verzenden") { dialog, _ ->
             if (email.text.isNotBlank()){
                 Firebase.auth.sendPasswordResetEmail(email.text.toString())
                     .addOnCompleteListener { task ->
@@ -196,7 +196,7 @@ class LoginFragment : Fragment() {
                                 Toast.LENGTH_LONG
                             ).show()
 
-                            alertDialog.dismiss()
+                            dialog.dismiss()
                         }
                     }
             }
@@ -209,7 +209,10 @@ class LoginFragment : Fragment() {
             }
         }
 
-        btnCancel.setOnClickListener { alertDialog.dismiss() }
+        builder.setNegativeButton("Annuleren") { dialog, _ ->
+            dialog.cancel()
+        }
+
 
         builder.show()
     }

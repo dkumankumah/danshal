@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
+    android:background="@color/theme_black"
     android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.admin.AdminUsersFragment">
 
     <ImageView
@@ -22,46 +23,69 @@
         android:layout_width="match_parent"
         android:layout_height="8dp"
         android:layout_marginBottom="16dp"
-        android:background="@color/purple_500" />
+        android:background="@color/theme_yellow" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:hint="@string/admin_add_title">
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:hint="@string/admin_add_title"
+        android:textColorHint="@color/theme_yellow"
+        app:boxStrokeColor="@color/white"
+        app:hintTextColor="@color/theme_yellow">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_add_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textShortMessage"
-            android:drawablePadding="10dp" />
+            android:backgroundTint="@color/theme_grey"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@color/theme_yellow"
+            android:textColorHint="@color/theme_yellow" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:hint="@string/admin_add_description">
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:hint="@string/admin_add_description"
+        android:textColorHint="@color/theme_yellow"
+        app:boxStrokeColor="@color/white"
+        app:hintTextColor="@color/theme_yellow">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_add_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/theme_grey"
             android:inputType="textImeMultiLine"
-            android:drawablePadding="10dp" />
+            android:textColor="@color/theme_yellow"
+            android:textColorHint="@color/theme_yellow" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Switch
         android:id="@+id/switch_add_exclusive"
         android:hint="@string/admin_add_exclusive"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:textColorHint="@color/theme_yellow"
         android:layout_width="wrap_content"
+        android:theme="@style/SwitchTheme"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/btn_add_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
         android:text="@string/admin_add_post"/>
 
 </LinearLayout>

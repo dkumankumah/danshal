@@ -7,7 +7,6 @@ import android.view.*
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.danshal.R
@@ -18,14 +17,18 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
+
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var auth: FirebaseAuth
     private val content = arrayListOf<Content>()
     private val giveAway = arrayListOf<GiveAway>()
+
     private lateinit var homeAdapter: HomeAdapter
     private lateinit var giveAwayAdapter: GiveAwayAdapter
+
     private var currentEventType: String? = null
     private val viewModel: HomeViewModel by activityViewModels()
 
@@ -37,7 +40,14 @@ class HomeFragment : Fragment() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.action_filter).isVisible = true
+        // Hide the settings in the toolbar
+        val itemToHide = menu.findItem(R.id.action_settings)
+        itemToHide.isVisible = false
+
+        // And show the filter icon if the user is logged in
+        if(viewModel.isLoggedIn()) {
+            menu.findItem(R.id.action_filter).isVisible = true
+        }
         super.onPrepareOptionsMenu(menu)
     }
 
@@ -61,14 +71,13 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
     }
 
     private fun initViews() {
-//        activity?.viewModelStore?.clear()
-
         binding.rvEvents.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.rvGiveAway.layoutManager =
@@ -99,11 +108,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadData() {
+        // Observe the currentContentType, clear the current list and load the new data
         viewModel.currentContentType.observe(viewLifecycleOwner, {
             content.clear()
             viewModel.loadAllContent()
         })
 
+        // Observe the content, add it to a temporarily list and sort it by the seconds
         viewModel.getContent().observe(viewLifecycleOwner, {
             val tempList = arrayListOf<Content>()
 
@@ -111,15 +122,17 @@ class HomeFragment : Fragment() {
             content.addAll(tempList)
 
             homeAdapter.contentItems = content.sortedWith(compareBy(Content::getSeconds))
-            homeAdapter.notifyDataSetChanged()
-            if (!viewModel.initLoad) {
+
+            // If the data has been loaded, notify adapter en set the animation
+            if (viewModel.initLoad) {
+                viewModel.initLoad = false
+                homeAdapter.notifyDataSetChanged()
                 binding.rvEvents.scheduleLayoutAnimation()
             }
         })
 
         viewModel.getGiveAway().observe(viewLifecycleOwner, {
             giveAway.clear()
-
             if (it.isNotEmpty()) {
                 giveAway.addAll(it)
                 giveAwayAdapter.giveAway = giveAway
@@ -129,12 +142,19 @@ class HomeFragment : Fragment() {
                 binding.rvGiveAway.visibility = View.GONE
             }
         })
+
+        if(viewModel.isLoggedIn()) {
+            binding.tvUserLogIn.visibility = View.GONE
+        } else {
+            binding.tvUserLogIn.visibility = View.VISIBLE
+        }
     }
 
     private fun openFilterWindow() {
         val dialogItems =
             arrayOf(
-                getString(R.string.title_up_event),
+                getString(R.string.title_event),
+                getString(R.string.title_post),
                 getString(R.string.title_content)
             )
         val checkedItem = dialogItems.indexOf(viewModel.currentContentType.value.toString())
@@ -168,7 +188,7 @@ class HomeFragment : Fragment() {
         viewModel.setCurrentContent(content)
 
         if (content.postType == Content.TYPE.EVENT) {
-            findNavController().navigate(R.id.action_nav_home_to_eventFragment)
+            EventDialogFragment().newInstance()?.show(parentFragmentManager, "event_fragment")
         } else {
             PostDialogFragment().newInstance()?.show(parentFragmentManager, "post_fragment")
         }

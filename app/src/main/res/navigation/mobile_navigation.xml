@@ -132,7 +132,7 @@
     </fragment>
     <fragment
         android:id="@+id/eventFragment"
-        android:name="com.example.danshal.ui.home.EventFragment"
+        android:name="com.example.danshal.ui.home.EventDialogFragment"
         android:label="fragment_event"
         tools:layout="@layout/fragment_event" >
         <action

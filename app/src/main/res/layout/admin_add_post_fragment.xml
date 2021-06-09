@@ -1,102 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
+    android:background="@color/theme_black"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.admin.AdminUsersFragment">
-
-    <TextView
-        android:id="@+id/tv_add_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/admin_add_title"
-        app:layout_constraintBottom_toTopOf="@+id/et_add_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/et_add_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textShortMessage"
-        app:layout_constraintBottom_toTopOf="@+id/tv_add_description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_add_title" />
-
-    <TextView
-        android:id="@+id/tv_add_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/admin_add_description"
-        app:layout_constraintBottom_toTopOf="@+id/et_add_description"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_title" />
-
-    <EditText
-        android:id="@+id/et_add_description"
-        style="@style/Widget.AppCompat.AutoCompleteTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textImeMultiLine"
-        app:layout_constraintBottom_toTopOf="@+id/tv_add_upload"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_add_description" />
-
-    <TextView
-        android:id="@+id/tv_add_upload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/admin_add_upload"
-        app:layout_constraintBottom_toTopOf="@+id/btn_add_upload"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_add_exclusive" />
-
-    <Button
-        android:id="@+id/btn_add_upload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/admin_add_upload"
-        app:layout_constraintBottom_toTopOf="@+id/image_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_add_upload" />
 
     <ImageView
         android:id="@+id/image_view"
         android:layout_width="130dp"
         android:layout_height="130dp"
-        app:layout_constraintBottom_toTopOf="@id/tv_add_exclusive"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_add_upload" />
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:layout_gravity="center"
+        android:focusable="true"
+        android:src="@drawable/add_video_or_photo" />
 
-    <TextView
-        android:id="@+id/tv_add_exclusive"
-        android:layout_width="wrap_content"
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/theme_yellow" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/admin_add_exclusive"
-        app:layout_constraintBottom_toTopOf="@+id/switch_add_exclusive"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_view" />
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:hint="@string/admin_add_title"
+        android:textColorHint="@color/theme_yellow"
+        app:boxStrokeColor="@color/white"
+        app:hintTextColor="@color/theme_yellow">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_add_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/theme_grey"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@color/theme_yellow"
+            android:textColorHint="@color/theme_yellow" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:hint="@string/admin_add_description"
+        android:textColorHint="@color/theme_yellow"
+        app:boxStrokeColor="@color/white"
+        app:hintTextColor="@color/theme_yellow">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_add_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/theme_grey"
+            android:inputType="textImeMultiLine"
+            android:textColor="@color/theme_yellow"
+            android:textColorHint="@color/theme_yellow" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Switch
         android:id="@+id/switch_add_exclusive"
+        android:hint="@string/admin_add_exclusive"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:textColorHint="@color/theme_yellow"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/address_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_add_exclusive" />
+        android:theme="@style/SwitchTheme"
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/btn_add_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/admin_add_post"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_add_exclusive" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/admin_add_post"/>
+
+</LinearLayout>

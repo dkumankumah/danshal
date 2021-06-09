@@ -2,6 +2,8 @@ package com.example.danshal
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -51,7 +53,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_admin_dashboard, R.id.nav_admin_add, R.id.nav_admin_users, R.id.nav_login, R.id.nav_profile, R.id.nav_register), drawerLayout)
+//                 R.id.nav_home, R.id.nav_gallery, R.id.nav_admin_dashboard, R.id.nav_admin_add, R.id.nav_admin_users, R.id.nav_login, R.id.nav_profile, R.id.nav_register), drawerLayout)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_admin_dashboard, R.id.nav_admin_users, R.id.nav_login, R.id.nav_logout, R.id.nav_profile, R.id.nav_register), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
@@ -61,6 +64,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         updateUI()
 
+        navView.setNavigationItemSelectedListener(this)
     }
 
     private fun updateUI() {
@@ -87,6 +91,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         })
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -125,7 +130,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun toggleAdminMenu(boolean: Boolean) {
         menu.findItem(R.id.nav_admin_dashboard).isVisible = boolean
-        menu.findItem(R.id.nav_admin_add).isVisible = boolean
         menu.findItem(R.id.nav_admin_users).isVisible = boolean
     }
 
@@ -148,11 +152,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
+            R.id.nav_store -> {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(getString(R.string.action_merch_link))
+                startActivity(intent)
+            }
             R.id.nav_logout -> {
                 signOutAlert()
             }
         }
+
         val mDrawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         mDrawerLayout.closeDrawer(Gravity.LEFT, true)
 
@@ -161,7 +171,4 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         return true
     }
-
-
-
 }

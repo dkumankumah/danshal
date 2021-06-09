@@ -97,7 +97,7 @@ class EventRepository() {
 
     // Fetch events from the database for the users
     suspend fun getAllEventsForUsers() {
-        _events.value = emptyList()
+        setEmptyList()
         try {
             val tempList = arrayListOf<Event>()
 
@@ -135,7 +135,7 @@ class EventRepository() {
 
     // Only fetch the upcoming events (between today and one week from now)
     suspend fun getUpcomingEvents() {
-        _events.value = emptyList()
+        setEmptyList()
         try {
             val tempList = arrayListOf<Event>()
             // get today's date and the date of 7 days from now
@@ -174,6 +174,10 @@ class EventRepository() {
         } catch (e: Exception) {
             throw EventRetrievalError("Volgende ging mis: ${e}")
         }
+    }
+
+    fun setEmptyList() {
+        _events.value = emptyList()
     }
 
     class EventRetrievalError(message: String) : Exception(message)

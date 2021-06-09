@@ -1,142 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/theme_black"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
     tools:context=".ui.admin.AdminDashboardFragment">
 
     <LinearLayout
-        android:id="@+id/cl_dashboard_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="32dp"
+        android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_events"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="6dp"
-            app:cardUseCompatPadding="true">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="16dp">
-
-                <TextView
-                    style="@style/TextAppearance.MaterialComponents.Headline6"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="start|center"
-                    android:text="Events" />
-
-                <TextView
-                    android:id="@+id/tv_number_events"
-                    style="@style/TextAppearance.MaterialComponents.Headline4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:padding="8dp" />
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_giveaways"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="6dp"
-            app:cardUseCompatPadding="true">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="16dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/TextAppearance.MaterialComponents.Headline6"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="start|center"
-                    android:text="Giveaways" />
-
-                <TextView
-                    android:id="@+id/tv_number_giveaways"
-                    style="@style/TextAppearance.MaterialComponents.Headline4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:padding="8dp" />
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_posts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="6dp"
-            app:cardUseCompatPadding="true">
+            android:textColor="@color/theme_yellow"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
+            android:text="CONTENT"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="16dp">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal" >
 
-                <TextView
-                    style="@style/TextAppearance.MaterialComponents.Headline6"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="start|center"
-                    android:text="Posts" />
+            <Button
+                android:id="@+id/btn_post"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/theme_grey"
+                android:background="@drawable/rounded_button"
+                android:textSize="18sp"
+                android:text="@string/admin_post" />
 
-                <TextView
-                    android:id="@+id/tv_number_posts"
-                    style="@style/TextAppearance.MaterialComponents.Headline4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:padding="8dp" />
+            <View
+                android:layout_width="30dp"
+                android:layout_height="match_parent" />
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+            <ImageButton
+                android:id="@+id/btn_add_post"
+                android:background="@drawable/rounded_button"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:tint="@color/theme_grey"
+                android:src="@android:drawable/ic_input_add" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btn_event"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/theme_grey"
+                android:background="@drawable/rounded_button"
+                android:textSize="18sp"
+                android:text="@string/admin_event" />
+
+            <View
+                android:layout_width="30dp"
+                android:layout_height="match_parent" />
+
+            <ImageButton
+                android:id="@+id/btn_add_event"
+                android:background="@drawable/rounded_button"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:tint="@color/theme_grey"
+                android:src="@android:drawable/ic_input_add" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btn_giveaway"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/theme_grey"
+                android:background="@drawable/rounded_button"
+                android:textSize="18sp"
+                android:text="@string/admin_give_away" />
+
+            <View
+                android:layout_width="30dp"
+                android:layout_height="match_parent" />
+
+            <ImageButton
+                android:id="@+id/btn_add_giveaway"
+                android:background="@drawable/rounded_button"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:tint="@color/theme_grey"
+                android:src="@android:drawable/ic_input_add" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_notifications"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Meldingen"
-        android:layout_marginTop="16dp"
-        style="@style/TextAppearance.MaterialComponents.Headline6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_dashboard_buttons"
-        />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_notifications"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_notifications" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/admin_dashboard_background"
+        android:padding="32dp"
+        android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tv_notifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NOTIFICATIES"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/theme_grey"
+            android:textStyle="bold"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_notifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

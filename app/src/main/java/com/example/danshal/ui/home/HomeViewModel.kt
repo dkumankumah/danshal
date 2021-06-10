@@ -47,22 +47,26 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     var initLoad: Boolean = false
     var isSub: Boolean = false
 
-
     init {
         currentContentType.value = R.string.title_content.toString()
         auth = Firebase.auth
         loadGiveAway()
-        combineAllContent()
     }
 
     // Voor nu zijn de filters hardcoded, moet er later uit
     fun loadAllContent() {
         viewModelScope.launch {
+            contentListData.value = emptyList()
             try {
                 if (isLoggedIn()) {
                     when (currentContentType.value.toString()) {
-                        "Upcoming Events" -> {
-                            eventRepository.getUpcomingEvents()
+                        "Events" -> {
+                            eventRepository.getAllEventsForUsers()
+                            postRepository.setEmptyList()
+                        }
+                        "Posts" -> {
+                            postRepository.getAllPostsForUsers()
+                            eventRepository.setEmptyList()
                         }
                         else -> {
                             postRepository.getAllPostsForUsers()
@@ -73,6 +77,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     eventRepository.getAllEventsForUsers()
                     postRepository.getAllNonExclusivePostsForUsers()
                 }
+                combineAllContent()
                 initLoad = true
             } catch (ex: EventRepository.EventRetrievalError) {
                 val errorMsg = "Something went wrong while retrieving the content."
@@ -105,17 +110,18 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     //     Merge the two liveData by adding it to the sources of MediatorLiveData
     private fun combineAllContent() {
         viewModelScope.launch {
-            contentListData.value = emptyList()
-
-            contentListData.removeSource(eventListData)
+            // First remove the first source (the old data)
             contentListData.addSource(eventListData) { value ->
                 contentListData.value = value
             }
+            // after the source has been added. remove it so that we stop listening ot changes for it.
+            // if we don't, we'll get duplicates
+            contentListData.removeSource(eventListData)
 
-            contentListData.removeSource(postListData)
             contentListData.addSource(postListData) { value ->
                 contentListData.value = value
             }
+            contentListData.removeSource(postListData)
         }
     }
 
@@ -127,7 +133,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     fun isLoggedIn(): Boolean {
         return auth.currentUser != null
     }
-
 
     fun addUserToGiveAway() {
         viewModelScope.launch {

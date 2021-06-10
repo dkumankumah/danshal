@@ -26,6 +26,11 @@
     <style name="SwitchTheme" parent="Theme.AppCompat.Light">
         <item name="android:colorControlActivated">@color/theme_yellow</item>
         <item name="android:colorControlNormal">@color/theme_grey</item>
+    </style>
 
+    <style name="Widget.App.NavigationView" parent="Widget.MaterialComponents.NavigationView">
+        <item name="itemIconTint">@color/navigation_item_color</item>
+        <item name="itemTextColor">@color/navigation_item_color</item>
+        <item name="itemShapeFillColor">@color/navigation_item_background_color</item>
     </style>
 </resources>

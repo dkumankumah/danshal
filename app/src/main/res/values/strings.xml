@@ -69,7 +69,7 @@
     <!--admin-->
     <string name="menu_admin_dashboard">Admin Dashboard</string>
     <string name="menu_admin_add">Admin Toevoegen</string>
-    <string name="menu_admin_users">Admin Gebruikers</string>
+    <string name="menu_admin_users">Alle Gebruikers</string>
     <string name="menu_admin_add_event">Admin nieuw event</string>
     <string name="menu_admin_add_give_away">Admin nieuwe give away</string>
     <string name="menu_admin_add_post">Admin nieuwe post</string>

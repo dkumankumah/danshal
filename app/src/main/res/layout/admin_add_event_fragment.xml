@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/theme_black"
+    tools:context=".ui.admin.AdminUsersFragment">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_margin="16dp"
+                android:clickable="true"
+                android:layout_gravity="center"
+                android:focusable="true"
+                android:src="@drawable/add_video_or_photo" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/theme_yellow" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:hint="@string/admin_add_title"
+                android:textColorHint="@color/theme_yellow"
+                app:boxStrokeColor="@color/white"
+                app:hintTextColor="@color/theme_yellow">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_add_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/theme_grey"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColor="@color/theme_yellow"
+                    android:textColorHint="@color/theme_yellow" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:hint="@string/admin_add_description"
+                android:textColorHint="@color/theme_yellow"
+                app:boxStrokeColor="@color/white"
+                app:hintTextColor="@color/theme_yellow">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_add_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/theme_grey"
+                    android:inputType="textImeMultiLine"
+                    android:textColor="@color/theme_yellow"
+                    android:textColorHint="@color/theme_yellow" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:hint="@string/admin_add_ticket"
+                android:textColorHint="@color/theme_yellow"
+                app:boxStrokeColor="@color/white"
+                app:hintTextColor="@color/theme_yellow">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_add_ticket"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/theme_grey"
+                    android:inputType="textUri"
+                    android:textColor="@color/theme_yellow"
+                    android:textColorHint="@color/theme_yellow" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tv_add_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/theme_yellow"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:text="@string/admin_add_date" />
+
+            <Button
+                android:id="@+id/btn_add_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:text="@string/admin_add_date_btn" />
+
+            <Switch
+                android:id="@+id/switch_add_exclusive"
+                android:hint="@string/admin_add_exclusive"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:textColorHint="@color/theme_yellow"
+                android:layout_width="wrap_content"
+                android:theme="@style/SwitchTheme"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/address_layout"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                layout="@layout/address_form_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btn_add_event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/admin_add_post"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

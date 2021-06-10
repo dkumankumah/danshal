@@ -7,7 +7,125 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <!--drawer-->
     <string name="menu_home">Home</string>
+    <string name="menu_store">Merchandise Store</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="action_merch_link">https://www.dedanshal.nl/shop</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Wachtwoord</string>
+    <string name="action_sign_in_short">Inloggen</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Gebruikersnaam is onbekend</string>
+    <string name="invalid_password">Wachtwoord is incorrect</string>
+    <string name="login_failed">"Inloggen is niet gelukt"</string>
+    <string name="empty_field">"Graag je email en wachtwoord invullen"</string>
+    <string name="register">Geen account? Maak nu een account</string>
+    <string name="name">Naam</string>
+    <string name="action_register">Registreren</string>
+    <string name="tv_login">Al een account? Log in!</string>
+    <string name="logout">Uitloggen</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="dashboard">User logged in! Welcome to dashboard</string>
+    <string name="adres">Adres</string>
+    <string name="postcode">Postcode</string>
+    <string name="Plaats">Plaats</string>
+    <string name="validatie_wachtwoord">Wachtwoord nogmaals invoeren</string>
+    <string name="wachtwoord_ongelijk">Wachtwoord komt niet overeen!</string>
+    <string name="menu_admin">Admin</string>
+
+    <!--    These are String values for the events overview page-->
+    <string name="title_giveaway">Giveaway</string>
+    <string name="title_content">Berichten</string>
+    <string name="msg_user_login">Registreer of login om exclusieve content te bekijken</string>
+
+    <!--    Dialog filter event-->
+    <string name="title_event">Events</string>
+    <string name="title_post">Posts</string>
+    <string name="title_filter">Filter events</string>
+    <string name="action_filter">Toepassen</string>
+    <string name="action_cancel_filter">Annuleren</string>
+
+    <!--    Dialog/Bottom sheet GiveAway-->
+    <string name="title_btn_subscribe">Inschrijven</string>
+    <string name="title_btn_unsubscribe">Uitschrijven</string>
+    <string name="msg_update_succes">U neemt nu deel aan deze Giveaway!</string>
+    <string name="msg_update_unsub">U neemt geen deel meer aan deze Giveaway</string>
+    <string name="msg_update_fail">Er is iets misgegaan, probeer het later opnieuw</string>
+    <string name="msg_login_giveaway">Log in om mee te doen aan een giveaway</string>
+    <string name="title_btn_inlog">Inloggen</string>
+
+<!--    Event fragment-->
+    <string name="title_share_event">Refer to a friend</string>
+    <string name="title_address_event">%s %d, %s</string>
+    <string name="msg_share">
+        De Danshal organiseert de volgende event: %s op %s. Wees erbij!
+        Op de hoogte blijven van de nieuwste content? Download de Danshal app!
+    </string>
+
+    <!--admin-->
+    <string name="menu_admin_dashboard">Admin Dashboard</string>
+    <string name="menu_admin_add">Admin Toevoegen</string>
+    <string name="menu_admin_users">Alle Gebruikers</string>
+    <string name="menu_admin_add_event">Admin nieuw event</string>
+    <string name="menu_admin_add_give_away">Admin nieuwe give away</string>
+    <string name="menu_admin_add_post">Admin nieuwe post</string>
+
+    <string name="admin_add_what">Wat wil je toevoegen?</string>
+    <string name="admin_event">Event</string>
+    <string name="admin_post">Post</string>
+    <string name="admin_give_away">Give away</string>
+
+    <string name="admin_add_title">Titel</string>
+    <string name="admin_add_description">Beschrijving</string>
+    <string name="admin_add_date">Datum</string>
+    <string name="admin_add_end_date">Einddatum giveaway</string>
+    <string name="admin_add_date_btn">Datum kiezen</string>
+    <string name="admin_add_post">Plaatsen</string>
+    <string name="admin_update_post">Updaten</string>
+    <string name="admin_add_exclusive">Exclusief</string>
+    <string name="admin_add_ticket">Ticket link</string>
+
+    <string name="admin_add_upload">Upload foto/video</string>
+
+    <string name="admin_add_address">Adres</string>
+    <string name="admin_add_address_housenumber">Huisnr.</string>
+    <string name="admin_add_address_housenumber_ext">Huisnr. ext</string>
+    <string name="admin_add_address_street">Straat</string>
+    <string name="admin_add_address_postcode">Postcode</string>
+    <string name="admin_add_address_place">Plaats</string>
+
+    <!-- login/register -->
+    <string name="waarschuwing_uitloggen">Weet u zeker dat u wilt uitloggen?</string>
+    <string name="msg_ja">Ja</string>
+    <string name="msg_nee">Nee</string>
+    <string name="hint_name">Naam</string>
+    <string name="hint_adress">Adres</string>
+    <string name="hint_postcode">Postcode</string>
+    <string name="hint_location">Plaats</string>
+    <string name="profile_email">email</string>
+    <string name="update_profile">Wijzigen</string>
+    <string name="housenumber">nr.</string>
+    <string name="gewijzigd">Gegevens zijn gewijzigd</string>
+    <string name="title_participate">Meedoen</string>
+    <string name="btn_ticket">Buy Ticket</string>
+    <string name="verwijderen">Account verwijderen</string>
+    <string name="waarschuwing">Waarschuwing</string>
+    <string name="waarschuwing_message">Weet u zeker dat u uw account wilt verwijderen?</string>
+    <string name="email">Email</string>
+    <string name="wachtwoord">Wachtwoord</string>
+    <string name="authtenticatie">Voer uw email en wachtwoord in</string>
+    <string name="wachtwoord_vergeten">Wachtwoord vergeten?</string>
+    <string name="users">Users</string>
+    <string name="admin">Admin</string>
+    <string name="toevoegen">Gebruiker toevoegen</string>
+    <string name="versturen">Versturen</string>
+    <string name="annuleren">Annuleren</string>
+    <string name="email_invoeren">Vul uw email in</string>
+    <string name="verificatie">Verificatie email verstuurd!</string>
+    <string name="update">Update</string>
+
 </resources>

@@ -3,13 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@id/nav_home">
 
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.danshal.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_login"
+            app:destination="@id/nav_login" />
+        <action
+            android:id="@+id/action_nav_home_to_eventFragment"
+            app:destination="@id/eventFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_postFragment"
+            app:destination="@id/postFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_gallery"
@@ -18,8 +28,136 @@
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.danshal.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/adminAddEventFragment"
+        android:name="com.example.danshal.ui.admin.AdminAddEventFragment"
+        android:label="@string/menu_admin_add_event" >
+        <action
+            android:id="@+id/action_adminAddEventFragment_to_nav_admin_dashboard"
+            app:destination="@id/nav_admin_dashboard" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/adminAddGiveAwayFragment"
+        android:name="com.example.danshal.ui.admin.AdminAddGiveAwayFragment"
+        android:label="@string/menu_admin_add_give_away" >
+        <action
+            android:id="@+id/action_adminAddGiveAwayFragment_to_nav_admin_dashboard"
+            app:destination="@id/nav_admin_dashboard" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/adminAddPostFragment"
+        android:name="com.example.danshal.ui.admin.AdminAddPostFragment"
+        android:label="@string/menu_admin_add_post" >
+        <action
+            android:id="@+id/action_adminAddPostFragment_to_nav_admin_dashboard"
+            app:destination="@id/nav_admin_dashboard" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_admin_users"
+        android:name="com.example.danshal.ui.admin.AdminUsersFragment"
+        android:label="@string/menu_admin_users"
+        tools:layout="@layout/admin_users_fragment" />
+
+    <fragment
+        android:id="@+id/nav_admin_dashboard"
+        android:name="com.example.danshal.ui.admin.AdminDashboardFragment"
+        android:label="@string/menu_admin_dashboard"
+        tools:layout="@layout/admin_dashboard_fragment" >
+        <action
+            android:id="@+id/action_nav_admin_dashboard_to_adminAddEventFragment"
+            app:destination="@id/adminAddEventFragment" />
+        <action
+            android:id="@+id/action_nav_admin_dashboard_to_adminAddGiveAwayFragment"
+            app:destination="@id/adminAddGiveAwayFragment" />
+        <action
+            android:id="@+id/action_nav_admin_dashboard_to_adminAddPostFragment"
+            app:destination="@id/adminAddPostFragment" />
+        <action
+            android:id="@+id/action_nav_admin_dashboard_to_nav_login"
+            app:destination="@id/nav_login" />
+        <action
+            android:id="@+id/action_nav_admin_dashboard_to_adminDashboardDetailsFragment"
+            app:destination="@id/adminDashboardDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="com.example.danshal.ui.login.LoginFragment"
+        android:label="Inloggen"
+        tools:layout="@layout/login_fragment" >
+        <action
+            android:id="@+id/action_nav_login_to_nav_register"
+            app:destination="@id/nav_register" />
+        <action
+            android:id="@+id/action_nav_login_to_nav_home"
+            app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_nav_login_to_nav_admin_dashboard"
+            app:destination="@id/nav_admin_dashboard"
+            app:popUpTo="@id/nav_admin_dashboard"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_register"
+        android:name="com.example.danshal.ui.login.RegisterFragment"
+        android:label="Registreren"
+        tools:layout="@layout/register_fragment" >
+        <action
+            android:id="@+id/action_nav_register_to_nav_login"
+            app:destination="@id/nav_login" />
+        <action
+            android:id="@+id/action_nav_register_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.danshal.ui.profile.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_nav_profile_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/eventFragment"
+        android:name="com.example.danshal.ui.home.EventDialogFragment"
+        android:label="fragment_event"
+        tools:layout="@layout/fragment_event" >
+        <action
+            android:id="@+id/action_eventFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="com.example.danshal.ui.home.PostDialogFragment"
+        android:label="fragment_post"
+        tools:layout="@layout/fragment_post" >
+        <action
+            android:id="@+id/action_postFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminDashboardDetailsFragment"
+        android:name="com.example.danshal.ui.admin.AdminDashboardDetailsFragment"
+        android:label="AdminDashboardDetailsFragment" >
+        <action
+            android:id="@+id/action_adminDashboardDetailsFragment_to_nav_admin_dashboard"
+            app:destination="@id/nav_admin_dashboard" />
+        <action
+            android:id="@+id/action_adminDashboardDetailsFragment_to_adminAddEventFragment"
+            app:destination="@id/adminAddEventFragment" />
+        <action
+            android:id="@+id/action_adminDashboardDetailsFragment_to_adminAddGiveAwayFragment"
+            app:destination="@id/adminAddGiveAwayFragment" />
+        <action
+            android:id="@+id/action_adminDashboardDetailsFragment_to_adminAddPostFragment"
+            app:destination="@id/adminAddPostFragment" />
+    </fragment>
+
+
 </navigation>

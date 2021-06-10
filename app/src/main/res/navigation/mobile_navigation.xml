@@ -116,8 +116,8 @@
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.example.danshal.ui.profile.ProfileFragment"
-        android:label="Registreren"
-        tools:layout="@layout/fragment_profile" >
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_nav_profile_to_nav_home"
             app:destination="@id/nav_home" />

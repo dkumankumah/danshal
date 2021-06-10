@@ -1,7 +1,5 @@
 package com.example.danshal.ui.login
 
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -177,45 +175,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun showForm() {
-//        val builder = AlertDialog.Builder(requireContext())
-//        val dialogLayout = layoutInflater.inflate(R.layout.reset_form_dialog, null, false)
-//
-//        builder.setView(dialogLayout)
-//        builder.setCancelable(false)
-//
-//        val email = dialogLayout.findViewById<EditText>(R.id.et_dialog_email)
-//
-//        builder.setPositiveButton("Verzenden") { dialog, _ ->
-//            if (email.text.isNotBlank()){
-//                Firebase.auth.sendPasswordResetEmail(email.text.toString())
-//                    .addOnCompleteListener { task ->
-//                        if (task.isSuccessful) {
-//                            Log.d("Firebase", "Email sent.")
-//                            Toast.makeText(
-//                                context, R.string.verificatie,
-//                                Toast.LENGTH_LONG
-//                            ).show()
-//
-//                            dialog.dismiss()
-//                        }
-//                    }
-//            }
-//            else {
-//                Toast.makeText(
-//                    context,
-//                    R.string.email_invoeren,
-//                    Toast.LENGTH_LONG
-//                ).show()
-//            }
-//        }
-//
-//        builder.setNegativeButton("Annuleren") { dialog, _ ->
-//            dialog.cancel()
-//        }
-//
-//
-//        builder.show()
-
         val popup = PopupWindow(context)
         val view = layoutInflater.inflate(R.layout.reset_form_dialog, null)
 

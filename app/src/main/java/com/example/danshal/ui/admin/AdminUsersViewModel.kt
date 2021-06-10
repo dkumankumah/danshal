@@ -27,8 +27,6 @@ class AdminUsersViewModel : ViewModel() {
     private val userRepository = UserRepository()
     val users = userRepository.users
 
-    var profileIm = "https://firebasestorage.googleapis.com/v0/b/danshal-c7e70.appspot.com/o/user_images%2Fflat-faces-icons-circle-persona-icon-115628952315akhsf8ncl.png?alt=media&token=9e6dd540-85ab-4ec3-8dff-1b4339c3e76f"
-
     private val db = Firebase.firestore
 
     fun getUsers() {

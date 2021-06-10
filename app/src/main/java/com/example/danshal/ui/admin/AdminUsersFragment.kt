@@ -36,7 +36,6 @@ class AdminUsersFragment : Fragment() {
     private val adminUsersViewModel: AdminUsersViewModel by viewModels()
 
     private lateinit var auth: FirebaseAuth
-    private val db = Firebase.firestore
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -108,8 +107,6 @@ class AdminUsersFragment : Fragment() {
             popup.dismiss()
         }
 
-//        popup.showAsDropDown(binding.rvUser, resources.displayMetrics.widthPixels / 4,
-//            0, Gravity.CENTER )
         popup.showAtLocation(this.view, Gravity.CENTER, 0,0)
 
     }

@@ -84,9 +84,9 @@ class RegisterFragment : Fragment() {
     private fun validate(): Boolean{
         return if (Patterns.EMAIL_ADDRESS.matcher(binding.etUsername.text.toString()).matches()
             && binding.etPassword.text.toString().isNotBlank()
-            && binding.etPassword.text.length > 5
-            && binding.etPasswordVal.text.isNotBlank()
-            && binding.etName.text.isNotBlank()){
+            && binding.etPassword.text!!.length > 5
+            && binding.etPasswordVal.text!!.isNotBlank()
+            && binding.etName.text!!.isNotBlank()){
             passwordChecker()
         }else{
             Toast.makeText(this.context, getString(R.string.empty_field), Toast.LENGTH_LONG).show()

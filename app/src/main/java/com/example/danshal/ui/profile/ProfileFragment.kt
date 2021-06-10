@@ -187,7 +187,7 @@ class ProfileFragment : Fragment() {
         val naam = binding.etName.text.toString()
         val adres = Address(
             binding.etNumber.text.toString().toInt(),
-            null,
+            binding.etExtension.text.toString(),
             binding.etPostcode.text.toString(),
             binding.etAdress.text.toString(),
             binding.etLocation.text.toString()
@@ -200,6 +200,7 @@ class ProfileFragment : Fragment() {
                     mapOf(
                         "naam" to naam,
                         "address.housenumber" to adres.housenumber,
+                        "address.housenumberExtension" to adres.housenumberExtension,
                         "address.place" to adres.place,
                         "address.postcode" to adres.postcode,
                         "address.street" to adres.street
@@ -238,6 +239,7 @@ class ProfileFragment : Fragment() {
             binding.etName.setText(user.naam)
             binding.etAdress.setText(user.address?.street)
             user.address?.let { it.housenumber?.let { it1 -> binding.etNumber.setText(it1.toString()) } }
+            binding.etExtension.setText(user.address?.housenumberExtension)
             binding.etPostcode.setText(user.address?.postcode)
             binding.etLocation.setText(user.address?.place)
 

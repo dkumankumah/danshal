@@ -43,7 +43,9 @@
                     android:icon="@drawable/ic_register_24"
                     android:title="Registreren" />
 
-                <item android:id="@+id/nav_logout"
+                <item
+                    android:id="@+id/nav_logout"
+                    android:checkable="true"
                     android:icon="@drawable/ic_signout_24"
                     android:title="Uitloggen" />
                 <item android:id="@+id/nav_profile"

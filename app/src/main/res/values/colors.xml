@@ -13,6 +13,7 @@
     <color name="theme_yellow">#F7E060</color>
     <color name="theme_white">#D5D5D5</color>
     <color name="theme_light_black">#343434</color>
+    <color name="theme_orange">#FFBD4A</color>
 
     <color name="transparent">#00000000</color>
     <color name="faded">#99000000</color>

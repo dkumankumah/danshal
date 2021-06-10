@@ -40,10 +40,6 @@ class HomeFragment : Fragment() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        // Hide the settings in the toolbar
-        val itemToHide = menu.findItem(R.id.action_settings)
-        itemToHide.isVisible = false
-
         // And show the filter icon if the user is logged in
         if(viewModel.isLoggedIn()) {
             menu.findItem(R.id.action_filter).isVisible = true

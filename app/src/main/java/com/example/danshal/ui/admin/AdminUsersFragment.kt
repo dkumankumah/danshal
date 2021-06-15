@@ -98,6 +98,7 @@ class AdminUsersFragment : Fragment() {
         btnUpdate.setOnClickListener {
             adminUsersViewModel.updateUser(user, bool)
             userAdapter.notifyDataSetChanged()
+            binding.rvUser.isVisible = true
             popup.dismiss()
         }
 

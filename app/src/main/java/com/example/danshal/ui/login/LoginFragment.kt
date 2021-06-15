@@ -1,5 +1,7 @@
 package com.example.danshal.ui.login
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -175,17 +177,20 @@ class LoginFragment : Fragment() {
     }
 
     private fun showForm() {
-        val popup = PopupWindow(context)
-        val view = layoutInflater.inflate(R.layout.reset_form_dialog, null)
+        val builder = AlertDialog.Builder(requireContext())
+        val dialogLayout = layoutInflater.inflate(R.layout.reset_form_dialog, null)
 
-        popup.contentView = view
-        popup.isOutsideTouchable = true
-        popup.width = ViewGroup.LayoutParams.MATCH_PARENT
-        popup.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        builder.setView(dialogLayout)
 
-        val email = view.findViewById<EditText>(R.id.et_dialog_email)
-        val annuleren = view.findViewById<TextView>(R.id.tv_annuleren)
-        val versturen = view.findViewById<TextView>(R.id.tv_versturen)
+        val email = dialogLayout.findViewById<EditText>(R.id.et_dialog_email)
+        val annuleren = dialogLayout.findViewById<TextView>(R.id.tv_annuleren)
+        val versturen = dialogLayout.findViewById<TextView>(R.id.tv_versturen)
+
+        val dialog = builder.create()
+
+        annuleren.setOnClickListener {
+            dialog.dismiss()
+        }
 
         versturen.setOnClickListener {
             if (email.text.isNotBlank()){
@@ -198,7 +203,7 @@ class LoginFragment : Fragment() {
                                 Toast.LENGTH_LONG
                             ).show()
 
-                            popup.dismiss()
+                            dialog.dismiss()
                         }
                     }
             }
@@ -209,14 +214,9 @@ class LoginFragment : Fragment() {
                     Toast.LENGTH_LONG
                 ).show()
             }
-
         }
 
-        annuleren.setOnClickListener {
-            popup.dismiss()
-        }
-
-        popup.showAtLocation(this.view, Gravity.CENTER, 0,0)
+        dialog.show()
     }
 
 }
